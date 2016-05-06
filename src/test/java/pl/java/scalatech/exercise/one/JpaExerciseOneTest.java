@@ -18,6 +18,7 @@ import pl.java.scalatech.repository.exerciseOne.EmployeeRepo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PropertiesLoader.class, Jpa1Config.class })
+
 @ActiveProfiles(value = "exerciseOne")
 @Transactional
 @Slf4j
@@ -28,13 +29,19 @@ public class JpaExerciseOneTest {
     private EntityManager em;
 
     @Autowired
+    private SampleRepo sampleRepo;
+
+    @Autowired
     private EmployeeRepo employeeRepo;
 
     @Test
     public void shouldBoostrap() {
         assertThat(em).isNotNull();
+        assertThat(sampleRepo).isNotNull();
         log.info("employee count : {}", employeeRepo.count());
-        log.info("{}",employeeRepo.findOne(2l).getName());
+        log.info("{}", employeeRepo.findOne(2l).getName());
+
     }
+
 
 }
