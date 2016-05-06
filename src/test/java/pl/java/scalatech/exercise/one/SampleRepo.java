@@ -2,7 +2,6 @@ package pl.java.scalatech.exercise.one;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -305,9 +304,5 @@ public class SampleRepo {
         return em.createQuery(c).getResultList();
     }
 
-    @Override
-    protected Map<String, Object> getOverrideProps() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+
 }
