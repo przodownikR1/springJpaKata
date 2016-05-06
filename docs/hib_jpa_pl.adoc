@@ -1330,11 +1330,8 @@ SqlResultSetMapping
 this.em.createNativeQuery(“Select …", "myResultMapping")
 
 
-== Walidacja
-
 include::validation.adoc[]
 
-== Problemy wydajnościowe
 include::performance.adoc[] 
 
 * N+1
@@ -1488,7 +1485,7 @@ log4j.logger.org.hibernate.type=trace
 
 - Ochrona przed SQL Injection
 
-WARNING:
+WARNING: Patrz kod poniżej
 
 [source,java]
 ----
