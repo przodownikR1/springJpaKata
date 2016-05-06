@@ -1,4 +1,4 @@
-package pl.java.scalatech.exercise.one;
+package pl.java.scalatech.repository.exerciseOne;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +43,9 @@ public class SampleRepo {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);
         Root<Employee> emp = cq.from(Employee.class);
-        cq.select(emp).where(cb.equal(emp.get("name"), "John"));
-
-        return null;
+        cq.select(emp).where(cb.equal(emp.get("name"), name));
+        TypedQuery<Employee> query = em.createQuery(cq);
+        return query.getResultList();
     }
 
     public List<Employee> findEmployees(String name, String deptName, String projectName, String city) {
@@ -160,11 +160,7 @@ public class SampleRepo {
         return query.getResultList();
     }
 
-    /**
-     * find single row of given type
-     *
-     * @return
-     */
+
     public List<String> findEmpNames() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<String> c = cb.createQuery(String.class);

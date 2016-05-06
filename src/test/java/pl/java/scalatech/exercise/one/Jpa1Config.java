@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import pl.java.scalatech.repository.exerciseOne.SampleRepo;
+
 
 @EntityScan(basePackages = "pl.java.scalatech.domain.exerciseOne")
 @EnableJpaRepositories(basePackages = "pl.java.scalatech.repository.exerciseOne")
