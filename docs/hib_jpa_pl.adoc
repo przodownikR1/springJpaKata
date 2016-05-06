@@ -1330,9 +1330,9 @@ SqlResultSetMapping
 this.em.createNativeQuery(“Select …", "myResultMapping")
 
 
-== Orphal Removal
-
 == Walidacja
+
+include::validation.adoc[]
 
 == Problemy wydajnościowe
 include::performance.adoc[] 
