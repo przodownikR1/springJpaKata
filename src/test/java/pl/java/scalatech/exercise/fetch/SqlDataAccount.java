@@ -50,6 +50,21 @@ import org.springframework.test.context.jdbc.Sql;
                 "insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)",
                 "insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)",
                 "insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (16,0,'warszawa', 1)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (17,0,'poznan', 1)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (18,0,'lodz', 1)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (19,0,'warszawa', 2)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (20,0,'radom', 3)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (21,0,'krakow', 4)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (22,0,'wroclaw', 5)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (23,0,'gdansk', 6)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (24,0,'ilza', 7)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (25,0,'ciechanow', 8)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (26,0,'lezajsk', 9)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (27,0,'katowice', 10)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (28,0,'sopot', 11)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (29,0,'gdynia', 12)",
+                "insert into Address (id, version,CITY,PERSON_ID) values (30,0,'poznan', 12)"
 
 
 
