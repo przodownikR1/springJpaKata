@@ -43,7 +43,7 @@ public class JpaFetchTest {
 
     @Test
     public void shouldBootstrap(){
-      assertThat(addressRepo.count()).isEqualTo(15);
+      assertThat(addressRepo.count()).isEqualTo(30);
       assertThat(personRepo.count()).isEqualTo(12);
     }
 
