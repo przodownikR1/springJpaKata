@@ -1,0 +1,39 @@
+apply plugin: "nexus"
+
+modifyPom {
+    project {
+        name "Spring boot rest"
+        description "PoC"
+        url "https://github.com/przodownikR1"
+        inceptionYear "2016"
+        
+        scm {
+            url "https://github.com/przodownikR1/bootRest"
+        }
+
+        licenses {
+            license {
+                name "The Apache Software License, Version 2.0"
+                url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution "repo"
+            }
+        }
+
+        developers {
+            developer {
+                id "przodownik"
+                name "Borowiec Slawomir"
+                email "przodownikR1@gmail.com"
+            }
+        }
+    }
+}
+
+nexus {
+    attachSources = true
+    attachTests = true
+    attachJavadoc = true
+    sign = false
+    repositoryUrl = "${binaryRepository.url}"
+    snapshotRepositoryUrl = "${binaryRepository.url}"
+}

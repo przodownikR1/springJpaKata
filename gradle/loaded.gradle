@@ -1,0 +1,17 @@
+configurations { springLoaded }
+
+dependencies {
+    springLoaded 'org.springframework:springloaded:1.2.5.RELEASE'
+}
+
+task copyAgent(type: Copy) {
+    println  'ok : ' + configurations.springLoaded
+    from configurations.springLoaded
+    into "$buildDir/springLoaded"
+}
+
+bootRun {
+   jvmArgs = ["-javaagent:${new File("$buildDir/springLoaded/springloaded-1.2.5.RELEASE.jar").absolutePath}", '-noverify']
+ }
+
+bootRun.dependsOn copyAgent

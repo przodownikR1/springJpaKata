@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        jcenter()
+    }
+    dependencies {
+        classpath("info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.6")
+    }
+}
+apply plugin: "info.solidsoft.pitest"
+
+
+sourceSets {
+    integrationTest {
+        java.srcDir file('src/integTest/java')
+        resources.srcDir file('src/integTest/resources')
+        compileClasspath = sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath = output + compileClasspath
+    }
+}
+
+task integrationTest(type: Test) {
+    description 'Run integration tests'
+    group 'verification'
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+
+pitest {
+    targetClasses = ['pl.java.scalatech.*']
+    pitestVersion = "1.1.6"
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+}
+
+tasks.withType(Test) {
+    testLogging {
+        events 'passed'
+    }
+}
+
+test {
+    if (gradle.startParameter.taskNames.find { ['integTest', 'release'].contains(it) })
+      systemProperty 'integTest', 'true'
+      maxHeapSize = '1024m'
+      jacoco {
+          append = false
+          destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+          classDumpFile = file("$buildDir/jacoco/classpathdumps")
+      }
+}

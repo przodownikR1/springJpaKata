@@ -1,0 +1,350 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath("gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.7")
+        classpath 'org.ajoberstar:gradle-git:1.3.2'
+    }
+}
+
+apply plugin: 'com.gorylenko.gradle-git-properties'
+
+import org.ajoberstar.grgit.*
+ext {
+    git = org.ajoberstar.grgit.Grgit.open(file('.'))
+
+    isSnapshot = version.endsWith('-SNAPSHOT')
+}
+
+class GitInfo{
+    String changeLog
+    String bugfix
+
+    GitInfo(String changeLog, String bugfix){
+        this.changeLog = changeLog
+        this.bugfix = bugfix
+    }
+    @Override
+    String toString() {
+        "changeLog :   $changeLog , bugfix:   $bugfix"
+    }
+}
+
+class ProjectVersion {
+    Integer major
+    Integer minor
+    Integer hotfix
+    Boolean release
+    String type
+
+    ProjectVersion(Integer major, Integer minor, Integer hotfix) {
+        this.major = major
+        this.minor = minor
+        this.hotfix = hotfix
+    }
+
+    ProjectVersion(Integer major, Integer minor, Integer hotfix, Boolean release) {
+        this(major, minor, hotfix)
+        this.release = release
+    }
+
+    @Override
+    String toString() {
+        "$major.$minor.$hotfix.${release ? 'RELEASE' : 'SNAPSHOT'}"
+    }
+}
+
+ProjectVersion getVersionInfo(){
+    def tempVersion = lastReleaseVersionByTag().split("\\.")
+    return new ProjectVersion(
+            Integer.parseInt(tempVersion[0].trim()),
+            Integer.parseInt(tempVersion[1].trim()),
+            Integer.parseInt(tempVersion[2].trim().replace('-SNAPSHOT','').replace('-RELEASE','')),
+            isSnapshot
+            )
+}
+
+ProjectVersion getIncreaseVersion(String verDefinition) {
+    version = getVersionInfo()
+    if(verDefinition == null){
+        verDefinition = 'hotfix'
+    }
+    switch(verDefinition){
+        case 'major':
+            ++version.major
+            version.minor = 0
+            version.hotfix = 0
+            version.type='major change'
+            break
+        case 'minor':
+            ++version.minor
+            version.hotfix = 0
+            version.type='minor change'
+            break
+        case 'hotfix': ++version.hotfix
+            version.type='hotfix/bugfix change'
+            break
+        case 'release':
+            version.release = true
+            break
+        default: throw new GradleException("Invalid version type '$verDef. Allowed types: ['Major', 'Minor', 'Hotfix', 'Release']")
+    }
+    return version
+}
+
+gitProperties {
+    gitPropertiesDir = new File("${project.rootDir}/src/main/resources")
+}
+
+def getPropFile(){
+    Properties props = new Properties()
+    File gradleFile = new File('gradle.properties')
+    props.load(gradleFile.newDataInputStream())
+    return props.theVersion
+}
+
+
+def setPropFile(String newVersion){
+    Properties props = new Properties()
+    File gradleFile = new File('gradle.properties')
+    props.load(gradleFile.newDataInputStream())
+    props.setProperty('theVersion',newVersion)
+    props.store(gradleFile.newWriter(), null)
+}
+
+
+def markTask(){
+    def tags = git.tag.list()
+    File f = file("${project.rootDir}/src/main/resources/last-release-commit.txt")
+    f.write(lastReleaseCommiterByTag())
+    commit('! markTask')
+}
+def lastReleaseCommiterByTag(){
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'log', '--tags', -1 , '--simplify-by-decoration',  '--format=\'%H\''
+        standardOutput = stdout
+    }
+    String result =  stdout.toString()
+    return result.replaceAll('\'','').trim()
+}
+
+def lastReleaseVersionByTag(){
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'for-each-ref', 'refs/tags' ,'--count', '1' ,'--sort=-taggerdate', '--format=\'%(refname:short)\''
+        standardOutput = stdout
+    }
+    String result =  stdout.toString()
+    return result.replaceAll('\'','').trim()
+}
+
+task infoTag(group: 'versioning',  description: 'basic info about current git and project situation'){
+    doLast{
+        logger.quiet "Latest Version: :  "  +  lastReleaseVersionByTag()
+        logger.quiet "last tagger commit hash : " + lastReleaseCommiterByTag()
+        logger.quiet "current branch: " + git.branch.getCurrent().name
+        logger.quiet "isSnapshotOrRelease  : " +  isSnapshot
+        def currentProjectVersion
+        if(project.hasProperty("versionType")){
+            currentProjectVersion = getIncreaseVersion(project.getProperty("versionType"))
+        }else{
+            currentProjectVersion = getIncreaseVersion("hotfix")
+        }
+        logger.quiet "new increase version : " + currentProjectVersion
+        logger.quiet "project version : " + project.property('version')
+        logger.quiet "project version from gradle.properties " + getPropFile()
+        setPropFile(currentProjectVersion.toString())
+    }
+}
+
+def createTagForRelease(){
+    def currentProjectVersion
+    if(project.hasProperty("versionType")){
+        currentProjectVersion = getIncreaseVersion(project.getProperty("versionType"))
+    }else{
+        currentProjectVersion = getIncreaseVersion("hotfix")
+    }
+
+    setPropFile(currentProjectVersion.toString())
+    git.checkout(branch: 'dev')
+    fetchAllTags()
+    git.pull()
+    def currentBranch = git.branch.getCurrent().name
+    def userName = System.properties['user.name']
+    def versionType  = currentProjectVersion.type
+    def commitMessage = "!" + currentProjectVersion + "  , versionType : " + versionType + " ,  userName : " + userName
+    logger.quiet '+++++++++++++++++ createNewTag  =>  currentProjVersion :  ' +commitMessage
+    commit(commitMessage)
+    git.tag.add(name: currentProjectVersion, annotate: true, message: " '$versionType' by '$userName'")
+    git.push(tags: true)
+    generateChangelog()
+    logger.quiet '++++++++++++  lastReleaseVersionByTag ' + lastReleaseVersionByTag()
+    logger.quiet 'mark current version into last-release file  and generate changelog...'
+    markTask()
+    git.push()
+}
+
+task tagHotFixRelease(group: 'versioning-hotfix',  description: ' createNewTag for hotfix: command : gradle tagHotFixRelease -PcurrentTagVersion=[currentTagVersion] '){
+    onlyIf{
+        return new File(projectDir, '.git').exists()
+    }
+    def currentProjectVersion
+    def lastProjectVersion
+
+    doLast{
+        if(project.hasProperty("currentTagVersion")){
+            currentProjectVersion = project.getProperty("currentTagVersion")
+            lastProjectVersion = project.getProperty("currentTagVersion")
+            currentProjectVersion = getIncreaseVersion("hotfix")
+        }
+        else{
+            throw new GradleException("You have not entered the correct tag current version !!")
+        }
+
+        setPropFile(currentProjectVersion.toString())
+        git.checkout(branch: 'hotfix')
+        fetchAllTags()
+        git.pull()
+        def currentBranch = git.branch.getCurrent().name
+        def userName = System.properties['user.name']
+        def versionType  = currentProjectVersion.type
+        def commitMessage = "!" + currentProjectVersion + "  , versionType : " + versionType + " ,  userName : " + userName
+        logger.quiet '+++++++++++++++++ createNewTag  =>  currentProjVersion :  ' +commitMessage
+        commit(commitMessage)
+        git.tag.add(name: currentProjectVersion, annotate: true, message: " '$versionType' by '$userName'")
+        git.push(tags: true)
+        generateChangelog()
+        logger.quiet '++++++++++++  lastReleaseVersionByTag ' + lastProjectVersion
+        logger.quiet 'mark current version into last-release file  and generate changelog...'
+        markTask()
+        git.push()
+    }
+}
+
+task tagReleaseBranch(group: 'versioning-branchRelease',  description: 'create releaseBranch -PversionType=[major,minor]'){
+    doFirst{ createTagForRelease() }
+
+    doLast{
+        git.checkout(branch: 'releaseBranch')
+        git.merge(head: 'origin/dev', mode: org.ajoberstar.grgit.operation.MergeOp.Mode.ONLY_FF)
+        commit('!mergeWithReleaseBranch')
+        git.push()
+        git.push(tags: true)
+    }
+}
+
+task ciMergeRequestHotfixDone(group: 'versioning-CI',  description: 'merge hotfix with master - Only for CI env !!'){
+
+    doFirst(){
+        if(project.hasProperty("ci")){
+            logger.quiet 'CI enviroment build start'
+        }else{
+            throw new GradleException("This task should be launch only for CI enviroment !!")
+        }
+    }
+    doLast{
+        git.checkout(branch: 'master')
+        git.merge(head: 'origin/hotfix', mode: org.ajoberstar.grgit.operation.MergeOp.Mode.ONLY_FF)
+        commit('!mergeWithMasterHotfix')
+        git.push()
+        git.push(tags: true)
+    }
+}
+
+task ciMergeRequestDone(group: 'versioning-CI',  description: 'merge releaseBranch with master - Only for CI env !!'){
+    doFirst(){
+        if(project.hasProperty("ci")){
+            logger.quiet 'CI enviroment build start'
+        }else{
+            throw new GradleException("This task should be launch only for CI enviroment !!")
+        }
+    }
+
+    doLast{
+        git.checkout(branch: 'master')
+        git.merge(head: 'origin/releaseBranch', mode: org.ajoberstar.grgit.operation.MergeOp.Mode.ONLY_FF)
+        commit('!mergeWithMasterBranch')
+        git.push()
+        git.push(tags: true)
+    }
+}
+
+def commit(String message)  {
+    def clean=git.status().isClean()
+    if (!clean) {
+        git.add(patterns: ['.'])
+        git.commit(message: "$message- ${new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(new Date())}", all: true)
+        logger.quiet " " + message
+    }else{
+        logger.quiet "Clean, commit skipped."
+    }
+}
+
+def fetchAllTags(){
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'fetch', 'origin' ,'--tags'
+        standardOutput = stdout
+    }
+}
+
+import java.text.SimpleDateFormat
+def generateChangelog() {
+    def lastRef = file("${project.rootDir}/src/main/resources/last-release-commit.txt").text
+    logger.quiet "generateChangeLog start from revision : " + lastRef
+    def changelog = ""
+
+    def commits = git.log { range(lastRef, "HEAD") }
+    def changelogFile = new File("${project.rootDir}/src/main/resources/changelog.txt")
+    changelogFile.append("Changes in version : ")
+    changelogFile.append("[")
+    changelogFile.append(lastReleaseVersionByTag())
+    changelogFile.append("]")
+    changelogFile.append("  - date -> :  (")
+    changelogFile.append(commits.first().getDate() ? commits.first().getDate() : " not")
+    changelogFile.append(")")
+    changelogFile.append(System.getProperty("line.separator"))
+
+
+    commits.each {
+        def message = it.fullMessage
+        def time = it.getDate()
+        def formatDate = new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(time)
+        if(!message.startsWith("!")){
+
+            if(message.startsWith("*")){
+                changelogFile.append("fixed " + message.replaceAll('\\*','').concat(' '+formatDate))
+            }
+            else if(message.startsWith("+")){
+                changelogFile.append("added " + message.replaceAll('+','').concat(' '+formatDate))
+            }
+            else if(message.startsWith("-")){
+                changelogFile.append("removed " + message.replaceAll('-','').concat(' '+formatDate))
+            }
+            else if(message.startsWith("#")){
+                changelogFile.append("modification " + message.replaceAll('#','').concat(' '+formatDate))
+            }
+            else if(message.startsWith("@")){
+                changelogFile.append("upgrade " + message.replaceAll('@','').concat(' '+formatDate))
+            }
+            else if(message.startsWith("%")){
+                changelogFile.append("deprecated " + message.replaceAll('%','').concat(' '+formatDate))
+            }
+            else if(message.startsWith("&")){
+                changelogFile.append("improve " + message.replaceAll('&','').concat(' '+formatDate))
+            }else{
+                changelogFile.append(message.concat(' '+formatDate))
+            }
+            changelogFile.append(System.getProperty("line.separator"))
+        }else{
+            logger.quiet "no exists any information that should be append into changelog.."
+        }
+    }
+    changelogFile.append(System.getProperty("line.separator"))
+    file("${project.rootDir}/src/main/resources/last-release-commit.txt").text = commits.first().id
+    commit('! ommit in changelog')
+}

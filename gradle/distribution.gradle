@@ -1,0 +1,17 @@
+apply plugin: 'distribution'
+
+distributions{
+    
+    main{
+        //basename= projectName
+        contents{
+            from(libsDir){
+               // include sourcesJar.archiveName
+               // include groovydocJar.archiveName
+                //include javadocJar.archiveName
+            }
+        }
+        
+    }
+    
+}

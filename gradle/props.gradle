@@ -1,0 +1,20 @@
+import org.apache.tools.ant.filters.*
+
+afterEvaluate {
+    configure(allProcessResourcesTasks()) {
+        filter(ReplaceTokens,
+        tokens: [
+            baseName: project.jar.baseName,
+            version: project.jar.version,
+            gradleVersion: project.gradle.gradleVersion,
+            username: System.properties['user.name'],
+            buildDate: new Date().format("yyyy-MM-dd HH:mm")]
+        )
+    }
+}
+def allProcessResourcesTasks() {
+    sourceSets*.processResourcesTaskName.collect { tasks[it] }
+}
+
+
+

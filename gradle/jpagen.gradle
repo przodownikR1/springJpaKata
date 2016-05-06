@@ -1,0 +1,33 @@
+sourceSets {
+    intTest
+    generated.java.srcDirs=['src/main/generated']
+    main {
+        java { srcDir 'src/main/java' }
+        groovy { srcDir 'src/main/groovy' }
+        resources { srcDir 'src/main/resources' }
+    }
+    test {
+        java { srcDir 'src/test/java' }
+        groovy { srcDir 'src/test/groovy' }
+        resources { srcDir 'src/test/resources' }
+    }
+}
+configurations {
+    providedRuntime
+    jpametamodel
+}
+task generateMetaModel(type: JavaCompile, group: 'jpa', description: 'metamodel generate') {
+    
+        source = sourceSets.main.java
+        classpath = configurations.compile + configurations.jpametamodel
+        options.compilerArgs = ["-proc:only"]
+        destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+    
+        doFirst {
+            logger.warn("Prepare dictionary structures  " +sourceSets.generated.java.srcDirs)
+            //delete(sourceSets.generated.java.srcDirs)
+            //sourceSets.generated.java.srcDirs.mkdirs()
+        }
+    }
+    compileJava.dependsOn generateMetaModel
+    compileJava.source sourceSets.generated.java, sourceSets.main.java

@@ -1,0 +1,18 @@
+
+defaultTasks 'hello'
+
+task hello(dependsOn:'count') << {
+    println 'hello slawek1'
+}
+task helloYou << {
+    println 'hello slawek2'
+}
+task count << {
+    4.times { print "$it " }
+}
+
+
+
+task run << {
+    println 'Default Running!'
+}

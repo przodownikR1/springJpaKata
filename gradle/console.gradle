@@ -1,0 +1,16 @@
+def username
+def password
+
+task getLoginAndPasswd << {
+    def console = System.console()
+    if (console) {
+        username = console.readLine('> Please enter your username: ')
+        password = console.readPassword('> Please enter your password: ')
+    } else {
+        logger.error "Cannot get console."
+    }
+}
+
+task print << {
+    println "Hello $username! Your password is ${password.size()} characters."
+}

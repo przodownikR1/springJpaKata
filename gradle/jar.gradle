@@ -1,0 +1,87 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+group = 'theGroup'
+version = 'theVersion'
+
+
+
+
+
+sourceSets {
+    intTest
+    generated.java.srcDirs=['src/main/generated']
+    main {
+        java { srcDir 'src/main/java' }
+        groovy { srcDir 'src/main/groovy' }
+        resources { srcDir 'src/main/resources' }
+    }
+    test {
+        java { srcDir 'src/test/java' }
+        groovy { srcDir 'src/test/groovy' }
+        resources { srcDir 'src/test/resources' }
+    }
+}
+
+/*task sourcesJar(type : Jar){
+    baseName = projectName
+    classifier 'sources'
+    from sourceSets.main.allSource
+   
+}
+
+task groovydocJar( type: Jar, dependsOn: groovydoc ) {
+    classifier 'groovydoc'
+    from groovydoc.destinationDir
+}
+
+task javadocJar( type: Jar, dependsOn: javadoc ) {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts{
+    archives sourcesJar
+    archives groovydocJar
+    archives javadocJar
+}
+
+assemble.dependsOn sourcesJar, groovydocJar, javadocJar
+*/
+
+[compileJava, compileTestJava]*.options*.compilerArgs = [
+    "-Xlint:none",
+    "-g",
+    "-encoding",
+    "UTF-8"
+]
+
+jar {
+    manifest {
+      attributes(
+              'Implementation-Title': "${project.name}",
+              'Implementation-Version': version.toString(),
+              'Created-By': System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')',
+              'Built-With': "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
+              'Build-Time': "${new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")}",
+              'Built-By': System.getProperty('user.name'),
+              'Built-On': "${InetAddress.localHost.hostName}/${InetAddress.localHost.hostAddress}"
+      )
+    }
+  }
+bootRun {
+   
+    def profileName = project.hasProperty('activeProfile') ? project.activeProfile : 'development'
+    def appOpts = ["-Dspring.profiles.active=$profileName"]
+    def stdOpts = ['-Dfile.encoding=UTF8', '-Xms1024m', '-Xmx2048M' ,'-XX:+UseG1GC']
+    def gcOpts = ['-verbose:gc','-XX:+PrintGCDetails', '-XX:+PrintHeapAtGC',
+                  '-XX:+PrintGCDateStamps', '-XX:+PrintTenuringDistribution',
+                  '-XX:+PrintClassHistogram', '-Xloggc:gc.log']
+  
+    jvmArgs = stdOpts + gcOpts
+  }
+  
+//applicationDefaultJvmArgs  = ["-Xms1024m -Xmx2048M -XX:+PrintClassHistogram -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc:gc.log"]
