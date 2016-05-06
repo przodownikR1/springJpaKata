@@ -1,0 +1,582 @@
+== CRITERIA API
+
+** Criteria API ma działanie analogiczne do JPQL z tą różnicą że działamy na obiektach i bytach mocno typowalnych.
+ 
+** Model w pełni obiektowy 
+** Silnie generyczny
+** Wsparcie MetaModelu
+** dynamicznie budowanie zapytań
+
+
+
+=== CriteriaBuilder
+
+Tworzony z EntityManagera. Punkt wyjściowy do funkcjonowania interfejsu Criteria API.
+
+=== CriteriaQuery<T>
+
+Reprezentuje wszystkie warunki użyte w zapytaniu
+
+=== Root<T>
+
+Zmienna wskazująca na korzeń zapytania
+
+
+*** Przykład
+
+[source,java]
+----
+
+
+<X> Root<X> from( Class<X> );
+
+<X> Root<X> from( EntityType<X> );
+
+//example 
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Person> criteria = builder.createQuery( Person.class );
+Root<Person> root = criteria.from( Person.class );
+
+----
+
+
+
+=== TypedQuery<T>
+
+
+== Wyrażenia / Expression
+
+image::UML-expressions.gif[]
+
+
+== Typy / Types
+
+image::UML-types.gif[]
+
+== Kwerendy / guery
+
+image::UML-query.gif[]
+
+== Atrybuty / Attributes
+
+image::UML-attrs.gif[]
+
+== MetaModel
+
+ - klasa metamodelu jest tworzona przez generator metamodelu dla każdej klasy encyjnej.
+ - nazwa takiej klasy jest zakończona '_'
+ - wszystkie atrybuty odpowiadające polom i właściwościom trwałości klasy encji
+ - pozwala uzyskać bezpieczeństwo typologiczne i refaktoryzacyjne modelu Criteria API
+  
+
+== SELECT
+
+*** Przykład
+
+[source,java]
+----
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Person> criteria = builder.createQuery( Person.class );
+Root<Person> root = criteria.from( Person.class );
+criteria.select( root );
+criteria.where( builder.equal( root.get( Person_.name ), "Przodownik" ) );
+
+List<Person> persons = entityManager.createQuery( criteria ).getResultList();
+
+----
+
+=== Bez potrzeby rzutowania 
+
+*** Przykład
+
+[source,java]
+----
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery<Person> criteria = cb.createQuery(Person.class);
+Root<Person> i = criteria.from(Person.class);
+criteria.select(i).where(cb.equal(i.get("id"), PERSON_ID));
+TypedQuery<Person> query = em.createQuery(criteria);
+Person result = query.getSingleResult();
+----
+
+=== Parametryzacja
+
+*** Przykład
+
+[source,java]
+----
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery criteria = cb.createQuery();
+Root<Person> i = criteria.from(Person.class);
+Query query = em.createQuery(
+criteria.select(i).where(cb.equal(i.get("name"),cb.parameter(String.class, "personName")))).setParameter("personName", "slawek");
+----
+
+==== Parametryzacja z mocną kontrolą typów
+
+*** Przykład
+
+[source,java]
+----
+CriteriaQuery criteria = cb.createQuery(Person.class);
+Root<Person> i = criteria.from(Item.class);
+ParameterExpression<String> personNameParameter = cb.parameter(String.class);
+Query query = em.createQuery(criteria.select(i).where(cb.equal(i.get("name"),personNameParameter))).setParameter(personNameParameter, "slawek");
+----
+
+=== Wyrażenie / Expression
+
+*** Przykład
+
+[source,java]
+----
+
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<String> criteria = builder.createQuery( String.class );
+Root<Person> root = criteria.from( Person.class );
+criteria.select( root.get( Person_.nickName ) );
+criteria.where( builder.equal( root.get( Person_.name ), "John Doe" ) );
+
+List<String> nickNames = entityManager.createQuery( criteria ).getResultList();
+
+----
+
+=== Pojedyńcze wartości
+
+*** Przykład
+
+[source,java]
+----
+CriteriaQuery<String> c = cb.createQuery(String.class);
+Root<Employee> emp = c.from(Employee.class);
+c.select(emp.<String>get("name"));
+----
+
+
+
+===  Wielokrotne wartości
+
+*** Przykład
+
+[source,java]
+----
+
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Object[]> criteria = builder.createQuery( Object[].class );
+Root<Person> root = criteria.from( Person.class );
+
+Path<Long> idPath = root.get( Person_.id );
+Path<String> nickNamePath = root.get( Person_.nickName);
+
+criteria.select( builder.array( idPath, nickNamePath ) );
+criteria.where( builder.equal( root.get( Person_.name ), "przodownik" ) );
+
+List<Object[]> idAndNickNames = entityManager.createQuery( criteria ).getResultList();
+
+
+----
+
+=== Multiselect
+
+*** Przykład 1
+
+[source,java]
+----
+
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Object[]> criteria = builder.createQuery( Object[].class );
+Root<Person> root = criteria.from( Person.class );
+
+Path<Long> idPath = root.get( Person_.id );
+Path<String> nickNamePath = root.get( Person_.nickName);
+
+criteria.multiselect( idPath, nickNamePath );
+criteria.where( builder.equal( root.get( Person_.name ), "przodownik" ) );
+
+List<Object[]> idAndNickNames = entityManager.createQuery( criteria ).getResultList();
+
+
+----
+
+*** Przykład 2
+
+[source,java]
+----
+CriteriaQuery<Tuple> c= cb.createTupleQuery();
+Root<Employee> emp = c.from(Employee.class);
+c.select(cb.tuple(emp.get("id"), emp.get("name")));
+CriteriaQuery<Object[]> c = cb.createQuery(Object[].class);
+Root<Employee> emp = c.from(Employee.class);
+c.multiselect(emp.get("id"), emp.get("name"));
+----
+
+=== Aliasy
+
+*** Przykład
+
+[source,java]
+----
+CriteriaQuery<Tuple> c= cb.createTupleQuery();
+Root<Employee> emp = c.from(Employee.class);
+c.multiselect(
+  emp.get("id").alias("id"),
+  emp.get("name").alias("fullName"));
+----
+
+
+=== Zapytania dynamiczne
+
+*** Przykład
+
+[source,java]
+----
+public List<Employee> findEmployees(String name, String deptName, String projectName) {
+StringBuffer query = new StringBuffer();
+query.append("SELECT DISTINCT e ");
+query.append("FROM Employee e LEFT JOIN e.projects p ");
+query.append("WHERE ");
+
+List<String> criteria = new ArrayList<String>();
+if (name != null) { criteria.add("e.name = :name"); }
+if (deptName != null) { criteria.add("e.dept.name = :dept"); }
+if (projectName != null) { criteria.add("p.name = :project"); }
+
+if (criteria.size() == 0) {
+throw new RuntimeException("no criteria");
+}
+for (int i = 0; i < criteria.size(); i++) {
+if (i > 0) { query.append(" AND "); }
+query.append(criteria.get(i));
+}
+ 
+
+Query q = em.createQuery(query.toString());
+if (name != null) { q.setParameter("name", name); }
+if (deptName != null) { q.setParameter("dept", deptName); }
+if (projectName != null) { q.setParameter("project", projectName); }
+return (List<Employee>)q.getResultList();
+}
+----
+
+
+=== Wrapper
+
+*** Przykład
+
+[source,java]
+----
+
+
+public class PersonWrapper {
+
+    private final Long id;
+
+    private final String nickName;
+
+    public PersonWrapper(Long id, String nickName) {
+        this.id = id;
+        this.nickName = nickName;
+    }
+}
+
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<PersonWrapper> criteria = builder.createQuery( PersonWrapper.class );
+Root<Person> root = criteria.from( Person.class );
+
+Path<Long> idPath = root.get( Person_.id );
+Path<String> nickNamePath = root.get( Person_.nickName);
+
+criteria.select( builder.construct( PersonWrapper.class, idPath, nickNamePath ) );
+criteria.where( builder.equal( root.get( Person_.name ), "przodownik" ) );
+
+List<PersonWrapper> wrappers = entityManager.createQuery( criteria ).getResultList();
+
+
+----
+
+
+
+
+=== Tuple
+
+*** Przykład
+
+[source,java]
+----
+
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Tuple> criteria = builder.createQuery( Tuple.class );
+Root<Person> root = criteria.from( Person.class );
+
+Path<Long> idPath = root.get( Person_.id );
+Path<String> nickNamePath = root.get( Person_.nickName);
+
+criteria.multiselect( idPath, nickNamePath );
+criteria.where( builder.equal( root.get( Person_.name ), "John Doe" ) );
+
+List<Tuple> tuples = entityManager.createQuery( criteria ).getResultList();
+
+for ( Tuple tuple : tuples ) {
+    Long id = tuple.get( idPath );
+    String nickName = tuple.get( nickNamePath );
+}
+
+//or using indices
+for ( Tuple tuple : tuples ) {
+    Long id = (Long) tuple.get( 0 );
+    String nickName = (String) tuple.get( 1 );
+}
+
+
+----
+
+== JOIN
+
+*** Przykład 1
+
+[source,java]
+----
+
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Phone> criteria = builder.createQuery( Phone.class );
+Root<Phone> root = criteria.from( Phone.class );
+
+// Phone.person is a @ManyToOne
+Join<Phone, Person> personJoin = root.join( Phone_.person );
+// Person.addresses is an @ElementCollection
+Join<Person, String> addressesJoin = personJoin.join( Person_.addresses );
+
+criteria.where( builder.isNotEmpty( root.get( Phone_.calls ) ) );
+
+List<Phone> phones = entityManager.createQuery( criteria ).getResultList();
+
+
+----
+
+*** Przykład 2
+
+[source,java]
+----
+CriteriaQuery<Pet> cq = cb.createQuery(Pet.class);
+Root<Pet> pet = cq.from(Pet.class);
+Join<Pet, Owner> owner = pet.join(Pet_.owners);
+
+CriteriaQuery<Pet> cq = cb.createQuery(Pet.class);
+Root<Pet> pet = cq.from(Pet.class);
+Join<Owner, Address> address = cq.join(Pet_.owners).join(Owner_.addresses);
+----
+
+[source,java]
+----
+Join<Employee,Employee> directs = emp.join("directs");
+Join<Employee,Project> projects = directs.join("projects");
+Join<Employee,Department> dept = directs.join("dept");
+
+Join<Employee,Project> project = dept.join("employees").join("projects");
+----
+
+== FETCH
+
+*** Przykład 
+
+[source,java]
+----
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Phone> criteria = builder.createQuery( Phone.class );
+Root<Phone> root = criteria.from( Phone.class );
+
+// Phone.person is a @ManyToOne
+Fetch<Phone, Person> personFetch = root.fetch( Phone_.person );
+// Person.addresses is an @ElementCollection
+Fetch<Person, String> addressesJoin = personFetch.fetch( Person_.addresses );
+
+criteria.where( builder.isNotEmpty( root.get( Phone_.calls ) ) );
+
+List<Phone> phones = entityManager.createQuery( criteria ).getResultList();
+----
+
+== Użycie parametrów
+
+*** Przykład
+
+[source,java]
+----
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Person> criteria = builder.createQuery( Person.class );
+Root<Person> root = criteria.from( Person.class );
+
+ParameterExpression<String> nickNameParameter = builder.parameter( String.class );
+criteria.where( builder.equal( root.get( Person_.nickName ), nickNameParameter ) );
+
+TypedQuery<Person> query = entityManager.createQuery( criteria );
+query.setParameter( nickNameParameter, "JD" );
+List<Person> persons = query.getResultList();
+----
+
+==  GroupBy i Tuple 
+
+*** Przykład 1
+
+[source,java]
+----
+
+CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+CriteriaQuery<Tuple> criteria = builder.createQuery( Tuple.class );
+Root<Person> root = criteria.from( Person.class );
+
+criteria.groupBy(root.get("address"));
+criteria.multiselect(root.get("address"), builder.count(root));
+
+List<Tuple> tuples = entityManager.createQuery( criteria ).getResultList();
+
+for ( Tuple tuple : tuples ) {
+    String name = (String) tuple.get( 0 );
+    Long count = (Long) tuple.get( 1 );
+}
+
+
+----
+
+*** Przykład 2
+
+[source,sql]
+----
+SELECT e, COUNT(p) FROM Employee e JOIN e.projects p GROUP BY e HAVING COUNT(p) >= 2
+
+----
+
+*** Przykład 3
+
+[source,java]
+----
+CriteriaQuery<Object[]> c = cb.createQuery(Object[].class);
+Root<Employee> emp = c.from(Employee.class);
+Join<Employee,Project> project = emp.join("projects");
+c.multiselect(emp, cb.count(project)).groupBy(emp).having(cb.ge(cb.count(project),2));
+----
+
+
+== Predykaty
+
+** IS EMPTY  -  **isEmpty()** 
+** IS NOT EMPTY  -  **isNotEmpty()**
+** MEMBER OF -  **isMember()**
+** NOT MEMBER OF -  **isNotMember()**
+** LIKE -  **like()**
+** NOT LIKE -  **notLike()**
+** IN -  **in()**
+** NOT IN -  **not(in())**
+
+
+
+*** Przykład
+
+[source,java]
+----
+Predicate criteria = cb.conjunction();
+if (name != null) {
+  ParameterExpression<String> p = cb.parameter(String.class, "name");
+  criteria = cb.and(criteria, cb.equal(employee.get("name"), p));
+}
+if (deptName != null) {
+  ParameterExpression<String> p = cb.parameter(String.class, "dept");
+  criteria = cb.and(criteria, cb.equal(employee.get("dept").get("name"), p));
+}
+----
+
+== Skalary
+
+**  ALL -  ** all()**
+**  ANY -  ** any()**
+**  SOME -  ** some()**
+**  - -  **neg(), diff()**
+**  + -  **sum()**
+**  * -  **prod()**
+**  / -  **quot()**
+**  COALESCE -  **coalesce()**
+**  NULLIF -  **nullif()**
+**  CASE -  **selectCase()**
+
+== Funkcje
+
+**  ABS -  **abs()**
+**  CONCAT -  **concat()**
+**  CURRENT_DATE -  **currentDate()**
+**  CURRENT_TIME -  **currentTime()**
+**  CURRENT_TIMESTAMP -  **currentTimestamp()**
+**  LENGTH -  **length()** 
+**  LOCATE -  **locate()**
+**  LOWER -  **lower()**
+**  MOD -  **mod()**
+**  SIZE -  **size()**
+**  SQRT -  **sqrt()**
+**  SUBSTRING -  **substring()**
+**  UPPER -  **upper()**
+**  TRIM -  **trim()**
+
+== Agregacje
+
+**  AVG -  **avg()**
+**  SUM -  **sum()**
+**  MIN -  **min(), least()**
+**  MAX -  **max(), greatest()**
+**  COUNT -  **count()**
+**  COUNT DISTINCT -  **countDistinct()**
+
+
+
+== Podzapytania 
+
+*** Przykład
+
+[source,java]
+----
+public List<Employee> findEmployees(String name, String deptName, String projectName) {
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery<Employee> c = cb.createQuery(Employee.class);
+Root<Employee> emp = c.from(Employee.class);
+c.select(emp);
+ 
+// ...
+ 
+if (projectName != null) {
+Subquery<Employee> sq = c.subquery(Employee.class);
+Root<Project> project = sq.from(Project.class);
+Join<Project,Employee> sqEmp = project.join("employees");
+sq.select(sqEmp)
+.where(cb.equal(project.get("name"),
+cb.parameter(String.class, "project")));
+criteria.add(cb.in(emp).value(sq));
+}
+----
+
+** Analogia do : 
+
+[source,sql]
+----
+SELECT e
+FROM Employee e
+WHERE e IN (SELECT emp
+FROM Project p JOIN p.employees emp
+WHERE p.name = :project)
+----
+

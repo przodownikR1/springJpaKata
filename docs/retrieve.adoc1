@@ -1,0 +1,137 @@
+= JPA/Hibernate camp
+:docInfo1
+:numbered:
+:icons: font
+:pagenums:
+:imagesdir: images
+:source-highlighter: coderay
+
+:image-link: https://pbs.twimg.com/profile_images/425289501980639233/tUWf7KiC.jpeg
+
+ifndef::sourcedir[:sourcedir: ./src/main/java/]
+
+#Sample demo to show how jpa work in effiecient way
+
+
+== Topic
+
+
+[source,java]
+----
+Query query = session.createQuery("from Book");
+List books = query.list();
+
+Query query = session.createQuery("from Book where isbn = ?");
+query.setString(0, isbn);
+Book book = (Book) query.uniqueResult();
+----
+
+
+*  *ElementCollection*
+
+*@CollectionTable* - wskazuje na pole o typie Collection dla którego Hibernate stworzy osobną tabelę
+*@ElementCollection*  - adnotatacja używana do zdefiniowania relacji z typem wbudowanym lub prostym
+*@IndexColumn* -hibernate tworzy oddzielną kolumnę do identyfikowania kolejności wstawianych/wyjmowanych obiektów. 
+
+[source,java]
+----
+@ElementCollection(fetch=FetchType.LAZY)
+@CollectionTable(name = "email")
+@IndexColumn(name="email_index")
+private List<String> emails;
+----
+
+
+* Peristence map
+
+
+* Persistence Array
+Array ~ List ale nie wymaga @IndexColumn do indeksowania wartości
+
+
+
+
+== *One-To-One*
+W relecji One2One każdy wiersz z pierwszej tabeli ma tylko jeden odpowiednik w drugiej tabeli.
+[source,java]
+----
+@Entity
+public class Person {
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "phone_id")
+private Phone phone;
+----
+
+WARNING: if the Phone object is not persisted at the time of saving the Person object, and
+the appropriate CascadeType option is not used, it throws an error similar to "Exception
+in thread "main" org.hibernate.TransientObjectException: object
+references an unsaved transient instance - save the transient instance
+before flushing: "Phone ".
+
+
+== One2One Bidirectional
+
+[source,java]
+----
+@Entity
+public class Person{
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "phone_id")
+private Phone phone;
+}
+
+@Entity
+public class Phone{
+@OneToOne(mappedBy = "phone", cascade = CascadeType.ALL)
+private Person person;
+}
+
+
+----
+
+== One-to-one mapping using a common  join table
+[source,java]
+----
+@Entity
+public class Person{
+@OneToOne(cascade = CascadeType.ALL)
+@JoinTable(name="employee_phone", joinColumns=@JoinColumn(name="employee_id") , inverseJoinColumns=@JoinColumn(name="phone_id")
+)
+private Phone phone;
+}
+----
+
+@JoinTable : This annotation, written on the Employee class, contains the  name="employee_detail" attribute and shows that a new intermediate table is
+created with the name "employee_detail"
+
+ joinColumns=@JoinColumn(name="employee_id") : This shows that a reference column is created in employee_detail with the name "employee_id" ,
+which is the primary key of the employee table
+
+ inverseJoinColumns=@JoinColumn(name="detail_id") : This shows that  a reference column is created in the employee_detail table with the name
+"detail_id" , which is the primary key of the detail table
+
+
+== One-to-one mapping using a common primary key
+
+[source,java]
+----
+@Entity
+public class Person{
+@OneToOne(cascade = CascadeType.ALL)
+@PrimaryKeyJoinColumn
+private Phone phone;
+}
+----
+
+
+== @ManyToOne
+
+
+
+== @OneToMany
+
+
+== O mnie
+* programista
+* blog link:http://przewidywalna-java.blogspot.com[]
+* image:{image-link} [role='img-circle']

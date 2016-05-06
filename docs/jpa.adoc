@@ -1,0 +1,452 @@
+
+== Geneza JPA
+
+image:jpa.png[]
+
+**Java Persistence API (JPA)** jest specyfikacją wydaną dla ujednolicenia różnych dostawców trwałości.
+- start odbył się w 2006 roku (wersja **1.0**)
+- w 2013 roku podstała wersja aktualna t.j **2.1**
+
+== Dostawcy trwałości 
+
+- **Hibernate** http://hibernate.org/orm/
+- **EclipseLink** http://www.eclipse.org/eclipselink/
+- **Open JPA** http://openjpa.apache.org/
+- **TopLink** http://www.oracle.com/technetwork/middleware/toplink/overview/index.html
+- **Kodo** http://docs.oracle.com/html/E13946_01/toc.htm
+
+image::jpaProviders.png[]
+
+== Utrwalanie
+
+- **@Encje**
+- **@MappedSuperClass**
+- **@Embeddable**
+- **@CollectionElement (dla typów prostych lub klas osadzonych)**
+
+== Użycie EntityManager'a [JPA]
+
+
+
+=== Zależności 
+[source,xml]
+----
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-entitymanager</artifactId>
+  <version>4.3.5.Final</version>
+</dependency>
+----
+
+=== Schemat zależności
+
+image::entityManager.jpg[]
+
+=== EntityManagerFactory(JPA) = SessionFactory(Hibernate)
+
+source : __http://www.java-forums.org/ocpjbcd/53005-tutorial-review-entitymanager-context-component-developer-exam.html__
+
+image::A7-EntityManagerFactory.jpg[]
+
+  Może być programowalny manualnie lub przy pomocy pliku persistence.xml, który to musi znajdować się w classpath projektu.
+  Każdemu EntityManagerFactory odpowiada jedna jednostka trwałości (Persistence Unit)
+  
+==== Bootstraping
+
+
+[source,java]
+----
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("manager1");
+//or
+Map<String, Object> configOverrides = new HashMap<String, Object>();
+configOverrides.put("hibernate.hbm2ddl.auto", "create-drop");
+EntityManagerFactory programmaticEmf = Persistence.createEntityManagerFactory("manager1", configOverrides);
+----
+
+
+  
+=== EntityManager
+
+source: __http://www.java-forums.org/ocpjbcd/53005-tutorial-review-entitymanager-context-component-developer-exam.html__
+
+image::A7-EntityManagerFactory.jpg[]
+
+
+==== Cechy
+-  pozwala wykonywać operacje CRUD na encjach.
+-  pozwala też na wykonanie zapytań.
+-  odpowiada mu jeden kontekst trwałości - czyli zbiór obiektów zarządzanych przez EntityManagera w danej chwili
+-  unikaly obiekt w ramach kontekstu trwałości to taki który posiada unikalny identyfikator
+
+[source,java]
+----
+public static EntityManager getEntityManager() {
+ EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("myPu");
+ EntityManager manager = managerFactory.createEntityManager(); 
+return manager;
+}
+
+----
+
+==== Cykl życia
+image::A7-EntityLifecycle.jpg[]
+
+
+==== Metody 
+
+image::A7-EntityManagerInterfaceMethods.jpg[]
+
+
+==== Uzyskiwanie EnitityManagera wersja numer 1
+
+
+[source,java]
+----
+
+@PersistenceContext
+EntityManager em;
+---- 
+==== Uzyskiwanie EntityManagera wersja numer 2 
+[source,java]
+----
+
+@PersistenceUnit
+EntityManagerFactory emf;
+EntityManager em = emf.createEntityManager();
+
+----
+
+WARNING:Menadżery encji zarządzane przez aplikację nie propagują automatycznie kontekstu transakcji JTA. Musimy to robić manualnie
+
+*** Przykład 1
+
+[source,java]
+----
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("pu");
+        EntityManager em = entityManagerFactory.createEntityManager();
+        EntityTransaction userTransaction = em.getTransaction();
+        userTransaction.begin();
+        
+        User user = new User("przodownik", "slawek");
+        em.persist(user);        
+        userTransaction.commit();
+        em.close();
+        entityManagerFactory.close();
+        
+----
+
+*** Przykład 2
+
+[source,java]
+----
+
+    @PersistenceUnit(unitName = "pu")
+    private EntityManagerFactory entityManagerFactory;
+    @Resource
+    private UserTransaction userTransaction;
+    private Book book;
+    
+    public String saveBook() {
+        String returnValue = "BookAdded";
+        try {
+            userTransaction.begin();
+            EntityManager em = entityManagerFactory.createEntityManager();            
+            em.persist(book);
+            userTransaction.commit();
+            em.close();
+            returnValue = "BookAddedConfirmation";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+        
+----
+
+
+==== EnitityManager Lokalnie
+
+*** Przykład
+
+[source,java]
+----
+EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("pu");
+EntityManager entityManager = entityManagerFactory.createEntityManager();
+----
+
+=== EnitityManager Zdalnie
+
+[source,java]
+----
+@PersistenceContext(unitName = "pu")
+EntityManager manager;
+
+----
+  
+=== Metody 
+
+==== utrwalenie 
+
+** em.persist(object);
+
+==== wyszukanie
+ 
+** Employee e = em.find(Employee.class, new Long(10)); 
+
+==== usuwanie 
+
+** em.remove(object);
+
+=== persistence.xml
+ 
+Powinnien znajdować się w classpath w katalogu **META-INF**
+Plik **persistence.xml** jest unikalny dla danego kontekstu **persistence unit**.
+
+*** Przykład
+
+[source,xml]
+----
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0">
+<persistence-unit name="myPu" transaction-type="RESOURCE_LOCAL">
+<mapping-file>Author.hbm.xml</mapping-file>
+<mapping-file>Book.hbm.xml</mapping-file>
+ 
+<class>domain.Author</class>
+<class>domain.Book</class>
+ 
+<properties>
+<property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+<property name="javax.persistence.jdbc.user" value="sa"/>
+<property name="javax.persistence.jdbc.password" value=""/>
+<property name="javax.persistence.jdbc.url" value="jdbc:h2:file:~/testjpa"/>
+<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+<property name="hibernate.hbm2ddl.auto" value="create"/>
+<property name="hibernate.show_sql" value="true"/>
+</properties>
+</persistence-unit>
+</persistence>
+----   
+
+- **RESOURCE_LOCAL transaction** - sama aplikacja zarządza transakcjami .
+
+- **JTA transaction** - transakcjami zarządza kontener na serwerze aplikacyjnym
+
+== Persistence Unit
+Jednostka trwałości - sposób na komunikowanie się z bazą
+Jest skonfigurowany w pliku persistence.xml
+
+
+source : eclipse.org
+
+image::otlcg_jd_001.gif[]
+
+
+=== Praca w wieloma jednostkami trwałości 
+
+
+*** Przykład
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+version="2.0">
+<persistence-unit name="pu1" transaction-type="RESOURCE_LOCAL">
+<!-- details -->
+</persistence-unit>
+<persistence-unit name="pu2" transaction-type="RESOURCE_LOCAL">
+<!-- details -->
+</persistence-unit>
+</persistence>
+// code...
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu1");
+EntityManager em = emf.createEntityManager();
+em.persist(entity);
+----
+
+
+==== Programowy persistence.xml
+
+*** Przykład
+
+[source,java]
+----
+Map<String, String> prop = Maps.newHashMap();	
+
+prop.put("javax.persistence.transactionType","RESOURCE_LOCAL");	
+prop.put("javax.persistence.jtaDataSource", "");	
+prop.put("javax.persistence.jdbc.driver", "org.h2.Driver");	
+prop.put("javax.persistence.jdbc.url", "jdbc:h2:mem:");
+
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu",prop);
+EntityManager em = emf.createEntityManager();
+	
+----
+ 
+==== Mapowanie klas
+
+*** Przykład
+
+[source,xml]
+----
+<persistence-unit name="unit1" transaction-type="RESOURCE_LOCAL">
+<provider>org.hibernate.ejb.HibernatePersistence</provider>
+<class>pl.java.scalatech.domain.Employee</class>
+<class>pl.java.scalatech.domain.Department</class>
+<class>pl.java.scalatech.domain.Poject</class>
+....
+
+---- 
+ 
+== Persistence Context
+
+- służy do tworzenia obiektów klasy EntityManagerFactory
+- zbiór obiektów zarządzanych przez entityManagera w danej chwili   
+
+[source,xml]
+----
+//include::{resourcedir}META-INF/persistence.xml[]
+----
+
+*** Przykład
+
+[source,java]
+----
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("HelloWorldPU");
+
+UserTransaction tx = TM.getUserTransaction();
+tx.begin();
+EntityManager em = emf.createEntityManager();
+Message message = new Message()
+message.setText("Hello World!");
+em.persist(message);
+tx.commit();
+// INSERT into MESSAGE (ID, TEXT) values (1, 'Hello World!')
+em.close();
+----
+
+
+== Dostęp do Hibernate API z poziomu JPA
+
+*** Przykład
+
+[source,java]
+----
+
+
+Session session = entityManager.unwrap( Session.class );
+SessionImplementor sessionImplementor = entityManager.unwrap( SessionImplementor.class );
+
+SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap( SessionFactory.class );
+
+
+----
+
+
+
+== MetaModel
+
+=== Generacja
+
+Konfiguracja w Gradle : 
+
+*** Przykład
+
+[source,groovy]
+----
+
+sourceSets {
+    intTest
+    generated.java.srcDirs=['src/main/generated']
+    main {
+        java { srcDir 'src/main/java' }
+        resources { srcDir 'src/main/resources' }
+    }
+    test {
+        java { srcDir 'src/test/java' }
+        resources { srcDir 'src/test/resources' }
+    }
+}
+
+repositories {
+    mavenCentral()   
+}
+
+configurations {
+    providedRuntime
+    jpametamodel
+}
+
+dependencies {
+    jpametamodel ("org.hibernate:hibernate-jpamodelgen:4.3.1.Final")
+ }
+
+task generateMetaModel(type: JavaCompile, group: 'build', description: 'metamodel generate') {
+
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.jpametamodel
+    options.compilerArgs = ["-proc:only"]
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+
+    doFirst {
+        logger.warn("Prepare dictionary structures  " +sourceSets.generated.java.srcDirs)
+        //delete(sourceSets.generated.java.srcDirs)
+        //sourceSets.generated.java.srcDirs.mkdirs()
+    }
+}
+compileJava.dependsOn generateMetaModel
+compileJava.source sourceSets.generated.java, sourceSets.main.java
+----
+
+*** Przykład
+
+[source,java]
+----
+
+@Entity
+public class Pet {
+  @Id
+  protected Long id;
+  protected String name;
+  protected String color;
+  @ManyToOne
+  protected Set<Owner> owners;
+  ...
+}
+
+@Static Metamodel(Pet.class)
+public class Pet_ {
+  
+  public static volatile SingularAttribute<Pet, Long> id;
+  public static volatile SingularAttribute<Pet, String> name;
+  public static volatile SingularAttribute<Pet, String> color;
+  public static volatile SetAttribute<Pet, Owner> owners;
+}
+
+
+----
+
+*** Przykład 2
+
+[source,java]
+----
+
+EntityManager em = ...;
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery cq = cb.createQuery(Pet.class);
+Root<Pet> pet = cq.from(Pet.class);
+EntityType<Pet> Pet_ = pet.getModel();
+
+
+EntityManager em = ...;
+Metamodel m = em.getMetamodel();
+EntityType<Pet> Pet_ = m.entity(Pet.class);
+----
+
+

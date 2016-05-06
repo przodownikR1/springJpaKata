@@ -1,0 +1,32 @@
+
+
+=== Tworzenie prostego szablonu projektu : Hibernate only
+   operowanie na obiektach  Session i SessionFactory oraz persistence.xml 
+
+=== Tworzenie prostego szablonu projektu : JPA 
+   operowanie na obiektach  EntityManager i EntityManagerFactory oraz persistence.xml
+   
+=== Tworzenie prostego szablonu projektu : Spring + Spring Data
+   integracja Hibernate po JPA w Spring
+   
+=== Stworzenie i zapisanie prostej encji oraz jej odczyt 
+
+=== Mapowania
+
+=== MetaModel
+
+=== JPQL
+
+=== Pobieranie danch : Fetches
+
+=== Cache
+
+=== Criteria API
+
+== Koniec :)
+
+   
+
+
+
+

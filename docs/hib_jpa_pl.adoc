@@ -1,0 +1,1558 @@
+= JPA/Hibernate camp
+:docInfo1
+:numbered:
+:icons: font
+:pagenums:
+:imagesdir: img
+:iconsdir: ./icons
+:stylesdir: ./styles
+:scriptsdir: ./js
+
+:image-link: https://pbs.twimg.com/profile_images/425289501980639233/tUWf7KiC.jpeg
+ifndef::sourcedir[:sourcedir: ./src/main/java/]
+ifndef::resourcedir[:resourcedir: ./src/main/resources/]
+ifndef::imgsdir[:imgsdir: ./../img]
+:source-highlighter: coderay
+
+
+== O mnie
+* Architect Solution - RiscoSoftware 
+* JavaTech trener : Spring ekosystem, JPA , EIP Camel 
+* Sages trener : JPA , EIP - Apache Camel 
+* blog link:http://przewidywalna-java.blogspot.com[]
+* twitter przodownikR1
+
+image:{image-link} [role='img-circle']
+
+== Źródła wiedzy 
+ - Hibernate in Action
+ - Java Persistence with Hibernate
+ - Java JEE 6
+ - Pro JPA 2
+ - Pro JPA 2: Mastering the Java(TM) Persistence API (Expert's Voice in Java Technology)
+ - Hibernate from Novice to Professional 
+ - Spring Data Modern Data Access for Enterprise Java
+ - Spring Data
+ - Spring Boot
+ - Spring Essentials
+ - Spring in Action
+ - etc 
+
+== Hibernate / JPA
+
+== Co to jest w ogóle jest :) ? 
+ 
+ - najpopularniejsza implementacja odwzorowania
+ - jedna z implemetacji standardu **JPA**
+ - obsługa asociacji, kompozycji, dziedziczenia, polimorfizmu
+ - wysoka wydajność i skalowalność (dwuwarstwowy cache i wparcie dla clusteringu ) (**Hibernate Shards**)
+ - wiele sposobów tworzenia i wydawania zapytań
+ - nakładka na **JDBC** 
+
+
+
+== Architektura
+
+image::data_access_layers.svg[]
+
+
+=== Zasada działania
+
+image::ORM-jdbc.jpg[]
+
+==== Zalety
+
+Standardowe podejście oparte na JDBC wymaga od programisty następujących czynności:
+ 
+ - Opening a database connection
+ - Maintaining an open connection
+ - Building a query
+ - Executing a query
+ - Getting a response to the query
+ - Mapping the query response with the custom classes
+ - Closing the database connection
+
+
+**Czyli ORM :**
+[options=interactive]
+
+**    redukuje znaczenie ilość kodu potrzebnego to stworzenia i wykonania zapytania
+**    ochrona programisty przed czasochłonnym SQLem 
+**    redukuje koszt i czas deploymentu
+**    redukcja boilerplate JDBC 
+**    skupienie na problemach biznesowych 
+**    mniej synchronizacji kodu z relacyjną bazą danych
+**    zwiększa szybkość wytwarzania (produktywność - metaDane, query data)
+**    dostarcza mechanizmy przenośności na inne bazy (nie musimy ograniczać się do danego typu bazy )  (portability)
+
+**   **Dostępne dialekty :** 
+   
+***	 DB2Dialect (supports DB2)
+***	 FrontBaseDialect
+***	 HSQLDialect
+***	 InformixDialect
+***	 IngresDialect
+***	 InterbaseDialect
+***	 MySQLDialect
+***	 Oracle8Dialect
+***	 Oracle9Dialect
+***	 Oracle10Dialect
+***	 PointbaseDialect
+***	 PostgreSQLDialect
+***	 ProgressDialect
+***	 SybaseDialect 
+   
+ 
+* idealnie nadaje się do protytypowania  
+ 
+**Dodatkowo otwiera możliwości :** 
+
+*** reużywalności kodu
+*** zarządzania transakcjami
+*** wydajnego operowania na kolekcjach relacji
+*** wbudowany mechanizm cache'u
+*** wprowadza obiektowe techniki do świata relacyjnych baz danych
+ 
+==== Wady
+
+
+* krzywa nauki 
+* dodatkowy narzut na zapytania (overhead)
+* w pewnych przypadkach powoduje spadek wydajności z stosunku do zwykłych zapytania JDBC
+* wraz ze wzrostem złożoności modelu domenowego występują trudności z mapowaniem, wydajnością. Skutkuje to często wprowadzaniem 'haków' 
+ 
+
+
+== Moduły
+[square]
+** **Hibernate Core**
+
+***  odpowiada za generowanie natywnych kwerent SQL
+***  dostarcza dialekty 
+***  dostarcza mechanizmy obsługi i translacji zapytań jak : HQL, Criteria Query czy QBE
+***  odpowiada za buforowanie i efektywne pobieranie danych - czyli optymalizuje zapytania 
+ 
+** **Hibernate Annotation**
+
+***  dostarcza znacziki metadanych równorzędne do konfiguracji mapować w XML
+
+** **Hibernate EntityManager**
+
+*** jest implementacją interfejsu JPA
+ 
+** **Hibernate Search**
+
+***  dostarcza rozwiązań użycia indeksów Lucene
+ 
+** **Hibernate Validator**
+
+***  obsługa walidacji danych
+ 
+** **Hibernate OGM**
+
+***  rozwiazania NoSql
+ 
+** **DataSourcePool**
+ 
+*** **hibernate-c3p0** -   Integracja C3P0 z Hibernate  
+
+** Przykład
+
+[source,java]
+----
+<property name="hibernate.c3p0.min_size">5</property>
+<property name="hibernate.c3p0.max_size">10</property>
+<property name="hibernate.c3p0.timeout">300</property>
+<property name="hibernate.c3p0.max_statements">50</property>
+<property name="hibernate.c3p0.acquire_increment">1</property>
+<property name="hibernate.c3p0.idle_test_period">3000</property>
+ 
+----
+
+** min_size = minimalna liczba połączeń dostępna zawsze kiedy jest taka potrzeba
+** max_size = max liczba połączeń dostępnych w ramach puli
+** timeout = max czas bezczynności po którym połączenie jest usuwane z puli
+** idle_test_period = czas w sekundach przed którym połączenie jest automatycznie walidowane
+** max_statements = max liczba kwerend które mogą być buforowane w ramach puli
+** acquire_increment = liczba nowych połączeń jeśli pula jest wyczerpana
+
+
+*** hibernate-hikaricp  
+*** hibernate-proxool   
+ 
+** Cache
+
+*** hibernate-ehcache  
+    
+*** hibernate-infinispan 
+ 
+ 
+ 
+
+
+== Minimalna konfiguracja projektu :
+
+== Hibernate
+-  **Maven**
+
+[source, xml]
+-----
+   <dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+	</dependencies>
+-----
+ 
+- **Konfiguracja bazy** 
+
+[source,xml]
+----
+
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>1.4.178</version>
+</dependency>
+
+----
+**Możliwe typy konfiguracji :** 
+  - konfiguracja bezpośrednio w kodzie
+[source,java]
+----
+
+   Configuration configuration = new Configuration().addResource("Book.hbm.xml")
+.setProperty("hibernate.dialect", "org.hibernate.dialect.DerbyTenSevenDialect")
+.setProperty("hibernate.connection.driver_class", "org.apache.derby.jdbc.EmbeddedDriver")
+.setProperty("hibernate.connection.url", "jdbc:derby://localhost:1527/BookDB")
+.setProperty("hibernate.connection.username", "book")
+.setProperty("hibernate.connection.password", "book");
+ 
+ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+----
+- konfiguracja xml 
+- konfiguracja z użyciem plików properties
+  
+ 
+* Pojęcia
+**  Encja
+**  PersistenceUnit
+
+[source,java]
+----
+
+@PersistenceUnit(unitName="pu-unit")
+private EntityManagerFactory emf;
+
+----
+
+** PersistenceContext
+  
+[source,java]
+----
+
+@PersistenceContext (unitName = "pu-unit")
+EntityManager entityManager;
+
+----
+
+== Terminy związane z Hibernate
+- przezroczyste utrwalanie danych
+- mapowania obiektów na tabele
+- sprawdzanie zabrudzeń (dirty-checking) 
+- przechodność utrwalania (transitive persistence)
+- przechodność utrwalania (lazy loading/fetching)
+- generowanie schematu danych 
+- symulacja dziedziczenia modelu relacyjnego
+ 
+ 
+== Symbioza
+
+=== Lombok
+
+[source,java]
+----
+@Entity
+@Data
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
+public class Person implements Serializable{
+----
+
+=== JAXB
+
+[source,java]
+----
+@XmlTransient
+@XmlJavaTypeAdapter
+
+
+----
+
+=== JSON
+
+
+=== Bean Validation
+
+- @Pattern
+- @Size
+- @Max
+-@Min
+
+- etc
+ 
+  
+== Nowości w JPA 2.1
+- **Querying Stored Procedure**
+
+[source,java]
+----
+
+  @Test
+    public void testCallStoreProcedure() {       
+        StoredProcedureQuery query = em.createStoredProcedureQuery("my_sum");
+        query.registerStoredProcedureParameter("x",Integer.class,ParameterMode.IN);
+        query.registerStoredProcedureParameter("y",Integer.class,ParameterMode.IN);
+        query.registerStoredProcedureParameter("sum",Integer.class,ParameterMode.OUT);
+        
+        query.setParameter("x", 5);
+        query.setParameter("y", 4);
+        query.execute();
+        Integer sum = (Integer) query.getOutputParameterValue("sum");
+        assertEquals(sum, new Integer(9));
+    }
+    
+----
+
+source : __https://en.wikibooks.org/wiki/Java_Persistence/Advanced_Topics#Stored_Procedures__
+
+
+[source,java]
+----
+@NamedStoredProcedureQuery(
+    name = "ReadAddressById",
+    resultClasses = Address.class,
+    procedureName = "READ_ADDRESS",
+    parameters = {
+        @StoredProcedureParameter(mode=javax.persistence.ParameterMode.IN, name="P_ADDRESS_ID", type=Long.class)
+    }
+)
+@Entity
+public class Address {
+  ...
+}
+
+StoredProcedureQuery query = em.createNamedStoredProcedureQuery("ReadAddressById");
+query.setParameter("P_ADDRESS_ID", 12345);
+List<Address> result = query.getResultList();
+
+----
+
+- **Attribute Converter**
+ 
+[source,java]
+----
+
+@Converter
+public class PasswordConverter implements AttributeConverter<String, String> {
+    @Override
+    public String convertToDatabaseColumn(String arg0) {
+        if(arg0!=null) {
+            return Base64.getEncoder().encodeToString(arg0.getBytes());
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String convertToEntityAttribute(String arg0) {
+        if(arg0!=null) {
+            return new String(Base64.getDecoder().decode(arg0));
+        } else {
+            return null;
+        }
+    }
+}
+
+----
+ 
+[source,java]
+----
+
+@Entity
+public class Person {
+    @Convert(converter=PasswordConverter.class)
+    String password;
+----
+- **Constructor Result Mapping**
+ @ConstructorResult annotation is a handy addition to the already existing @SqlResultSetMapping and can be used to map the result of a query to a constructor call. 
+[source,java]
+----
+@Entity
+@NamedNativeQuery(name = "findWithTodoResultSetMapper", query = "SELECT id, description FROM TODO where description like ?1", resultSetMapping = "TodoResultSetMapper")
+@SqlResultSetMapping(name = "TodoResultSetMapper", classes = @ConstructorResult(targetClass = org.hall.jpa.model.TodoPOJO.class, columns = {
+		@ColumnResult(name = "id", type = Long.class),
+		@ColumnResult(name = "description") }))
+public class Todo {
+	private Long id;
+	private String summary;
+	private String description;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
+---- 
+
+- **Programmatic Named Queries**
+addNamedQuery(String name, Query query) 
+[source,java]
+----
+
+Query q = this.em.createQuery("SELECT a FROM Book b JOIN b.authors a WHERE b.title LIKE :title GROUP BY a");
+this.em.getEntityManagerFactory().addNamedQuery("selectAuthorOfBook", q);
+
+TypedQuery<Author> nq = this.em.createNamedQuery("selectAuthorOfBook", Author.class);
+nq.setParameter("title", "%Java%");
+List<Author> authors = nq.getResultList();
+
+----
+
+- **Named Entity Graph**
+
+- **Java 8 Date Time API**
+The Hibernate support for Java 8 Date Time API is provided in a separate module called hibernate-java8
+
+
+== Connection pooling
+
+** Tworzenie  połączeń do bazy danych  jest kosztowne.
+** Utrzymywanie wielu niewykorzystywanych połączeń jest kosztowne
+** Hibernate dostarcza gotowe rozwiązanie do poolingu. Jednak rozwiązanie nie jest zalecane w produkcyjnym środowisku.
+** Tworzenie kostrukcji przygotowawczych dla niektórych sterowników jest również kosztowne
+** Zalecane w środowiskach produkcyjnych jest wykorzystanie zewnętrzych poll poprzez odwołania z JNDI lub konfigurowane zewnętrznie poprzez classpath czy odpowienie pliki properties.
+
+Przykład zewnętrznej puli połączeń c3p0: 
+
+[source,xml]
+----
+<dependencies>
+   <dependency>
+       <groupId>org.hibernate</groupId>
+       <artifactId>hibernate-c3p0</artifactId>
+       <version>[4.2.6,4.2.9)</version>
+    </dependency>
+  <dependency>
+       <groupId>com.mchange</groupId>
+       <artifactId>c3p0</artifactId>
+       <version>[0.9.2.1,)</version>
+  </dependency>
+</dependencies>
+----
+
+Aby użyć powyższą konfigurację c3p0 wszystko co musimy zrobić to dodać wpis do konfiguracji hibernate: 
+[source,xml]
+----
+<property name="c3p0.timeout">10</property>
+----
+W ten sposób Hibernate wyłączy wewnętrzną pulę połączeń i przestawi się na zewnętrzną.
+
+ Inne rozwiązania to : 
+ 
+ 
+-   **proxool** http://proxool.sourceforge.net/
+   
+-   **boneCp** http://www.jolbox.com/
+   
+-   **Apache poll** https://commons.apache.org/proper/commons-dbcp/
+   
+-   **hikarii** https://brettwooldridge.github.io/HikariCP/
+
+-    Spring pool connection
+
+-   Server/Container connection pool
+   
+   
+image::HikariCP-bench-2.4.0.png[]   
+   
+=== Przykład zestawienia puli połączeń dla Springa
+   
+[source,xml]
+----
+<bean id="employeeDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+        destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="${jdbc.employee_db_url}" />
+        <property name="user" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="maxStatements" value="${jdbc.maxStatements}" />
+        <property name="testConnectionOnCheckout" value="${jdbc.testConnection}" />
+    </bean>
+----
+
+- przykładowy plik ustawień
+
+[source,txt]
+----
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.employee_db_url=jdbc:mysql://localhost:3306/testdb
+jdbc.username=root
+jdbc.password=root
+jdbc.maxPoolSize=50
+jdbc.minPoolSize=10
+jdbc.maxStatements=100
+jdbc.testConnection=true
+---- 
+
+
+== Encja - Trwała klasa
+
+- klasa nie może być finalna
+- klasa musi zawierać bezargumentowy konstruktor
+- metody get/set dla trwałych pól
+- klasa oznaczona jest adnotacją @Entity
+- klasa zawiera unikalny identyfikator @Id
+
+
+   
+   
+== Cykl życia   
+
+image::lifecycle.jpeg[]
+
+* **Transient** (ulotny)  - obiekt istnie w pamięci i jest rozłączony od kontekstu Hibernate. Taki obiekt nie może być zarządzany przez Hibernate
+  ** Tworzony za pomocą operatora new. Nie skojarzony z sesją.
+   
+   Utrwalenie:  save(), persist(), saveOrUpdate()
+   save() i persist() -> Insert
+   update() i merge() -> Update
+   
+*  **Persistence** (trwały) - obiekt istnieje w bazie danych. Obiekt jest zarządzany przez Hibernate czyli jest związany z sesją.
+
+    EntityManager#persist()
+ 
+ 
+ 
+*  **Detached** (odłączony) - obiekt ma reprezentacje w bazie danych, ale zmiana wartości obiektu nie ma wpływu na reprezentacje bazodanową i odwrotnie.
+
+   Był trwały ale został odłączony od sesji.
+   Możliwy do modyfikacji poza kontekstem.
+   Przyłączenie do sesji jest możliwe
+   
+*  **Removed** / Usunięcie  - obiekty były zarządzane przez Hibernate, ale w wyniku operacji remove() zostały skasowane z bazy danych.
+
+**     delete() , EntityManager#remove()**
+
+== Session Factory ~ EntityManagerFactory
+
+- Służy do tworzenia obiektów Session (tworzenie, zarządzanie i pobieranie Session) 
+- Jedna na kontekst (singleton pattern)
+- thread-safe (immutable)
+- ciężka i kosztowna do stworzenia
+- konfigurowalna programowo lub poprzez konfiguracją xml
+- współdzielony przez wiele wątków udostępniający egzemplarze Session
+
+
+[source,java]
+----
+
+SessionFactory factory = configuration.buildSessionFactory(serviceRegistry);
+//
+SessionFactory factory = new AnnotationConfiguration().configure().buildSessionFactory();
+
+----
+
+
+[source,xml]
+----
+<hibernate-configuration>
+<session-factory>
+<!-- H2 Configuration -->
+<property name="connection.driver_class">org.h2.Driver</property>
+<property name="connection.url">jdbc:h2:file:./chapter1</property>
+<property name="connection.username">sa</property>
+<property name="connection.password"></property>
+ 
+<property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
+<property name="hibernate.show_sql">true</property>
+<property name="hibernate.hbm2ddl.auto">create</property>
+<mapping resource="Book.hbm.xml"/>
+<mapping resource="Publisher.hbm.xml"/>
+</session-factory>
+</hibernate-configuration>
+----
+ 
+source : __http://www.noesispoint.com/jsp/hibernate/HibernateIntro.htm__
+
+image::HibSessionFactory.jpg[]
+
+ 
+== Session ~ EntityManager (zarząda trwałości obiektów (persistence manager))
+-  'Unit of work' http://martinfowler.com/eaaCatalog/unitOfWork.html
+-   Obsługuje transakcje
+-   Lekka i szybka do stworzenia
+-   można ją traktować jako fizyczne buforowalne połączenie z bazą danych
+-   jedno wątkowy
+-   krótki okres życia
+-   zapewnia dostęp do podstawowych operacji CRUD  
+ 
+    
+== Otwieranie i zamykanie sesji
+
+[source,java]
+----
+Session session = factory.openSession();
+try {
+// Using the session to retrieve objects
+}catch(Exception e)
+{
+e.printStackTrace();
+} finally {
+session.close();
+}
+----
+
+=== Ponowne użycie istniejącej już sesji
+
+[source,java]
+----
+SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+Session session = sessionFactory.getCurrentSession();
+----
+
+[source,xml]
+----
+<property name="hibernate.current_session_context_class">Thread</property>
+----
+
+WARNING: Jeśli używasz Springa do zarządzania transakcjami nigdy nie używaj tej opcji chyba, że korzystasz z JTA. Spring domyślnie konfiguruje CurrentSessionContext korzystając z SpringSessionContext
+
+=== Otwieranie sesji bezstanowej
+
+** wykorzystywane dla pojedyńczego zadania
+** nie wykorzystuje żadnego cache
+** nie korzysta z dirty-checking
+
+Przykładowe wykorzystanie to : czytanie danych z pliku i wstawianie do bazy danych. (Cache jest zbyteczny to tego typu działań)
+
+[source,java]
+----
+
+SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+Session session = sessionFactory.openStatelessSession();
+----
+
+== Transaction 
+**   abstrakcyjna warstwa obsługi transakcji bez względu na jej implementację (JDBC, JTA)
+**  jedno wątkowy
+**  określa granice jednej transakcji
+
+[source,java]
+----
+
+Company company = new Company(1, "Scalatech");
+Transaction tx = session.beginTransaction();
+session.save(company);
+tx.commit();
+session.flush();
+session.close();
+
+----
+
+== Odświeżanie encji
+
+** operacja **refresh();**
+  
+** odświeża stan encji z bazy nadpisuje dane wprowadzone do encji
+** anuluje zmiany dokonane na instancji w pamięci
+
+WARNING: Anti-pattern
+
+== Opróżnianie sesji
+
+** operacja **flush();**
+** synchronizuje persistence context z bazą danych
+** wszystkie encje zostaną wstawione/uaktualnione/skasowane z bazie (wysyła instrukcje CRUD do bazy)
+** Hibernate zatwierdza wszystkie zmiany będące w kolejce.
+
+WARNING: Anti-pattern -> System.gc()
+  
+== Czyszczenie kontekstu (JPA)
+
+** czyści kontekst utrwalania 
+** wszystkie encje zostaną odłączone
+
+ odśwież stan instancji encji danymi z bazy danych, nadpisując wprowadzone zmiany w encji  
+  
+== Czy sesja jest zanieczyszczona ? 
+
+- isDirty() 
+
+
+== Adnotacje
+
+include::annotation.adoc[]
+
+== Query, Criteria
+- umożliwia dostęp do danych w bazie za pomocą wyspecjalizowanych zapytań czy API
+
+
+
+
+== Tożsamość obiektu : Equals & hashcode
+  - brak (Object) - (oparte na nie odłączanych encjach)
+  - ID tożsamość bazodanowa
+  - klucz biznesowy 
+  - application managed id - (z bazy danych na aplikacje) (moment poczęcia lub urodzenia) 
+
+
+== Identyczność obiektów
+
+=== Identyczność obiektów
+ 
+ - Są identyczne jeśli zajmują tą samą referencje w VM. 
+  Sprawdzamy ją za pomocą operatora '=='
+  
+=== Równość obiektów
+ 
+ - Są równe jeśli operacja equals daje wynik pozytywny
+ 
+=== Tożsamość bazodanowa
+
+ - Są identyczne z poziomu DB , tzn jeśli dotyczą tego samego wiersza w tabeli i mają ten sam klucz główny
+ 
+==== Klucz główny musi spełniać następujące warunki
+
+- jego wartość nigdy nie może być równa null
+- każdy wiersz posiada inną wartość
+- wartość dla konkretnego wiersza nigdy się nie zmienia
+
+==== Klucz naturalny
+
+- ma znaczenie biznesowe
+- odpowiedni dobór kandydatów / stały w ciągu całego życia 
+
+NOTE: Interfejs IdentifierGeneretor do generowania własnych strategii kluczy identyfikujących
+  
+
+
+
+
+
+== Klucz główny
+** klasa klucza głównego spełnia wymagania :
+*** public class
+*** klasa musi posiadać domyślny publiczny konstruktor
+*** musi implementować metody equals i hasCode
+*** musi być serializowalna
+*** klucz złożony musi być reprezentowany i mapowany do wielu pól właściwości klasy encji. Musi być też reprezentowany i mapowany jako klasa osadzona.     
+   
+== Relacje jedno i dwukierunkowe
+
+* dwukierunkowa :
+** obie encje posiadają wzajemnie do siebie relacje 
+** strona przynależna związku dwukierunkowego musi odnosić się do swojego właściciela za poprzez użycie elementu **mappedBy** , należącego do adnotacji @OneToMany, @ManyToOne , lub @ManyToMany
+** strona wielokrotna dwukierunkowego związku wiele do jednego nie może definiować **mappedBy** - jest zawsze 'posiadającą stroną relacji'
+** w relacji jeden do jeden strona posiadająca pokazuje stronie przynależnej odpowiedni klucz obcy.
+** w relacji wiele do wielu każda ze stron może być posiadająca.
+
+=== Charakterystyka
+ - owning side - strona włacicielska
+ - inverse side - strona przeciwna
+ - możliwość nawigacji między powiązanymi encjami. Asocjacja dwukierunkowa jest definiowana jako para asocjacji jednokierunkowych, ze wskazaniem jednej z nich jako głównej.
+
+ 
+CAUTION: Wiążemy ze sobą obie strony relacji 
+
+przykład kodu : 
+
+NOTE: Stosować tylko gdy są uzasadnione biznesowo -Enkapsulacja. Są tworzone przez generatory JPA. Mogą ułatwiać pisanie zapytań ale nie muszą :)
+
+
+* jednokierunkowe
+ Tylko jedna strona posiada relację do innej encji   
+ 
+== @OneToOne
+  - każda ze stron możę być właścicielem relacji. Musimy określić stronę bo doprowadzimy do powstania zależności cyklicznej
+  
+  source : https://en.wikibooks.org/wiki/Java_Persistence/OneToOne
+  
+image::ObjectRelational-OneToOne.jpg[]
+  
+[source,java]
+----
+@Entity
+public class Employee {
+  @Id
+  @Column(name="EMP_ID")
+  private long id;
+  ...
+  @OneToOne(fetch=FetchType.LAZY)
+  @JoinColumn(name="ADDRESS_ID")
+  private Address address;
+  ...
+}
+----
+
+=== Dwukierunkowa 
+
+[source,java]
+----
+@Entity
+public class Address {
+  @Id
+  @Column(name = "ADDRESS_ID")
+  private long id;
+  ...
+  @OneToOne(fetch=FetchType.LAZY, mappedBy="address")
+  private Employee owner;
+  ...
+}
+---- 
+
+=== Z dodatkową tabelą łączącą relacje
+
+[source,java]
+----
+  @OneToOne(fetch=FetchType.LAZY)
+  @JoinTable(
+      name="EMP_ADD",
+      joinColumns=
+        @JoinColumn(name="EMP_ID", referencedColumnName="EMP_ID"),
+      inverseJoinColumns=
+        @JoinColumn(name="ADDR_ID", referencedColumnName="ADDRESS_ID"))
+  private Address address;
+  ...	
+---- 
+
+=== Ze wspólnym kluczem głównym
+[source,java]
+----
+
+@Entity
+public class Address {
+@Id
+@GeneratedValue(generator = TableGenerator)
+protected Long id;
+@NotNull
+protected String street;
+}
+//
+@Entity
+@Table(name = "USERS")
+@Id
+protected Long id;
+
+@OneToOne(fetch = FetchType.LAZY,optional = false)
+@PrimaryKeyJoinColumn
+protected Address address;
+
+----
+== @OneToMany
+  - strona 'wiele' musi być właścicielem relacji
+  
+source : __https://en.wikibooks.org/wiki/Java_Persistence/OneToMany__
+  
+image::ObjectRelational-OneToMany2.jpg[]
+  
+[source,java]
+----
+@Entity
+public class Employee {
+  @Id
+  @Column(name="EMP_ID")
+  private long id;
+  ...
+  @OneToMany(mappedBy="owner")
+  private List<Phone> phones;
+  ...
+}
+----  
+
+== @ManyToOne
+  - strona 'wiele' musi być właścicielem relacji. Odwrotność relacji @OneToMany
+  
+  
+source : __https://en.wikibooks.org/wiki/Java_Persistence/ManyToOne__
+  
+[source,java]
+----
+@Entity
+public class Phone {
+  @Id
+  private long id;
+  ...
+  @ManyToOne(fetch=FetchType.LAZY)
+  @JoinColumn(name="OWNER_ID")
+  private Employee owner;
+  ...
+}
+----  
+  
+image::ObjectRelational-ManyToOne2.jpg[]  
+
+== @ManyToMany 
+  - dowolna strona może być właścicelem relacji
+   
+source: __https://en.wikibooks.org/wiki/Java_Persistence/ManyToMany__   
+
+[source,java]
+----
+@Entity
+public class Employee {
+  @Id
+  @Column(name="ID")
+  private long id;
+  ...
+  @ManyToMany
+  @JoinTable(
+      name="EMP_PROJ",
+      joinColumns=@JoinColumn(name="EMP_ID", referencedColumnName="ID"),
+      inverseJoinColumns=@JoinColumn(name="PROJ_ID", referencedColumnName="ID"))
+  private List<Project> projects;
+  .....
+----
+
+=== Dwukierunkowa
+ 
+[source,java]
+----
+@Entity
+public class Project {
+  @Id
+  @Column(name="ID")
+  private long id;
+  ...
+  @ManyToMany(mappedBy="projects")
+  private List<Employee> employees;
+  ...
+}
+----
+
+=== Dodatkowa kolumna w tabeli złączenia :
+ 
+[source,java]
+----
+@Entity
+public class Employee {
+  @Id
+  private long id;
+  ...
+  @OneToMany(mappedBy="employee")
+  private List<ProjectAssociation> projects;
+  ...
+}
+----
+
+[source,java]
+----
+@Entity
+public class Project {
+  @Id
+  private long id;
+  ...
+  @OneToMany(mappedBy="project")
+  private List<ProjectAssociation> employees;
+  ...
+  // Add an employee to the project.
+  // Create an association object for the relationship and set its data.
+  public void addEmployee(Employee employee, boolean teamLead) {
+    ProjectAssociation association = new ProjectAssociation();
+    association.setEmployee(employee);
+    association.setProject(this);
+    association.setEmployeeId(employee.getId());
+    association.setProjectId(this.getId());
+    association.setIsTeamLead(teamLead);
+
+    this.employees.add(association);
+    // Also add the association object to the employee.
+    employee.getProjects().add(association);
+  }
+}
+
+----
+
+[source,java]
+----
+@Entity
+@Table(name="PROJ_EMP")
+@IdClass(ProjectAssociationId.class)
+public class ProjectAssociation {
+  @Id
+  private long employeeId;
+  @Id
+  private long projectId;
+  @Column(name="IS_PROJECT_LEAD")
+  private boolean isProjectLead;
+  @ManyToOne
+  @PrimaryKeyJoinColumn(name="EMPLOYEEID", referencedColumnName="ID")
+  /* if this JPA model doesn't create a table for the "PROJ_EMP" entity,
+  *  please comment out the @PrimaryKeyJoinColumn, and use the ff:
+  *  @JoinColumn(name = "employeeId", updatable = false, insertable = false)
+  * or @JoinColumn(name = "employeeId", updatable = false, insertable = false, referencedColumnName = "id")
+  */
+  private Employee employee;
+  @ManyToOne
+  @PrimaryKeyJoinColumn(name="PROJECTID", referencedColumnName="ID")
+  /* the same goes here:
+  *  if this JPA model doesn't create a table for the "PROJ_EMP" entity,
+  *  please comment out the @PrimaryKeyJoinColumn, and use the ff:
+  *  @JoinColumn(name = "projectId", updatable = false, insertable = false)
+  * or @JoinColumn(name = "projectId", updatable = false, insertable = false, referencedColumnName = "id")
+  */
+  private Project project;
+  ...
+}
+----
+
+[source,java]
+----
+public class ProjectAssociationId implements Serializable {
+
+  private long employeeId;
+
+  private long projectId;
+ 
+  public int hashCode() {
+    return (int)(employeeId + projectId);
+  }
+
+  public boolean equals(Object object) {
+    if (object instanceof ProjectAssociationId) {
+      ProjectAssociationId otherId = (ProjectAssociationId) object;
+      return (otherId.employeeId == this.employeeId) && (otherId.projectId == this.projectId);
+    }
+    return false;
+  }
+
+}
+----
+   
+== Kaskadowość 
+
+** korzystamy z adnotacji **@CascadeType**
+
+***  ALL (agreguje wszystkie poniższe)
+*** DETACH (jeśli encja macieżysta została odłączona od kontekstu wtedy również encja związna jest także odłączana)
+*** MERGE (jeśli encja macieżysta została przyłączona do kontekstu również encje powiązane zostaną przyłączone)
+*** PERSIST (jeśli encja macieżysta została utrwalona to samo stanie się z encjami przynależnymi)
+*** REFRESH (jeśli encja macieżysta została odświeżona w kontekście trwałości również encje powiązane zostaną odświeżone)
+*** REMOVE  (jeśli encja macieżysta została usunięta z kontekstu trwałości to również encje powiazane zostaną usunięte)
+
+== Usuwanie sierot - orphanRemoval
+
+ Kaskadowe usunięcie tych encji składowych, które usunięto z kolekcji encji głównej
+ 
+** Przykład 
+ 
+[source,java]
+----
+@Test
+public void orphanRemovalTest() {
+Long id = createLibrary();
+ 
+Session session = SessionUtil.getSession();
+Transaction tx = session.beginTransaction();
+ 
+Library library = (Library) session.load(Library.class, id);
+assertEquals(library.getBooks().size(), 3);
+ 
+library.getBooks().remove(0);
+assertEquals(library.getBooks().size(), 2);
+ 
+tx.commit();
+session.close();
+ 
+session = SessionUtil.getSession();
+tx = session.beginTransaction();
+ 
+Library l2 = (Library) session.load(Library.class, id);
+assertEquals(l2.getBooks().size(), 2);
+Query query = session.createQuery("from Book b");
+List books = query.list();
+assertEquals(books.size(), 2);
+ 
+tx.commit();
+session.close();
+}
+
+@Entity
+public class Library {
+
+@OneToMany(orphanRemoval = true, mappedBy = "library")
+List<Book> books = new ArrayList<>();
+}
+
+@Entity
+public class Book {
+
+@ManyToOne
+Library library;
+}
+----
+
+   
+== Pobieranie encji
+** load()
+
+*** Na podstawie danego Id metoda load próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje wyrzucany jest wyjątek org.hibernate.ObjectNotFoundExceptionMetoda load() zwraca też proxy, oznacza to tyle, że nie nastąpi uderzenie do bazy danych do czasu kiedy faktycznie będziemy potrzebować danego obiektu. Proxy zwraca dummy object zamiast uderzyć do db. Jeśli obiekt jest w first-level cache zwróci obiekt. Jeśli obiektu nie ma w first-level-cache uderzy do bazy.
+
+[source,java]
+----
+public Object load(Class theClass, Serializable id) throws HibernateException
+public Object load(String entityName, Serializable id) throws HibernateException
+public void load(Object object, Serializable id) throws HibernateException
+----
+ 
+
+** get()   
+
+*** Na podstawie danego Id metoda get() próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje zwraca null. Metoda get() w przeciwieństwie do metody load() uderza do bazy bezpośrednio.
+ 
+[source,java]
+----
+public Object get(Class clazz, Serializable id) throws HibernateException
+public Object get(String entityName, Serializable id) throws HibernateException
+public Object get(Class clazz, Serializable id, LockMode lockMode) throws HibernateException
+public Object get(String entityName, Serializable id, LockMode lockMode) throws HibernateException
+----
+
+
+przykład : 
+[source,java]
+----
+Book book = (Book) session.load(Book.class, isbn);
+
+Book book = (Book) session.get(Book.class, isbn);
+----
+
+== SAVE/PERSIST
+
+public Serializable save(Object object) throws HibernateException
+ 
+public Serializable save(String entityName,Object object) throws HibernateException
+ 
+
+
+== MERGE vs UPDATE
+
+Merge Does Following
+
+Merge has intelligence. It has lot of pre-checks before it go actual merge(if required)
+
+    if Object is transient, It simply fires INSERT query makes object persistent(attached to session)
+    if Object is detached, fires select query to check whether data modified or not if modified, fires UPDATE query otherwise just ignore merge task.
+
+where as session.update
+
+    throws exception if object is transient.
+    if Object is detached, it simply fires UPDATE query irrespective of data changes to object.
+
+session.merge is expensive than update
+
+
+saveOrUpdate() .
+This particular method is used to save or update records. Hibernate updates the records for a
+given object if the identifier field is given. If an identifier is not given, then hibernate will insert
+a new record.
+
+== Trwałość przechodnia
+
+Technika umożliwiająca automatyczną propagację trwałości na podgrafy ulotne i odłączone.
+
+== Trwałość przez osiągalność
+
+Jeśli z obiektu trwałego dostajemy się do innego obiektu poprzez referencje. Działanie jest rekurencyjne.
+Dowolny graf obiektów można odtworzyć w całości wczytując jego korzeń.
+
+NOTE: Pomaga uzyskać trwałość obiektom ulotnym i propagować je do bazy danych bez potrzeby wywołań zarządcy trwałości 
+
+
+== Trwałość kaskadowa
+
+Koncepcja podobna do trwałości przez osiągalność
+Powiązania są odtwarzane na podstawie asocjacji.
+Sprawdza asocjacje by określić stan trwałości obiektów.
+
+NOTE: Do sterowania trwałością kaskadową używamy adnotacji **@CascadeType** na kolekcji lub relacji
+
+
+== Zapytania
+
+include::quering.adoc[]
+
+== Usuwanie obiektów z bazy 
+
+Poprzez wywołanie metody remove lub kaskadowej operacji remove
+Jeśli metoda remove jest wywołana na encji odłączonej zostanie wygenerowany wyjątek IllegalArgumentException lub zatwierdzenie transakcji się nie powiedzie.
+Dane fizycznie zostaną usunięte w momencie zakończenia transakcji lub wykonania metody flush()
+
+
+DELETE FROM employee WHERE id=1;
+[source,java]
+----
+Book book = (Book) session.get(Book.class,new Long(1));
+session.delete(book);
+----
+Metoda ta wyrzuci wyjątek jeśli obiekt o podanym identyfikatorze nie istnieje w bazie (java.lang.IllegalArgumentException)
+
+== Aktualizacja 
+UPDATE book SET title='jpa book' WHERE id=2;
+
+
+== Merge
+
+** Merge jest odwrotną operacją do operacji refresh()
+** Nadpisuje encje w bazie danych wartościami encji odłączonych.
+
+*** Object merge(Object object)
+*** Object merge(String entityName, Object object)
+
+** Przykład
+
+[source,java]
+----
+
+Session session = factory.openSession();
+tx = session.beginTransaction();
+Company company = (Company)session.get(Company.class, 1);
+company.setName("Scalatech S.p z.o.o");
+tx.commit();
+session.flush();
+session.close();
+
+----
+
+
+== Odświeżanie encji (Refreshing Entities)
+
+Metoda **reload** odświeża wartości dla encji wartościami z bazy danych. (odwrotność do merge)
+
+
+[source,java]
+----
+public void refresh(Object object)  throws HibernateException
+ 
+public void refresh(Object object, LockMode lockMode)  throws HibernateException
+----
+
+* Hibernate
+[source,java]
+----
+Object merge(Object object)
+ 
+Object merge(String entityName, Object object)
+----
+
+include::jpa.adoc[]
+
+
+== Autoreferencja
+* relacja jaka zachodzi pomiędzy polami relacji tej samej encji
+
+[source,java]
+----
+@Entity
+class Category{
+
+@ManyToOne
+private Category parent;
+
+@OneToMany(mappedBy="parent")
+private List<Category> child;
+
+}
+
+----
+include::inheritence.adoc[]
+
+
+
+== Criteria
+
+include::criteriaApi.adoc[]
+
+== Logowanie zdarzeń
+[source,xml]
+----
+<property name="show_sql">true</property>
+----
+
+* Włączenie  Live Statistics
+[source,xml]
+----
+<property name="hibernate.generate_statistics">true</property>
+----
+
+include::cache.adoc[]
+
+
+Stores query results for a query and its parameters
+
+[„FROM Author WHERE id=?“, 1]     [1]
+
+Stores only entity references or scalars
+
+Always use together with 2nd Level Cache
+
+
+Hibernate specific
+
+Stores query result session independent
+
+Needs to be activated
+persistence.xml: hibernate.cache.use_query_cache = true
+
+Activate caching for a specific query
+org.hibernate.Query.setCacheable(true)
+@NamedQuery(… hints = @QueryHint(name="org.hibernate.cacheable", value="true"))
+
+
+
+
+== Zapytania natywne  
+
+SqlResultSetMapping
+
+@SqlResultSetMapping(
+	name		= "myResultMapping ",
+	entities		= {@EntityResult(...), …},
+	classes	= {@ConstructorResult (…), …},
+	columns	= {@ColumnResult(…), …}
+)
+
+this.em.createNativeQuery(“Select …", "myResultMapping")
+
+
+== Orphal Removal
+
+== Walidacja
+
+== Problemy wydajnościowe
+include::performance.adoc[] 
+
+* N+1
+== Paginacja
+*[source,java]
+----
+public List<Employee> findEmployees(int offset, int limit) {
+    TypedQuery<Employee> query = entityManager.createQuery("SELECT e FROM Employee e ORDER BY e.name", Employee.class);
+    query.setFirstResult(offset);
+    query.setMaxResults(limit);
+    return query.getResultList();
+}
+----
+
+
+== Obsługa wyjątków
+
+** HibernateException - generyczny wyjątek Hibernate
+** JDBCException - wyrzucany przez wewnętrzny sterownik JDBC
+** ConstraintViolationException - naruszenie węzłów referencyjnych
+** NoResultException - wyrzucany przez metodę **getSingleResult** (w kontekscie : TypedQuery,Query) jeśli nie zwróci żadnych wyników
+** NonUniqueResultException -  wyrzucany przez metodę **getSingleResult** (w kontekscie : TypedQuery,Query) jeśli zwróci więcej niż jeden resultat
+** QueryTimeoutException - wyrzycany przez zapytania w kontekscie TypedQuery i Query jeśli kwerenda trwa za długo
+** LockTimeoutException - wyrzucany w przypadku blokowania pesymistycznego 
+** EntityNotFoundException - wyrzucany przez metodę refresh lub lock jeśli encja po odświeżeniu kontekstu nie istnieje w bazie
+
+
+source :: __www.bhaveshthaker.com__
+
+image::JPAEclipseLinkDemo_Project_Img002.JPG[]
+
+== Rozwiązywanie problemów
+=== Problemy z asocjacjami dwukierunkowymi
+
+=== kłopoty z pamięcią
+
+=== Problemy z wydajnością mechnika : 
+ - sprawdź wygenerowane SQL
+ - sprawdź execution plan 
+ - sprawdź poprawność indeksów bazodanowych
+ - próba optymalizacji zapytania
+ - próba rozważenia zapytania natywnego
+     - jpql wspiera tylko niektóre podzbiory features z bazy danych 
+     - SQL dla danej bazy może być wysoce wyspecjalizowany
+
+=== @Basic(lazy) 
+
+- Wymagane narzędzie do instrumentalizacji bytecodu
+
+
+=== OutOfMemoryException
+- czyszczenie cache
+- flush dla kontekstu
+- dla przetwarzania wsadowego : hibernate.jdbc.batch.size = 50
+- wyłączenie cache drugiego poziomu hibernate.cache.use_second_level_cache = false
+
+
+=== Ładowanie klas do kontekstu z poziomu SessionFactory
+[source,java]
+----
+sessionFactory = new AnnotationConfiguration()
+                    .addPackage("test.animals")
+                    .addAnnotatedClass(Flight.class)
+                    .addAnnotatedClass(Sky.class)
+                    .addAnnotatedClass(Person.class)
+                    .addAnnotatedClass(Dog.class);
+----
+
+WARNING: JPA to nie zadziała 
+
+=== Jak pokazać parametryzacje zapytań SQL ?
+==== Log4jdbc
+
+Zależność :
+
+[source,groovy]
+----
+ compile 'org.lazyluke:log4jdbc-remix:????'
+----
+
+Konfiguracja : 
+
+[source,java]
+----
+
+  @Bean
+    public Log4JdbcCustomFormatter logFormater() {
+        Log4JdbcCustomFormatter formatter = new Log4JdbcCustomFormatter();
+        formatter.setLoggingType(LoggingType.SINGLE_LINE);
+        formatter.setSqlPrefix("SQL:\r");
+        return formatter;
+    }
+----
+
+[source,txt]
+----
+log4jdbc.sqltiming.warn.threshold=1000
+log4jdbc.dump.sql.maxlinelength=0
+log4jdbc.dump.sql.addsemicolon=true
+log4jdbc.trim.sql=true
+log4jdbc.trim.sql.extrablanklines=false
+----
+ 
+==== P6Spy 
+
+Link do biblioteki : https://sourceforge.net/projects/p6spy/
+
+Dodajemy zależność : 
+
+[source,xml]
+----
+  <dependency>
+		<groupId>p6spy</groupId>
+		<artifactId>p6spy</artifactId>
+		<version>???</version>
+	</dependency>
+----
+
+*** Przykład
+[source,xml]
+----
+<session-factory>
+  <property name="hibernate.connection.driver_class">com.p6spy.engine.spy.P6SpyDriver
+  </property>
+  <property name="hibernate.connection.password">password</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/test</property>
+  <property name="hibernate.connection.username">test</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+</session-factory>
+
+----
+
+Konfigurujemy właściwości : spy.properties
+
+[source,txt]
+----
+realdriver=com.mysql.jdbc.Driver
+
+#specifies another driver to use
+realdriver2=
+----
+     
+==== Log4J, Sl4j
+
+[source,xml]
+----
+log4j.logger.org.hibernate.type=trace
+----
+
+== Dobre praktyki
+
+- Ochrona przed SQL Injection
+
+WARNING:
+
+[source,java]
+----
+String searchString = getValueEnteredByUser();
+
+Query query = em.createQuery(
+"select i from Item i where i.name = '" + searchString + "'"
+);
+----
+
+ - zachowanie właściwych poziomów abstrakcji podczas modelowania relacji
+ - unikanie jawnych opercji save() - wzorzec 'unit of work'
+ - load vs get
+  Lepiej na początku jest sprawdzić czy obiekt jest null czy nie jeśli chcemy użyć metody get(). (NullPointerException problem)
+
+ -unikaj relacji dwukierunkowych
+ - tight coupling
+ - cykliczność
+ - utrzymanie spójności (musimy pamiętać aby obsłużyć dwie strony relacji)
+ - paginacja
+ - DDD agregacja
+ - unikaj merge 
+ - unikaj obiektów odłączonych
+ - pobieranie zbyt dużych ilości danych powoduje marnowanie pamięci w warstwie aplikacji
+ - identyczność obiektów a ich tożsamość w bazie
+  
+
+=== Top down (dobre dla już istniejącego kodu)
+  - implementujemy model obiektowy
+  - tworzymy encję i generujemy schemat danych
+
+===  Bottom up (gdy istnieje baza)
+ - zaczynamy pracę z istniejącym modelem danych w bazie
+ - generujemy encje i relację dzięki **reverse engineering**
+
+=== Middle out (dobre przy nowym wytwarzaniu)
+ - startujemy od strony modelu encyjnego. Tworzymy encje i relacje między nimi od podstaw
+
+=== Meet in the middle (z JDBC na Hibernate’a)
+ - startujemy z istniejącym modelem danych i gotowymi w pewnym stopniu plikami POJO po czym przekształcamy je na pełnoprawne encje.
+
+include::lock.adoc[]
+
+include::spring_jpa_integration.adoc[]
+
+include::springData.adoc[]
+
+include::envers.adoc[]
+
+== Ćwiczenia
+
+include::exercices.adoc[]
+
+http://undermineddeveloper.com/2013/09/11/hibernating/
+
+INFO
+== info adoc
+
+.Built-in
+asciidoctor-version:: {asciidoctor-version}
+safe-mode-name:: {safe-mode-name}
+docdir:: {docdir}
+docfile:: {docfile}
+imagesdir:: {imagesdir}
+
+.Custom
+sourcedir:: {sourcedir}

@@ -1,0 +1,402 @@
+
+**Cache** - zwiększenie wydajności zapytań poprzez eliminacje ponownego zapytania w bazie
+
+
+image::cache1.png[]
+
+
+== Architektura 
+
+image::cache.jpg[]
+
+- source : https://powerdream5.wordpress.com
+
+== First level cache
+   Pierwsza czynność wykonywana przez Hibernate to sprawdzenie tego obszaru pod kątem optymalizacji 
+
+ - właczone domyślnie. Nie można go wyłączyć
+ - dane są umieszczane w konteksie sesji
+ - ograniczony w ramach **Session**
+ - niszczony wraz z **Session**
+ - jeśli hibernate szuka obiektu to najpierw w cache first level jeśli go tam nie ma uderza do bazy
+ - **_Session.evict(Object object)_** -usuwa pojedyńczy obiekt z cache
+ - **_Session.clear()_** - czyści wszystkie obiekty znajdujace się aktualnie w cache
+ - operacja jak **Save** **Update** **Get**  **Load**  List wstawiają obiekt do first-cache
+ - optymalizuje operacje **EntityManager** - w obrębie **unit of work**
+ - wielokrotna operacja **find()** → jedna operacja **SELECT**
+ - wielokrotne operacja **merge()** → jedna operacja  **UPDATE** 
+ 
+ 
+== Second level cache
+ - skojarzony z **EntityManagerFactory** lub **SessionFactory**
+ - optymalizuje dostęp do encji lub kolekcji na poziomie całego kontekstu entityManagerFactory. Co sprawia, że operacja find() uderza do bazy tylko jeden raz
+ 
+WARNING: Dla bardzo dużych woluminów danych: Wyjątkowo nieefektywne ->  **Out of memory exception** 
+
+CAUTION: Wyjątkowo słabe skalowanie dla równoległych lub częstych uaktualnień danych
+ 
+ 
+=== Włączenie
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+@Cacheable
+public class Employee {
+  ...
+}
+
+---- 
+ 
+
+=== javax.persistence.sharedCache.mode
+
+*    **ALL:** wszystkie encje są cachowane
+    
+*    **NONE:** odwrotność do **ALL**
+    
+*    **ENABLE_SELECTIVE:** Buforowaniem objęte są tylko encje oznaczone **@Cacheable(true)**
+    
+*    **DISABLE_SELECTIVE:** Buforowaniem objęte są wszystkie encje z wyjątkiem tych oznaczonych **@Cacheable(false)**
+    
+*    **UNSPECIFIED:** zależna od dostawcy JPA.
+    
+[source,xml]
+----
+<persistence-unit name="ACME">
+  <shared-cache-mode>NONE</shared-cache-mode>
+</persistence-unit>
+----
+
+=== Retrieval Mode -określa jak dane mają być czytane z bufora (odwołania do EntityManagera)
+
+**    BYPASS: ignoruje cache. Buduje obiekt bezpośrednio z bazy danych
+**    USE: Jeśli dane są w cache pobiera je z bufora w przeciwnym wypadku uderza do bazy
+    
+=== Store Mode - określa jak dane mają być składowane w cache
+
+**    BYPASS: nie wstawia nic do bufora
+**    REFRESH: jeśli dane są w buforze wtedy odświeża , zamienia z danymi z bazy
+**    USE: dane pochodzą z cache
+
+
+** Opcjonalny
+** Cache na poziomie sessionFactory
+
+=== Dostawcy 
+**  Ehcache
+**  OSCache
+**  SwarmCache
+**  JBoss Cache
+
+
+*** Przykład
+
+[source,xml]
+----
+<dependency>
+  <groupId>net.sf.ehcache</groupId>
+   <artifactId>ehcache-core</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-ehcache</artifactId>
+</dependency>
+----
+
+
+
+Włączenie cache
+
+*** Przykład
+
+[source,xml]
+----
+<property name="hibernate.cache.use_second_level_cache">true </property>
+<property name="hibernate.cache.region.factory_class">
+ net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
+
+<session-factory>
+<property name="connection.driver_class">org.h2.Driver</property>
+<property name="connection.url">jdbc:h2:file:./chapter12</property>
+<property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+<property name="hibernate.hbm2ddl.auto">create</property>
+<property name="hibernate.show_sql">true</property>
+<property name="hibernate.discriminator.ignore_explicit_for_joined">true</property>
+<property name="hibernate.generate_statistics">true</property>
+<property name="connection.username"></property>
+<property name="connection.password"></property>
+<property name="hibernate.cache.region.factory_class">
+org.hibernate.cache.ehcache.EhCacheRegionFactory
+</property>
+<mapping class="com.apress.hibernaterecipes.chapter12.recipe2.Book2"/>
+</session-factory>
+</hibernate-configuration>
+
+
+----
+
+*** Przykład
+
+[source,java]
+----
+@Entity(name = "Person")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public static class Person {
+}
+
+
+----
+
+=== Strategie 
+
+* **Read-only** - Najbardziej wydajna -  Encje są często czytane ale nigdy modyfikowane (**CacheConcurrencyStrategy.READ_ONLY**)
+* **Nonstrict** read-write - Encje są rzadko modyfikowane (**CacheConcurrencyStrategy.NONSTRICT_READ_WRITE**)
+* **Read-write** - Większy narzut Encje są modyfikowane (**CacheConcurrencyStrategy.READ_WRITE**)
+* **Transactional**  : Dostępna jedynie w środowisku zarządzanym. Gwarantuje pełną izolację transakcyjną aż do trybu powtarzalnego odczytu. Cache wspierany przez transakcyjne cache'e jak JBOSS TreeCache (**CacheConcurrencyStrategy.TRNSACTIONAL**) 
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+@Table(name="employee")
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+public class Employee {
+
+}
+----
+
+
+== Cache dla  kwerend
+
+===  Konfiguracja
+
+*** Przykład
+
+[source,xml]
+----
+<property name="hibernate.cache.use_query_cache" value="true"/>
+----
+
+
+NOTE:  Należy zawsze stosować z L2 cache : Query cache nie przechowuje wartości a przechowuje jedynie **id**
+
+NOTE: Włączenie **Query cache** ma sens dla zapytań często wykonywalnych, tak samo sparametryzowanych  
+
+*** Przykład
+
+[source.java]
+----
+
+Session session1 = SessionManager.openSession();
+try {
+Query query = session1.createQuery("from Book5 b where b.name like ?");
+query.setString(0, "%Hibernate%");
+List books = query.list();
+} finally {
+session1.close();
+}
+Session session2 = SessionManager.openSession();
+try {
+Query query = session2.createQuery("from Book5 b where b.name like ?");
+query.setString(0, "%Hibernate%");
+List books = query.list();
+} finally {
+session2.close();
+}
+ 
+ 
+ <hibernate-configuration>
+<session-factory>
+...
+<property name="hibernate.cache.use_query_cache">true</property>
+...
+</session-factory>
+</hibernate-configuration>
+
+
+@Entity
+@Data
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+public class Book5 {
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+int id;
+String title;
+}
+ 
+The test that shows the cache in action uses a method to execute the queries to reduce code
+duplication:
+ 
+
+ 
+----
+
+
+Enabling a query cache:
+[source,xml]
+----
+<property name="hibernate.cache.use_query_cache">true</property>
+----
+
+*** Przykład
+
+[source,java]
+----
+Session session = sessionFactory.openSession();
+for (int i = 0; i < 5; i++) {
+/* Line 3 */ Criteria criteria = session.createCriteria(Employee.class).setCacheable(true);
+List<Employee> employees = criteria.list();
+System.out.println("Employees found: " + employees.size());
+}
+session.close();
+----
+
+
+== Collection cache
+
+*** Przykład
+
+[source,java]
+----
+
+@OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+private List<Phone> phones = new ArrayList<>(  );
+
+...
+Person person = entityManager.find( Person.class, 1L );
+person.getPhones().size();
+
+----
+
+
+== Query level cache
+aktywowany poprzez dyrektywę : hibernate.cache.use_query_cache = true
+przetrzymuje całkowite wyniki zapytania w pamieci cache.
+
+=== aktywacja
+
+[source,xml]
+----
+
+<property name="hibernate.cache.use_query_cache" value="true" />
+
+----
+
+=== JPA
+
+*** Przykład
+
+[source,java]
+----
+
+
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.name = :name", Person.class)
+.setParameter( "name", "Przodownik pracy")
+.setHint( "org.hibernate.cacheable", "true")
+.getResultList();
+
+
+----
+
+=== Hibernate native API
+
+*** Przykład
+
+[source,java]
+----
+
+List<Person> persons = session.createQuery(
+    "select p from Person p where p.name = :name").setParameter( "name", "Przodownik pracy").setCacheable(true).list();
+
+----
+
+=== Używając JPA
+
+*** Przykład
+
+[source,java]
+----
+List<Person> persons = entityManager.createQuery(
+        "select p " +
+        "from Person p " +
+        "where p.id > :id", Person.class)
+        .setParameter( "id", 0L)
+        .setHint( QueryHints.HINT_CACHEABLE, "true")
+        .setHint( QueryHints.HINT_CACHE_REGION, "query.cache.person" )
+        .getResultList();
+----
+
+== Natywny Hibernate API
+
+*** Przykład
+
+[source,java]
+----
+List<Person> persons = session.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.id > :id")
+.setParameter( "id", 0L)
+.setCacheable(true)
+.setCacheRegion( "query.cache.person" )
+.list();
+
+
+----
+
+== Statystyki 
+
+*** Przykład
+
+[source,java]
+----
+
+
+Statistics statistics = session.getSessionFactory().getStatistics();
+SecondLevelCacheStatistics secondLevelCacheStatistics = statistics.getSecondLevelCacheStatistics( "query.cache.person" );
+long hitCount = secondLevelCacheStatistics.getHitCount();
+long missCount = secondLevelCacheStatistics.getMissCount();
+double hitRatio = (double) hitCount / ( hitCount + missCount );
+
+
+----
+
+
+== Ehcache
+
+=== RegionFactory
+
+Regiony to pojemniki na dane.
+
+==== EhCacheRegionFactory
+
+IMPORTANT: Konfigurujemy CacheManager dla każdego SessionFactory, CacheManager nie jest współdzielony dla wszystkich instancji SessionFactory w obrębie tego samego JVM.
+
+[source,xml]
+----
+<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
+----
+===== SingletonEhCacheRegionFactory
+
+IMPORTANT: Konfigurujemy CacheManager współdzielony na wielu instancji SessionFactory na tej samej maszynie wirtualnej JVM
+
+
+[source,xml]
+
+----
+
+<property
+    name="hibernate.cache.region.factory_class"
+    value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
+    
+----

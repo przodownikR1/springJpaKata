@@ -1,0 +1,235 @@
+
+== Dziedziczenie / Polimorfizm
+
+== MappedSuperclass Table per concrete class with implicit polymorphism 
+
+Właściwości klasy oznaczonej tą adnotacją będą propagowane na klasy pochodne. W relacji bazodanowej oznacza to, że kolumny będą propagowane do tabel pośredniczących tej strategii. Taka klasa nie będzie miała odwzorowania w bazie danych.
+
+NOTE: Abstract class
+
+WARNING: Klasy z adnotacją **@MappedSuperclass** nie mogą być używane do wyszukiwania oraz w zapytaniach JPQL.
+
+*** Przykład
+
+[source,java]
+----
+@MappedSuperclass
+public abstract class BillingDetails {
+@Column(name = "OWNER", nullable = false)
+private String owner;
+...
+}
+
+@Entity
+@AttributeOverride(name = "owner", column =@Column(name = "CC_OWNER", nullable = false))
+public class CreditCard extends BillingDetails {
+    @Id @GeneratedValue
+    @Column(name = "CREDIT_CARD_ID")
+    private Long id = null;
+
+    @Column(name = "NUMBER", nullable = false)
+    private String number;
+        ...
+}
+----
+
+- source https://detailfocused.wordpress.com
+
+image:tablePerConcreteClass.jpg[]
+
+
+== Tabela na każdą hierarchię klas (Table per class hierarchy /   Single-Table Strategy)
+
+**Martin Fowler Pattern** : http://martinfowler.com/eaaCatalog/singleTableInheritance.html
+
+- Symulacja dziedziczenia oparta jest na jednej tabeli.
+- Tabela zawiera kolumny dotyczące wszystkich właściwości klas
+- Kolumny zadeklarowe w podklasach muszą dopuszczą wartości **NULL**
+- do odróżnienia podklas stosuje się dodatkową kolumnę - dyskryminator (wyłącznie wartość logiczna )
+- 
+
+- source https://detailfocused.wordpress.com
+
+image::singleTable.jpg[]
+
+
+NOTE: Najbardziej wydajna oraz najprostsza ze wszystkich strategii
+Jeśli potrzebujemy korzystać z zapytań polimorficznych do klasy bazowej i podklasy zawierają niewiele własnych właściowości - wybierz tą strategię
+
+CAUTION: Dopuszczanie wartości **NULL** może stanowić zagrożenie integralności danych. Straty miejsca w bazie. Brak normalizacji danych.
+
+CAUTION: Zbyt wiele kolumn w tabeli może mieć impakt na wydajność.
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="billing_type", discriminatorType=DiscriminatorType.STRING, length=2)
+@DiscriminatorValue(value="BD")
+public class BillingDetails {
+
+}
+@Entity
+@Table(name = "employee")
+@DiscriminatorValue(value="CC")
+public class CreditCard extends BillingDetails {
+}
+
+----
+
+* **Możliwe wartości dyskriminatora to :**  String, char, int, byte, short, boolean(including yes_no, true_false).
+
+WARNING: Dla każdej z podklas dyskryminator musi być unikalny. Jeśli go nie określimy będzie się nazywał jak podklasa 
+
+
+=== Discriminator formula
+
+*** Przykład
+
+[source,java]
+----
+
+@Entity(name = "Account")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorFormula(
+    "case when debitKey is not null " +
+    "then 'Debit' " +
+    "else ( " +
+    "   case when creditKey is not null " +
+    "   then 'Credit' " +
+    "   else 'Unknown' " +
+    "   end ) " +
+    "end "
+)
+public static class Account {
+
+    @Id
+    private Long id;
+    private String owner;
+    private BigDecimal balance;
+    private BigDecimal interestRate;
+    
+@Entity(name = "DebitAccount")
+@DiscriminatorValue(value = "Debit")
+public static class DebitAccount extends Account {
+
+    private String debitKey;
+    private BigDecimal overdraftFee;
+            
+}
+
+@Entity(name = "CreditAccount")
+@DiscriminatorValue(value = "Credit")
+public static class CreditAccount extends Account {
+
+    private String creditKey;
+    private BigDecimal creditLimit;
+ }   
+ 
+----
+
+[source,sql]
+----
+
+
+CREATE TABLE Account (
+    id int8 NOT NULL ,
+    balance NUMERIC(19, 2) ,
+    interestRate NUMERIC(19, 2) ,
+    owner VARCHAR(255) ,
+    debitKey VARCHAR(255) ,
+    overdraftFee NUMERIC(19, 2) ,
+    creditKey VARCHAR(255) ,
+    creditLimit NUMERIC(19, 2) ,
+    PRIMARY KEY ( id )
+)
+
+
+----
+
+== Tabla na każdą podklasę (Table per subclass/joined strategy.)
+
+**Martin Fowler Pattern** : http://martinfowler.com/eaaCatalog/classTableInheritance.html
+
+ - wykorzystanie relacji do emulacji dziedziczenia.
+ - realizacja za pomocą kluczy obcych
+ - osobną tabela dla każdej klasy
+ - wspólny klucz główny (klucz główny głównej tabeli jest kluczem obcym dla tabeli pochodnych)
+ - najłatwiejsze zarządzanie bazą
+ 
+NOTE: główna zaleta tej strategii to pełna normalizacja modelu relacyjnego. Jeśli potrzebujemy korzystać z zapytań polimorficznych do klasy bazowej i podklasy zawierają wiele własnych właściowości - wybierz tą strategię
+ 
+ 
+WARNING: W przypadku złożonych hierarchii wydajność nie jest do zaakceptowania (joins). Zapytania wymagaja złączenia wielu tabel, albo wielu sekwencyjnych odczytów
+ 
+ 
+ *** Przykład
+ 
+[source,java]
+----
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+public class BillingDetails {
+}
+@Entity
+@Table
+@PrimaryKeyJoinColumn(name="billing_id")
+public class CreditCard extends BillingDetails {
+}
+----
+
+
+=== @PrimaryKeyJoinColumns
+
+
+- source :https://detailfocused.wordpress.com 
+
+image::joinedStrategy.jpg[]
+
+
+
+== Tabela na klasę konkretną  (Table per concrete class)
+
+
+**Martin Fowler Pattern**  http://martinfowler.com/eaaCatalog/concreteTableInheritance.html
+
+- Hibernate tworzy osobną tabelę na każdą podklasę.
+
+CAUTION: 
+* Słaba obsługa asocjacji polimorficznych.
+
+NOTE: Jeśli asocjacje i zapytania polimorficzne nie są potrzebne - wybierz tę strategię
+Bardzo dobra wydajność jeśli będziemy pobierali dane jedynie z danego węzła relacji. 
+
+WARNING: Zapytania polimorficzne zwracające obiekty wszystkich klas pasujący stwarzają duże problemy.
+  Zapytanie dotyczące klasy bazowej musi zostać robite na n-operacji **SELECT** po czym dane grupowane są za pomocą operacji bazodanowej **UNION**
+  Unie są z kolei słabo przenośne.
+  
+WARNING:  zmiana typu jednej właściwości klasy propaguje się na zmiany kolumny w tabelach pochodnych. Każda operacja **CRUD** na tabeli 'root' pociąga zmianę w sub-tabelach  
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public class BillingDetails {
+@Id
+@GeneratedValue(strategy = GenerationType.TABLE)
+@Column(name="id")
+private long id;
+}
+@Entity
+@AttributeOverrides({
+@AttributeOverride(name="id", column = @Column(name="id")),
+@AttributeOverride(name="name", column = @Column(name="name"))
+})
+public class CreditCard extends BillingDetails {
+}
+----
+
+
+image:tablePerConcreteClass.jpg[]
+

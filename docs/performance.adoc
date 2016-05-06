@@ -1,0 +1,437 @@
+== Wydajność (Performance)
+
+== Lazy
+
+** leniwe ładowanie to jeden z features Hibernate. Pozwala ładować grafy obiektów w momencie faktycznej potrzeby skorzystania z tych danych.
+** w wielu wypadkach zapewnia znaczny wzrost wydajności poprzez ograniczenie niepotrzebnych strzałów do bazy
+** zmniejsza czas odpowiedzi
+** zapobiega zbyt dużemu zużyciu pamięci
+** problem LazyLoadingException 
+
+
+=== Sposoby inicjalizacji : 
+
+==== Fizyczne 'dotknięcie' kolekcji
+
+*** Przykład
+
+[source,java]
+----
+Person person = this.em.find(Person.class, id);
+person.getPhones().size();
+----
+
+==== Fetch Join
+
+*** Przykład
+
+[source,java]
+----
+Query q = this.em.createQuery("SELECT p FROM Person p JOIN FETCH p.phones ph WHERE p.id = :id");
+q.setParameter("id", id);
+person = (Person) q.getSingleResult();
+----
+
+==== Fetch Join z Criteria
+
+*** Przykład
+
+[source,java]
+----
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery q = cb.createQuery(Person.class);
+Root p = q.from(Person.class);
+p.fetch("phones", JoinType.INNER);
+q.select(p);
+q.where(cb.equal(p.get("id"), personId));
+
+Person person = (Person)this.em.createQuery(q).getSingleResult();
+----
+
+==== Named Entity Graph
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+@NamedEntityGraph(name = "graph.Person.phones", 
+      attributeNodes = @NamedAttributeNode("phones"))
+public class Person implements Serializable {
+
+----
+
+*** Przykład
+
+[source,java]
+----
+EntityGraph graph = this.em.getEntityGraph("graph.Person.phones");
+  
+Map hints = new HashMap();
+hints.put("javax.persistence.fetchgraph", graph);
+  
+Person person = this.em.find(Person.class, personId, hints);
+----
+
+
+==== Dynamiczny graf
+
+*** Przykład
+
+[source,java]
+----
+EntityGraph graph = this.em.createEntityGraph(Person.class);
+Subgraph phonesGraph = graph.addSubgraph("phones");
+    
+Map hints = new HashMap();
+hints.put("javax.persistence.loadgraph", graph);
+  
+Person person = this.em.find(Person.class, personId, hints);
+----
+
+=== less lazy loading
+
+*** Przykład
+
+[source,java]
+----
+@ManyToMany
+@Fetch(FetchMode.JOIN)
+public Set<ArtEntity> getArtEntities() {
+return artEntities;
+}
+----
+
+=== Batching for Performance
+
+*** Przykład
+
+[source,java]
+----
+@ManyToMany
+@BatchSize(size = 10)
+public Set<ArtEntity> getArtEntities() {
+return artEntities;
+}
+----
+
+
+
+=== OpenInView
+
+*** Przykład
+
+[source,xml]
+----
+<bean name="openEntityManagerInViewInterceptor" class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor" />
+----
+
+*** Przykład
+
+[source,xml]
+----
+<filter>
+<filter-name>OpenEntityManagerInViewFilter</filter-name>
+<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-
+class>
+</filter>
+<!—Map the EntityManager Filter to all requests -->
+<filter-mapping>
+<filter-name>OpenEntityManagerInViewFilter</filter-name>
+<url-pattern>/*</url-pattern>
+</filter-mapping>
+----
+
+* Analiza logów Hibernate - poprawa wolnych zapytań
+
+** Analiza statystyk
+*** wolne zapytania
+*** zbyt wiele zapytań n+1 problem
+*** trafienia w cache
+
+
+* Wybór strategii pobierania danych : fetchType
+
+===  FETCH JOIN
+
+*** Przykład
+
+[source,sql]
+----
+  SELECT DISTINCT a FROM Author a JOIN FETCH a.books b
+----
+
+@NamedEntityGraph
+
+[source,sql]
+----
+@NamedEntityGraph(name = "graph.AuthorBooksReviews",  attributeNodes = @NamedAttributeNode(value = "books"))
+----
+ 
+* Ciężkie zapytania np raporty powinny być wykonywane po stronie bazy
+
+@NamedStoredProcedureQuery
+
+* Użyj cache
+** pierwszy poziom cache aktywowany jest domyślnie 
+** drugi poziom cache jest włączany świadomie przez programistę. Konfigurowany dla klasy i kolekcji  
+** buforowanie zapytań. Jest użyteczny podczas częstego wykonywania zapytań z takimi samymi parametrami. 
+
+
+
+* Masowe operacje UPDATE i DELETE
+CriteriaUpdate and CriteriaDelete 
+
+*** Przykład
+
+[source,java]
+----
+CriteriaBuilder cb = this.em.getCriteriaBuilder();
+  
+// create update
+CriteriaUpdate<Order> update = cb.createCriteriaUpdate(Order.class);
+
+// set the root class
+Root e = update.from(Order.class);
+
+// set update and where clause
+update.set("amount", newAmount);
+update.where(cb.greaterThanOrEqualTo(e.get("amount"), oldAmount));
+
+// perform update
+this.em.createQuery(update).executeUpdate();
+----
+
+* Strategie pobierania (Fetching Strategies)
+
+
+== FETCH
+
+
+=== Eager
+**  natychmiatowe
+**  czasem wygodne do użycia
+**  znaczący przyrost danych pobieranych z bazy
+**  sekwencyjne odczyty z bazy lub bufora danych 
+** **FetchType.EAGER** -  domyślne dla @OneToOne i @ManyToOne
+   
+=== Lazy
+**  opóźniony/odroczony dostęp do danych
+**  proxy
+**  tworzy nowe zapytanie do bazy danych jeśli obiekt nie istnieje w buforze
+** **FetchType.LAZY** -  domyślne dla @OneToMany i @ManyToMany
+**  jest możliwe jedynie, gdy podstawowa encja jest w stanie managed
+**  pobranie encji w stanie  **Detached** spowoduje wyrzucenie wyjątku - LazyInitializationException
+
+==== Zapobieganie LazyInitializationException
+
+**   ponowne utrwalenie encji
+**   pobieranie przy pomocy Fetch JOIN
+**   wybór Eager zamiast Lazy
+**   openSessionInView pattern
+**   EntityGraph
+**   isInitialized() - sprawdzamy czy pośrednik jest zaincjalizowany
+**   initialize() - programowe wymuszenie inicjalizacji
+   
+   
+=== Fetch Join
+
+**  obiekt czy kolekcja zostaje pobrana razem z obiektem głównym przez zastosowanie złączenia **JOIN FETCH**
+   
+==== INNER JOIN FETCH** - dla pobrania pojedynczych obiektów
+ 
+==== LEFT JOIN FETCH** – dla pobrania kolekcji
+   
+   
+=== Batch
+   - poprawa wydajności dla strategii lazy poprzez pobranie grupy obiektów. To samo dotyczy się poprawy strategii eager.
+   
+NOTE: To tak naprawdę nie strategia a wskazówka mająca na celu zwiększenia wydajności innych strategii jak : lazy czy eager. To dobra strategia dla mniej doświadczonych developerów
+     , którzy chcą osiągnąć zadowalającą wydajność bez potrzeby wnikliwej analizy kodu SQL.   
+     
+   
+=== Extra lazy
+** tylko dla kolekcji
+** nie dociąga całej kolekcji
+**  @LazyCollection(LazyCollectionOption.EXTRA)
+**  niektóre operacje jak : size(), contains(), get(), etc. nie odpalają pełnej inicjalizacji kolekcji 
+   
+==== EXTRA
+
+**  .size() , .contains() etc nie inicjalizują pełnej kolekcji
+
+==== TRUE
+ 
+** inicjalizacja pełnej kolekcji przy pierwszym odwołaniem do niej
+
+==== FALSE
+ 
+** Eager loading
+   
+    
+
+=== Określanie głębi wczytywanch obiektów
+ Sterowanie max liczbą złączonach tabel w jednym zapytania SQL. 
+ 
+NOTE: parametr odpowiedzialny za to ustawienie to : **hibernate.max_fetch_depth** 
+
+[source,java]
+----
+List<Author> authors = this.em.createQuery(
+        "SELECT DISTINCT a FROM Author a JOIN FETCH a.books b", 
+        Author.class).getResultList();
+----
+
++ Relationships gets loaded in same query
+- Requires a special query for each use case
+- Creates cartesian product
+
+         
+ - @NamedEntityGraph
+ Declaratively defines a graph of entities which will be loaded
+[source,java]
+----
+@NamedEntityGraph(
+    name = "graph.AuthorBooksReviews", 
+
+    attributeNodes = 
+@NamedAttributeNode(value = "books")
+)
+----
+
+
+
+
+== Kroki optymalizacji 
+
+=== Dziennik zdarzeń 
+** trafienia w bufor 
+** koszty złączenia czy może dwa osobne selecty 
+** czas wykonywania zapytań
+
+=== Analiza przypadków użycia
+
+** próby wykrycia  problemu n+1
+** analiza wywołań zapytań w celu zmniejszenia liczby i złożoności dla danej akcji biznesowej
+
+=== Dostrajanie parametrów
+** hibernate.max_fetch_depth
+** hibernate batch fetch
+** dobór najlepszego stylu kaskadowego dla każdej relacji w celu zmniejszenia wywołania liczby transakcji i zapytań do bazy poprzez zarządce transakcji
+ 
+  
+  
+
+=== Gradle
+
+*** Przykład
+
+[source,groovy]
+----
+ext {
+    hibernateVersion = 'hibernate-version-you-want'
+}
+
+buildscript {
+    dependencies {
+        classpath "org.hibernate:hibernate-gradle-plugin:$hibernateVersion"
+    }
+}
+
+hibernate {
+    enhance {
+        enableLazyInitialization= false
+        enableDirtyTracking = false
+        enableAssociationManagement = false
+    }
+}
+}
+----
+
+=== Maven
+
+*** Przykład
+
+[source,xml]
+----
+<build>
+    <plugins>
+        [...]
+        <plugin>
+            <groupId>org.hibernate.orm.tooling</groupId>
+            <artifactId>hibernate-enhance-maven-plugin</artifactId>
+            <version>$currentHibernateVersion</version>
+            <executions>
+                <execution>
+                    <configuration>
+                        <failOnError>true</failOnError>
+                        <enableLazyInitialization>true</enableLazyInitialization>
+                        <enableDirtyTracking>true</enableDirtyTracking>
+                        <enableAssociationManagement>true</enableAssociationManagement>
+                    </configuration>
+                    <goals>
+                        <goal>enhance</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        [...]
+    </plugins>
+</build>
+----
+
+
+== readOnly
+
+source : __java persistence with hibernate__
+
+*** Przykład
+
+[source,java]
+----
+em.unwrap(Session.class).setDefaultReadOnly(true);
+Item item = em.find(Item.class, ITEM_ID);
+item.setName("New Name");
+em.flush(); // no update
+----
+
+
+*** Przykład
+
+[source,java]
+----
+Item item = em.find(Item.class, ITEM_ID);
+em.unwrap(Session.class).setReadOnly(item, true);
+item.setName("New Name");
+em.flush() //no update 
+----
+
+*** Przykład
+
+[source,java]
+----
+org.hibernate.Query query = em.unwrap(Session.class).createQuery("select i from Item i");
+query.setReadOnly(true).list();
+List<Item> result = query.list();
+for (Item item : result)
+  item.setName("New Name");
+em.flush(); // no update
+----
+
+*** Przykład
+
+[source,java]
+----
+Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.QueryHints.READ_ONLY,true );
+----
+
+== Inne możliwe problemy i wskazówki:
+
+** aktualizowanie encji jedna-po-drugiej zamiast zrobienie tego w pojedyńczym kwerendzie
+ 
+** ciężkie procesowanie po stronie Javy zamiast bardziej wydajnego procesowania po stronie bazy 
+  
+** dla małych woluminów danych Eager loading zawsze sens.
+
+
+

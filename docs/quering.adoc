@@ -1,0 +1,1615 @@
+
+== Kwerandy
+
+== Możliwe formy zapytań : 
+===  zapytania HQL, JPQL
+**  Odpowiednik SQL
+** zamiast tabel i pól operuje na obiektach i jego właściwościach.
+** przenośny zależny od dostawcy
+** 
+
+
+=== Możliwe typy wników kwerend: 
+
+** Typy bazowe : String, int, boolean, JDBC types, etc
+
+*** Przykład
+
+[source,java]
+----
+  List<String> lastNames = session.createQuery("SELECT e.firstName FROM "+Employee.class.getSimpleName().list();
+----
+
+** Encje
+
+*** Przykład
+
+[source,java]
+----
+TypedQuery<Person> typedQuery = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.name like :name", Person.class
+);
+
+----
+
+** Tablice objektów
+
+*** Przykład
+
+[source,java]
+----
+List result = em.createQuery("SELECT e.name, e.department.name FROM Project p JOIN p.employees e WHERE p.name = ?1 ORDER BY e.name")
+  .setParameter(1, projectName)
+   .getResultList();
+int count = 0;
+for (Iterator i = result.iterator(); i.hasNext();) {
+Object[] values = (Object[]) i.next();
+....
+
+}
+----
+
+** Tuple
+
+*** Przykład
+
+[source,java]
+----
+
+
+List<Object[]> tuples = entityManager.createNamedQuery("find_person_with_phones_by_name" ).setParameter("name", "J%").getResultList();
+
+for(Object[] tuple : tuples) {
+    Person person = (Person) tuple[0];
+    Phone phone = (Phone) tuple[1];
+}
+
+
+----
+
+** DTO generowane przez konstruktor
+
+*** Przykład
+
+[source,java]
+----
+String sql = "select pl.java.scalatech.BookDTO(b.name, b.id, b.isbn) from Book b";
+Query query = entityManager.createQuery(sql);
+List<BookDTO> books = query.getResultgetResultList();
+
+----
+
+
+*** Przykład 
+
+[source,java]
+----
+
+Query query = session.createQuery(sql);
+
+----
+
+=== Criteria API
+
+
+=== native SQL
+
+
+=== Hibernate Criteria
+
+** Przykład
+
+[source,java]
+----
+Criteria criteria = session.createCriteria(Employee.class);
+criteria.add(Restrictions.eq("department.name", "account"));
+List list = criteria.list();
+----
+
+== SELECT
+
+SELECT <select_expression>
+FROM <from_clause>
+[WHERE <conditional_expression>]
+[ORDER BY <order_by_clause>]
+
+== Projekcja / Projection
+
+ - zwracanie tylko interesujących użytkownika zapytań
+ - redukcja użycia pamięci 
+ - zwiększona szybkość wykonania
+ - zwiększona szybkość przetwarzania
+ 
+ 
+** Przykład
+ 
+[source,java]
+----
+String sql = "select b.name from Book b";
+
+sql = "select b.id, b.name , b.isbn from Book c";
+
+Query query = entityManager.createQuery(sql);
+List<Object[]> books = query.getResultList();
+
+----
+
+
+=== SQL result-mapping
+
+** Przykład
+
+[source,java]
+----
+org.hibernate.SQLQuery query = session.createSQLQuery("select {i.*} from ITEM {i}").addEntity("i", Item.class);
+----
+
+=== Projekcja z użyciem konstruktora
+ 
+** Przykład 
+ 
+[source,java]
+----
+
+String sql = "select pl.java.scalatech.BookDTO(b.name, b.id, b.isbn) from Book b";
+Query query = entityManager.createQuery(sql);
+List<BookDTO> books = query.getResultgetResultList();
+
+---- 
+ 
+== Restriction /  where –  zawężamy
+
+** Przykład
+
+[source,java]
+----
+String sql = "from Book where name="Qua vadis";
+sql = "from Book where name like '%Qu'";
+sql = "from Book where price > 40";
+
+Query query = session.createQuery(sql);
+List<Book> books = query.getResultList();
+
+----
+=== Like
+
+** Przykład
+
+[source,java]
+----
+try {
+Query query = em.createQuery(
+"select p from Person p where firstName like '%a%'"
+);
+Person person = (Person) query.getSingleResult();
+// ...
+} catch (NonUniqueResultException ex) {
+// ...
+}
+----
+
+== Zwiększanie wydajności poprzez agregacje po stronie bazy
+
+== Natywna kwerenda SQL
+
+** Przykład 1
+
+[source,java]
+----
+SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM product");
+List<Object[]> list = sqlQuery.list();
+for(Object[] object : list){
+System.out.println("\nId: " + object[0]);
+System.out.println("Name: " + object[1]);
+System.out.println("Price: " + object[2]);
+System.out.println("Category id: " + object[3]);
+}
+
+SQLQuery sqlQuery = session.createSQLQuery("SELECT id, name, price,
+category_id FROM product");
+sqlQuery.addScalar("id", new org.hibernate.type.LongType());
+sqlQuery.addScalar("name", new org.hibernate.type.StringType());
+sqlQuery.addScalar("price", new org.hibernate.type.DoubleType());
+sqlQuery.addScalar("category_id", new
+org.hibernate.type.LongType());
+sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+List list = sqlQuery.list();
+
+List<Object[]> persons = entityManager.createNativeQuery(
+    "SELECT * FROM person" )
+.getResultList();
+
+----
+** Przykład 2
+
+[source,java]
+----
+SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM category");
+sqlQuery.addEntity(Category.class);
+List<Category> list = sqlQuery.list();
+for(Category category: list){
+System.out.println("\nCategory id: " + category.getId());
+System.out.println("Category name: " + category.getName());
+}
+----
+
+** Przykład 3
+
+[source,java]
+----
+  List<String> lastNames = session.createQuery("SELECT e.firstName FROM "+Employee.class.getSimpleName()
+  + " e  e.company c join c.depts d WHERE d.name = :name")
+  .setParameter("name", "JAVA").list();
+  og.info("lastNames {}",lastNames);
+----
+
+=== Natywne / NATIVE
+
+** Przykład
+
+[source,java]
+----
+List<Object[]> persons = entityManager.createNativeQuery(
+    "SELECT id, name FROM person" )
+.getResultList();
+
+for(Object[] person : persons) {
+    BigInteger id = (BigInteger) person[0];
+    String name = (String) person[1];
+}
+----
+
+
+
+== HQL kwerendy
+
+** Przykład
+
+[source,java]
+----
+Query query = session.createQuery("FROM Category");
+List<Category> list = query.list();
+System.out.println("Category size: " + list.size());
+
+Query query = session.createQuery("FroM Category, Product");
+List list = query.list();
+System.out.println("Result size: " + list.size());
+
+Query query = session.createQuery("SELECT id, name from Category");
+List list = query.list();
+System.out.println("Result size: " + list.size());
+
+----
+
+=== JPA natywne kwerendy
+
+** Przykład
+
+[source,java]
+----
+
+List<Person> persons = entityManager.createNativeQuery("SELECT * FROM person", Person.class ).getResultList();
+
+----
+
+=== Natywne kwerendy z aliasami
+
+** Przykład
+
+[source,java]
+----
+List<Object> entities = session.createSQLQuery(
+    "SELECT {pr.*}, {pt.*} " +
+    "FROM person pr, partner pt " +
+    "WHERE pr.name = pt.name" )
+.addEntity( "pr", Person.class)
+.addEntity( "pt", Partner.class)
+.list();
+----
+
+
+== Zapytania nazywane / NamedQuery
+
+W celu wygodniejszego używania oraz większej wydajności korzysta się tzw nazwanych zapytań.
+
+** prekompilacja
+** powiązanie z encją 
+(( model programowy
+
+
+ *@NamedQuery* : pojedyńcze natywne zapytanie
+ *@NamedQueries* : agregacja kilku natywnych zapytań
+
+** Przykład
+
+[source,java]
+----
+@NamedQuery(name="getCategoryNameByName", query="FROM Category c WHERE c.name=:name")
+
+session.getNamedQuery("getCategoryNameByName");
+
+@NamedQueries(
+{
+@NamedQuery(
+name="getCategoryNameByName",
+query="FROM Category c WHERE c.name=:name"
+),
+@NamedQuery(
+name="getCategoryNameById",
+query="FROM Category c WHERE c.id=:id"
+),
+}
+)
+
+----
+
+IMPORTANT: Zapytania nazwane umieszcza się na klasie encyjnej
+
+** Przykład
+
+[source,java]
+----
+
+@NamedQueries({
+@NamedQuery(name="Company.findAll",query="SELECT c FROM Company c"),
+@NamedQuery(name="Company.findByPrimaryKey", query="SELECT c FROM Company c WHERE c.id = :id")})
+Query q = entityManager.getNamedQuery("Company.findAll");
+
+----
+
+===  Natywne w konfiguracja z JOIN
+
+** Przykład
+
+[source,java]
+----
+
+
+@NamedNativeQuery(
+    name = "find_person_with_phones_by_name",
+    query =
+        "SELECT " +
+        "   pr.id AS \"pr.id\", " +
+        "   pr.name AS \"pr.name\", " +
+        "   pr.nickName AS \"pr.nickName\", " +
+        "   pr.address AS \"pr.address\", " +
+        "   pr.createdOn AS \"pr.createdOn\", " +
+        "   pr.version AS \"pr.version\", " +
+        "   ph.id AS \"ph.id\", " +
+        "   ph.person_id AS \"ph.person_id\", " +
+        "   ph.number AS \"ph.number\", " +
+        "   ph.type AS \"ph.type\" " +
+        "FROM person pr " +
+        "JOIN phone ph ON pr.id = ph.person_id " +
+        "WHERE pr.name LIKE :name",
+    resultSetMapping = "person_with_phones"
+)
+ @SqlResultSetMapping(
+     name = "person_with_phones",
+     entities = {
+         @EntityResult(
+             entityClass = Person.class,
+             fields = {
+                 @FieldResult( name = "id", column = "pr.id" ),
+                 @FieldResult( name = "name", column = "pr.name" ),
+                 @FieldResult( name = "nickName", column = "pr.nickName" ),
+                 @FieldResult( name = "address", column = "pr.address" ),
+                 @FieldResult( name = "createdOn", column = "pr.createdOn" ),
+                 @FieldResult( name = "version", column = "pr.version" ),
+             }
+         ),
+         @EntityResult(
+             entityClass = Phone.class,
+             fields = {
+                 @FieldResult( name = "id", column = "ph.id" ),
+                 @FieldResult( name = "person", column = "ph.person_id" ),
+                 @FieldResult( name = "number", column = "ph.number" ),
+                 @FieldResult( name = "type", column = "ph.type" ),
+             }
+         )
+     }
+ ),
+
+
+----
+=== Zapytania nazywane podejście programistyczne
+
+** Przykład
+
+[source,java]
+----
+Query findPersonQuery = em.createQuery("select p from Person p");
+em.getEntityManagerFactory().addNamedQuery("personQuery", findPersonQuery);
+Query query =
+em.createNamedQuery("personQuery");
+----
+
+
+=== Tuple
+
+** Przykład
+
+[source,java]
+----
+
+
+List<Object[]> tuples = entityManager.createNamedQuery("find_person_with_phones_by_name" ).setParameter("name", "J%").getResultList();
+
+for(Object[] tuple : tuples) {
+    Person person = (Person) tuple[0];
+    Phone phone = (Phone) tuple[1];
+}
+
+----
+
+== FROM
+
+** Przykład
+
+[source,java]
+----
+
+String sql = "from Book";
+sql = "from Book b";
+sql = "from Book as book";
+sql = "pl.java.scalatech.Book";
+
+Query query = session.createQuery(sql);
+List<Book> books = query.getResultgetResultList();
+
+----
+
+** Przykład
+
+[source,java]
+----
+
+Query query = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.name like :name"
+);
+
+TypedQuery<Person> typedQuery = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.name like :name", Person.class
+);
+
+----
+
+=== Native
+
+** Przykład
+
+[source,java]
+----
+
+@NamedQueries(
+    @NamedQuery(
+        name = "get_person_by_name",
+        query = "select p from Person p where name = :name"
+    )
+)
+
+Query query = entityManager.createNamedQuery( "get_person_by_name" );
+
+TypedQuery<Person> typedQuery = entityManager.createNamedQuery(
+    "get_person_by_name", Person.class
+);
+
+
+----
+
+
+=== Hint
+
+** Przykład
+
+[source,java]
+----
+
+
+Query query = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.name like :name" )
+// timeout - in milliseconds
+.setHint( "javax.persistence.query.timeout", 2000 )
+// flush only at commit time
+.setFlushMode( FlushModeType.COMMIT );
+
+----
+
+
+
+==== javax.persistence.query.timeout
+
+** definujemy timeout dla kwerendy
+
+   
+==== javax.persistence.fetchgraph
+
+** definujemy EntityGraph
+   
+
+==== org.hibernate.cacheMode
+
+** definujemy rodzaj buforowania
+   
+==== org.hibernate.cacheable
+
+** definujemy czy kewrenda ma być buforowana
+   
+==== org.hibernate.cacheRegion
+
+** definujemy nazwę regionu bufora
+ 
+==== org.hibernate.comment
+
+** oznaczamy opisowo daną kwerende
+   
+==== org.hibernate.fetchSize
+
+** definujemy fetchSize
+
+==== org.hibernate.flushMode
+
+** definujemy flushMode dla kwerendy
+    
+==== org.hibernate.readOnly
+
+** definujemy czy interesujący nas obiekt  ma być tylko do odczytu 
+
+
+=== Timestamp
+
+** Przykład
+
+[source,java]
+----
+
+   Query query = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.createdOn > :timestamp" )
+    .setParameter( "timestamp", timestamp, TemporalType.DATE );
+----
+
+=== Konkadenacja
+
+** Przykład
+
+[source,java]
+---- 
+String name = entityManager.createQuery(
+    "select 'Customer ' || p.name " +
+    "from Person p " +
+    "where p.id = 1", String.class )
+.getSingleResult();
+----
+
+=== Porównania
+
+** Przykład
+
+[source,java]
+----
+
+
+// numeric comparison
+List<Call> calls = entityManager.createQuery(
+    "select c " +
+    "from Call c " +
+    "where c.duration < 30 ", Call.class )
+.getResultList();
+
+// string comparison
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.name like 'John%' ", Person.class )
+.getResultList();
+
+// datetime comparison
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.createdOn > '1950-01-01' ", Person.class )
+.getResultList();
+
+// enum comparison
+List<Phone> phones = entityManager.createQuery(
+    "select p " +
+    "from Phone p " +
+    "where p.type = 'MOBILE' ", Phone.class )
+.getResultList();
+
+// boolean comparison
+List<Payment> payments = entityManager.createQuery(
+    "select p " +
+    "from Payment p " +
+    "where p.completed = true ", Payment.class )
+.getResultList();
+
+// boolean comparison
+List<Payment> payments = entityManager.createQuery(
+    "select p " +
+    "from Payment p " +
+    "where type(p) = WireTransferPayment ", Payment.class )
+.getResultList();
+
+// entity value comparison
+List<Object[]> phonePayments = entityManager.createQuery(
+    "select p " +
+    "from Payment p, Phone ph " +
+    "where p.person = ph.person ", Object[].class )
+.getResultList();
+
+
+----
+
+
+
+=== Like
+
+** Przykład
+
+[source,java]
+----
+
+Query query = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.name like ?1" )
+.setParameter( 1, "J%" );
+
+
+----
+
+== Kwerenda z wielu podmiotów
+
+** Przykład 1
+
+[source,java]
+----
+
+List<Object[]> persons = entityManager.createQuery(
+    "select distinct pr, ph " +
+    "from Person pr, Phone ph " +
+    "where ph.person = pr and ph is not null", Object[].class)
+.getResultList();
+
+List<Person> persons = entityManager.createQuery(
+    "select distinct pr1 " +
+    "from Person pr1, Person pr2 " +
+    "where pr1.id <> pr2.id " +
+    "  and pr1.address = pr2.address " +
+    "  and pr1.createdOn < pr2.createdOn", Person.class )
+.getResultList();
+
+
+----
+
+
+** Przykład 2
+
+[source,java]
+----
+
+
+public class CallStatistics {
+
+    private final long count;
+    private final long total;
+    private final int min;
+    private final int max;
+    private final double abg;
+
+    public CallStatistics(long count, long total, int min, int max, double abg) {
+        this.count = count;
+        this.total = total;
+        this.min = min;
+        this.max = max;
+        this.abg = abg;
+    }
+
+    //Getters and setters omitted for brevity
+}
+
+CallStatistics callStatistics = entityManager.createQuery(
+    "select new org.hibernate.userguide.hql.CallStatistics(" +
+    "    count(c), " +
+    "    sum(c.duration), " +
+    "    min(c.duration), " +
+    "    max(c.duration), " +
+    "    avg(c.duration)" +
+    ")  " +
+    "from Call c ", CallStatistics.class )
+.getSingleResult();
+
+
+----
+
+== Dynamiczna instancja - przykład 
+
+** Przykład 
+
+[source,java]
+----
+
+
+List<List> phoneCallDurations = entityManager.createQuery(
+    "select new list(" +
+    "    p.number, " +
+    "    c.duration " +
+    ")  " +
+    "from Call c " +
+    "join c.phone p ", List.class )
+.getResultList();
+
+
+----
+
+== Dynamiczna mapa - przykład
+
+** Przykład
+
+[source,java]
+----
+
+
+List<Map> phoneCallTotalDurations = entityManager.createQuery(
+    "select new map(" +
+    "    p.number as phoneNumber , " +
+    "    sum(c.duration) as totalDuration, " +
+    "    avg(c.duration) as averageDuration " +
+    ")  " +
+    "from Call c " +
+    "join c.phone p ", Map.class )
+.getResultList();
+
+
+----
+
+
+== Where
+
+** Przykład
+
+[source,java]
+----
+SELECT DISTINCT d FROM Department d, Employee e WHERE d = e.department
+----
+
+
+== Parametryzacja
+
+** Przykład
+
+[source,java]
+----
+Query query = em.createQuery("select i from Item i where i.auctionEnd > :endDate").setParameter("endDate", tomorrowDate, TemporalType.TIMESTAMP);
+----
+
+
+
+NOTE: Zabezpiecza przed  SQL injection 
+
+== Wstawienie przez kwerende
+
+** Przykład
+
+[source,java]
+----
+
+int insertedEntities = session.createQuery(
+    "insert into Partner (id, name) " +
+    "select p.id, p.name " +
+    "from Person p ")
+.executeUpdate();
+
+
+----
+
+=== Dopasowane operacje : Insert, Update , Delete
+
+** Przykład
+
+[source,java]
+----
+
+
+@Entity
+@Table(name = "CHAOS")
+@SQLInsert( sql = "INSERT INTO CHAOS(size, name, nickname, id) VALUES(?,upper(?),?,?)")
+@SQLUpdate( sql = "UPDATE CHAOS SET size = ?, name = upper(?), nickname = ? WHERE id = ?")
+@SQLDelete( sql = "DELETE CHAOS WHERE id = ?")
+@SQLDeleteAll( sql = "DELETE CHAOS")
+@Loader(namedQuery = "chaos")
+@NamedNativeQuery(name = "chaos", query="select id, size, name, lower( nickname ) as nickname from CHAOS where id= ?", resultClass = Chaos.class)
+public class Chaos {
+    @Id
+    private Long id;
+    private Long size;
+    private String name;
+    private String nickname;
+
+
+----
+
+=== Przykrywanie operacji na kolecjach przez adnotacje
+
+** Przykład
+
+[source,java]
+----
+
+@OneToMany
+@JoinColumn(name = "chaos_fk")
+@SQLInsert( sql = "UPDATE CASIMIR_PARTICULE SET chaos_fk = ? where id = ?")
+@SQLDelete( sql = "UPDATE CASIMIR_PARTICULE SET chaos_fk = null where id = ?")
+private Set<CasimirParticle> particles = new HashSet<CasimirParticle>();
+----
+
+== UPDATE
+
+** Przykład
+
+[source,java]
+----
+
+int updatedEntities = entityManager.createQuery("update Person p set p.name = :newName where p.name = :oldName" )
+ .setParameter( "oldName", oldName )
+ .setParameter( "newName", newName )
+ .executeUpdate();
+
+----
+
+=== Bulk update
+
+** Przykład
+
+[source,java]
+----
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+public void setManager(Department dept, Employee manager) {
+em.createQuery("UPDATE Employee e " +"SET e.manager = :name " + "WHERE e.department = :dept")
+.setParameter("name", "przodownik")
+.setParameter("dept", "JAVA")
+.executeUpdate();
+}
+----
+
+== Delete
+
+** Przykład
+
+[source,java]
+----
+int deletedEntities = entityManager.createQuery("delete Person p where p.name = :name" ).setParameter( "name", name ).executeUpdate();
+
+----
+
+[source,java]
+----
+Query query=session.createQuery("delete from Employee where status=:status");
+query.setString("status", "fired");
+int rowsDeleted=query.executeUpdate();
+----
+
+
+== Distinct
+
+** Przykład
+
+[source,java]
+----
+SELECT DISTINCT mag FROM Magazine AS mag JOIN mag.articles AS art WHERE art.published = FALSE
+----
+
+== Between
+
+** Przykład
+
+[source,java]
+----
+
+
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "join p.phones ph " +
+    "where p.id = 1L and index(ph) between 0 and 3", Person.class )
+.getResultList();
+
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.createdOn between '1999-01-01' and '2001-01-02'", Person.class )
+.getResultList();
+
+List<Call> calls = entityManager.createQuery(
+    "select c " +
+    "from Call c " +
+    "where c.duration between 5 and 20", Call.class )
+.getResultList();
+
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.name between 'H' and 'M'", Person.class )
+.getResultList();
+
+
+----
+
+== IS [NOT] EMPTY
+
+** Przykład
+
+[source,java]
+----
+ist<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.phones is empty", Person.class )
+.getResultList();
+
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where p.phones is not empty", Person.class )
+.getResultList();
+----
+
+== [NOT] MEMBER [OF]
+
+** Przykład
+
+[source,java]
+----
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where 'Home address' member of p.addresses", Person.class )
+.getResultList();
+
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "where 'Home address' not member of p.addresses", Person.class )
+.getResultList();
+----
+
+== Podzapytania
+
+** Przykład
+
+[source,java]
+----
+SELECT b FROM Book b WHERE b.price = (SELECT MAX(emp.salary) FROM Employee emp)
+----
+
+== IN
+
+** Przykład
+
+[source,java]
+----
+SELECT  FROM Person p WHERE p.sex IN ('MALE', 'FEMALE')
+----
+
+== Operacje na kolekcjach
+
+[source,java]
+----
+SELECT e FROM Company c  WHERE c.products IS NOT EMPTY
+SELECT e FROM Company c WHERE :project MEMBER OF c.products
+
+----
+
+== Sortowanie
+
+** Przykład 1
+
+[source,java]
+----
+String sql = "from Book b order by b.name asc";
+Query query = entityManager.createQuery(sql);
+List<Book> books = query.getResultList();
+
+----
+
+** Przykład 2
+
+[source,java]
+----
+
+List<Person> persons = entityManager.createQuery(
+    "select p " +
+    "from Person p " +
+    "order by p.name", Person.class )
+.getResultList();
+
+List<Object[]> personTotalCallDurations = entityManager.createQuery(
+    "select p.name, sum( c.duration ) as total " +
+    "from Call c " +
+    "join c.phone ph " +
+    "join ph.person p " +
+    "group by p.name " +
+    "order by total", Object[].class )
+.getResultList();
+
+
+----
+
+
+== Agregacje
+
+=== AVG
+
+** Przykład
+
+[source,java]
+----
+Object[] callStatistics = entityManager.createQuery(
+    "select " +
+    "    count(c), " +
+    "    sum(c.duration), " +
+    "    min(c.duration), " +
+    "    max(c.duration), " +
+    "    avg(c.duration)  " +
+    "from Call c ", Object[].class )
+.getSingleResult();
+----
+
+=== COUNT
+
+** Przykład
+
+[source,java]
+----
+Long phoneCount = entityManager.createQuery(
+    "select count( distinct c.phone ) " +
+    "from Call c ", Long.class )
+.getSingleResult();
+
+
+List<Object[]> callCount = entityManager.createQuery(
+    "select p.number, count(c) " +
+    "from Call c " +
+    "join c.phone p " +
+    "group by p.number", Object[].class )
+.getResultList();
+
+----
+
+=== MAX
+
+** Przykład
+
+[source,java]
+----
+SELECT d, COUNT(e), MAX(e.salary), AVG(e.salary) FROM Department d JOIN d.employees e GROUP BY d HAVING COUNT(e) >= 5
+
+----
+=== MIN
+
+=== SUM
+
+== GROUP BY
+
+** Przykład 1
+
+[source,java]
+----
+SELECT d.name, COUNT(e)
+FROM Department d JOIN d.employees e
+GROUP BY d.name
+----
+
+** Przyklad 2
+
+[source,java]
+----
+
+
+
+Long totalDuration = entityManager.createQuery(
+    "select sum( c.duration ) " +
+    "from Call c ", Long.class )
+.getSingleResult();
+
+List<Object[]> personTotalCallDurations = entityManager.createQuery(
+    "select p.name, sum( c.duration ) " +
+    "from Call c " +
+    "join c.phone ph " +
+    "join ph.person p " +
+    "group by p.name", Object[].class )
+.getResultList();
+
+//It's even possible to group by entities!
+List<Object[]> personTotalCallDurations = entityManager.createQuery(
+    "select p, sum( c.duration ) " +
+    "from Call c " +
+    "join c.phone ph " +
+    "join ph.person p " +
+    "group by p", Object[].class )
+.getResultList();
+
+
+----
+
+
+== HAVING
+
+** Przykład
+
+[source,java]
+----
+
+List<Object[]> personTotalCallDurations = entityManager.createQuery(
+    "select p.name, sum( c.duration ) " +
+    "from Call c " +
+    "join c.phone ph " +
+    "join ph.person p " +
+    "group by p.name " +
+    "having sum( c.duration ) > 1000", Object[].class )
+.getResultList();
+----
+
+
+
+
+== Stronicowanie
+
+** Przykład
+
+[source,java]
+----
+String sql = "from Book";
+Query query = entityManager.createQuery(sql);
+query.setFirstResult(10);
+query.setMaxResults(25);
+List<Book> books = query.getResultList();
+----
+
+== Pobieranie pojedyńczego wyniku
+
+** Przykład
+
+[source,java]
+----
+String sql = "from Book b where b.id=:id";
+Query query = entityManager.createQuery(sql);
+query.setLong("id", 1);
+Book book = (Book)query.getSingleResult();
+----
+
+WARNING:  **org.hibernate.NonUniqueResultException** gdy metoda zwróci więcej niż jedne obiekt
+
+NOTE: Zwraca pojedyńczy obiekt lub **null** jeśli takiego obiektu nie ma w bazie
+ 
+[source,java]
+----
+String hql = "from Product where price > 21.0";
+Query query = session.createQuery(hql);
+query.setMaxResults(1);
+Product product = (Product) query.uniqueResult();
+----
+ 
+
+== JOIN
+
+** Przykład 1
+
+[source,java]
+----
+SELECT d  FROM Employee e JOIN e.department d
+----
+
+** Przykład 2
+
+[source,java]
+----
+
+List<Person> persons = entityManager.createQuery(
+    "select distinct pr " +
+    "from Person pr " +
+    "join pr.phones ph " +
+    "where ph.type = :phoneType", Person.class )
+.setParameter( "phoneType", PhoneType.MOBILE )
+.getResultList();
+
+// same query but specifying join type as 'inner' explicitly
+List<Person> persons = entityManager.createQuery(
+    "select distinct pr " +
+    "from Person pr " +
+    "inner join pr.phones ph " +
+    "where ph.type = :phoneType", Person.class )
+.setParameter( "phoneType", PhoneType.MOBILE )
+.getResultList();
+
+
+----
+
+=== Join niejawny
+
+
+** Przykład
+
+[source,java]
+----
+SELECT p.number FROM Employee e, Phone p WHERE e = p.employee AND e.department.name = 'JAVA' AND p.type = 'MOBILE'
+----
+
+=== Wielokrotny Join
+
+** Przykład
+
+[source,java]
+----
+SELECT DISTINCT p FROM Department d JOIN d.employees e JOIN e.projects p
+----
+
+== JOIN LEFT
+
+** Przykład
+
+[source,java]
+----
+
+List<Person> persons = entityManager.createQuery(
+    "select distinct pr " +
+    "from Person pr " +
+    "left join pr.phones ph " +
+    "where ph is null " +
+    "   or ph.type = :phoneType", Person.class )
+.setParameter( "phoneType", PhoneType.LAND_LINE )
+.getResultList();
+
+// functionally the same query but using the 'left outer' phrase
+List<Person> persons = entityManager.createQuery(
+    "select distinct pr " +
+    "from Person pr " +
+    "left outer join pr.phones ph " +
+    "where ph is null " +
+    "   or ph.type = :phoneType", Person.class )
+.setParameter( "phoneType", PhoneType.LAND_LINE )
+.getResultList();
+
+
+List<Object[]> personsAndPhones = session.createQuery(
+    "select pr.name, ph.number " +
+    "from Person pr " +
+    "left join pr.phones ph with ph.type = :phoneType " )
+.setParameter( "phoneType", PhoneType.LAND_LINE )
+.list();
+
+
+
+----
+
+== JOIN FETCH
+
+** Przykład
+
+[source,java]
+----
+
+List<Person> persons = entityManager.createQuery(
+    "select distinct pr " +
+    "from Person pr " +
+    "left join fetch pr.phones ", Person.class )
+.getResultList();
+----
+
+== Wyrażenie IN
+
+** Przykład 1
+
+[source,java]
+----
+SELECT e FROM Employee e WHERE e.phones.type IN ('MOBILE', 'HOME')
+
+----
+
+** Przykład 2
+
+[source,java]
+----
+SELECT e FROM Employee e WHERE e.department IN (SELECT DISTINCT d
+ FROM Department d JOIN d.employees de JOIN de.projects p
+ WHERE p.name LIKE 'VA%')
+
+----
+
+
+== JPQL wspieranie standardów
+
+=== CONCAT - łącznie dwóch lub większej ilości stringów
+
+** Przykład
+
+[source,java]
+----
+
+
+List<String> callHistory = entityManager.createQuery(
+    "select concat( p.number, ' : ' ,c.duration ) " +
+    "from Call c " +
+    "join c.phone p", String.class )
+.getResultList();
+
+
+----
+
+=== SUBSTRING - wycinanie cześci stringa z danego ciągu znaków
+
+** Przykład
+
+[source,java]
+----
+
+
+List<String> prefixes = entityManager.createQuery(
+    "select substring( p.number, 0, 2 ) " +
+    "from Call c " +
+    "join c.phone p", String.class )
+.getResultList();
+
+
+----
+
+=== UPPER - zamiana na duże litery
+
+** Przykład
+
+[source,java]
+----
+List<String> names = entityManager.createQuery(
+    "select upper( p.name ) " +
+    "from Person p ", String.class )
+.getResultList();
+----
+
+=== LOWER - zamiana na małe litery
+
+** Przykład
+
+[source,java]
+----
+List<String> names = entityManager.createQuery(
+    "select lower( p.name ) " +
+    "from Person p ", String.class )
+.getResultList();
+----
+=== TRIM - usuwanie białych znaków
+ 
+** Przykład 
+ 
+[source,java]
+----
+List<String> names = entityManager.createQuery(
+    "select trim( p.name ) " +
+    "from Person p ", String.class )
+.getResultList();
+----
+=== LENGTH - obliczanie długości ciągu znaków
+ 
+** Przykład
+ 
+[source,java]
+----
+
+List<Integer> lengths = entityManager.createQuery(
+    "select length( p.name ) " +
+    "from Person p ", Integer.class )
+.getResultList();
+
+----
+
+
+=== ABS - obliczanie wartości absolutnej
+
+** Przykład
+ 
+[source,java]
+----
+
+List<Integer> abs = entityManager.createQuery(
+    "select abs( c.duration ) " +
+    "from Call c ", Integer.class )
+.getResultList();
+
+----
+
+=== MOD - obliczanie reszty z dzielenia
+
+** Przykład
+ 
+[source,java]
+----
+
+List<Integer> mods = entityManager.createQuery(
+    "select mod( c.duration, 10 ) " +
+    "from Call c ", Integer.class )
+.getResultList();
+
+----
+
+
+=== SQRT - pierwiastek
+
+** Przykład
+ 
+[source,java]
+----
+
+List<Double> sqrts = entityManager.createQuery(
+    "select sqrt( c.duration ) " +
+    "from Call c ", Double.class )
+.getResultList();
+
+----
+
+
+=== CURRENT_DATE - bieżaca data
+
+** Przykład
+
+[source,java]
+----
+
+List<Call> calls = entityManager.createQuery(
+    "select c " +
+    "from Call c " +
+    "where c.timestamp = current_date", Call.class )
+.getResultList();
+
+
+
+----
+
+
+=== CURRENT_TIME - bieżacy czas
+ 
+** Przykład
+ 
+[source,java]
+----
+
+List<Call> calls = entityManager.createQuery(
+    "select c " +
+    "from Call c " +
+    "where c.timestamp = current_time", Call.class )
+.getResultList();
+
+----
+
+=== CURRENT_TIMESTAMP - bieżaca data i czas z milisek
+
+** Przykład
+
+[source,java]
+----
+
+List<Call> calls = entityManager.createQuery(
+    "select c " +
+    "from Call c " +
+    "where c.timestamp = current_timestamp", Call.class )
+.getResultList();
+
+----
+
+== HQL functions
+
+
+=== CAST - rzutowanie 
+
+** Przykład
+
+[source,java]
+----
+
+List<String> durations = entityManager.createQuery(
+    "select cast( c.duration as string ) " +
+    "from Call c ", String.class )
+.getResultList();
+
+----
+
+=== EXTRACT 
+
+** Przykład
+
+[source,java]
+----
+
+List<Integer> years = entityManager.createQuery(
+    "select extract( YEAR from c.timestamp ) " +
+    "from Call c ", Integer.class )
+.getResultList();
+
+----
+=== YEAR
+
+** Przykład
+
+[source,java]
+----
+List<Integer> years = entityManager.createQuery(
+    "select year( c.timestamp ) " +
+    "from Call c ", Integer.class )
+.getResultList();
+
+----
+
+=== MONTH
+** użycie analogiczne jak w przykładzie wyżej
+=== DAY
+** użycie analogiczne jak w przykładzie wyżej  
+=== HOUR
+  ** użycie analogiczne jak w przykładzie wyżej
+=== MINUTE
+ ** użycie analogiczne jak w przykładzie wyżej
+===  SECOND
+** użycie analogiczne jak w przykładzie wyżej
+ 
+
+== Typ encji  
+
+** Przykład
+
+[source,java]
+----
+List<Payment> payments = entityManager.createQuery(
+    "select p " +
+    "from Payment p " +
+    "where type(p) = CreditCardPayment", Payment.class )
+.getResultList();
+List<Payment> payments = entityManager.createQuery(
+    "select p " +
+    "from Payment p " +
+    "where type(p) = :type", Payment.class )
+.setParameter( "type", WireTransferPayment.class)
+.getResultList();
+----
+
+== Case
+
+** Przykład
+
+[source,java]
+----
+
+
+List<String> nickNames = entityManager.createQuery(
+    "select " +
+    "    case p.nickName " +
+    "    when 'NA' " +
+    "    then '<no nick name>' " +
+    "    else p.nickName " +
+    "    end " +
+    "from Person p", String.class )
+.getResultList();
+
+// same as above
+List<String> nickNames = entityManager.createQuery(
+    "select coalesce(p.nickName, '<no nick name>') " +
+    "from Person p", String.class )
+.getResultList();
+
+----
+
+== Użycie konstruktora 
+
+** Przykład
+
+[source,java]
+----
+SELECT NEW pl.java.scalatech.EmployeeReport(e.firstName, e.lastName, e.salary) FROM Employee e
+----

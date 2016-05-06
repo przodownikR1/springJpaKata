@@ -1,0 +1,137 @@
+
+== Lock/Blokowanie
+
+=== Enabling Optimistic Concurrency Control (Blokowanie optymistyczne)/Blokowanie  optymistyczne z  wersjonowaniem
+
+- zakładamy, żę obecnie wykonywana transakcja na jakimś zasobie jest jedyną, która dokonuje zmian.
+ 
+- hibernate tworzy dodatkową kolumnę **@Version** możliwe typy : 
+ 
+-- int
+ 
+-- Integer
+
+-- short
+
+-- Short
+
+-- long
+
+-- Long
+
+-- java.sql.Timestamp
+
+  - podczas zatwierdzania zmian porównywalny jest orginalny numer wersji z bieżącą wartością. W razie różnicy, zatwierdzenie transakcji jest wycofane i wyrzucany jest wyjątek
+ **OptimisticLockException**
+ 
+  - nie chroni przed  **phantom read**
+
+NOTE: Wydajność 
+
+==== LockMode
+
+===== OPTIMISTIC – w czasie zatwierdzania wykonywane jest zapytanie SELECT ….. FOR UPDATE. 
+     Tylko jedna transakcja ma chwilowy dostęp do zasobu. Jeśli druga transakcja chciałby zmodyfikować obiekt zostanie wyrzucony wyjątek
+
+=====  OPTIMISTIC_FORCE_INCREMENT – to samo co wyżej. Działa nawet dla nie zmienionej wersji.
+
+*** Przykład
+
+[source,java]
+----
+
+@Entity 
+public class Book {
+ 
+@Id
+@GeneratedValue (strategy=GenerationType.TABLE)
+@Column (name="ISBN")
+private long isbn;
+ 
+@Version
+@Column (name="version")
+private Integer version;
+ 
+@Column (name="book_Name")
+private String bookName;
+
+}
+
+----
+
+
+=== Using Pessimistic Concurrency Control / Blokowanie pesymistyczne
+
+- mechanizm umiemożliwiający współbieżny dostęp do konkretnego zasobu.
+- zakładana w momencie odczytu danych aż do zakończenia transakcji
+
+CAUTION: Nie jest to najlepszy wybór dla wysoce współbieżnej aplikacji. Powoduje istotny spadek wydajności. Możemy liczyć się z zakleszczeniami (deadlock).
+
+    **READ** - blokowanie na odczyt (ochrona przed dirty reads i  unrepeatable reads)
+     Zakładany automatycznie gdy Hibernate odczytuje dane przy poziomie izolacji Repeatable Read or Serializable isolation level.
+     
+    **WRITE** - blokowanie na zapis (ochrona przed dirty reads i  unrepeatable reads)
+     Zakładany automatycznie, gdy Hibernate wstawia lub aktualizuje wiersz 
+
+==== LockMode - blokada dla konkretnego elementu
+
+===== LockMode.NONE
+ 
+**  nie wykonuj zapytania chyba, że obiektu nie ma w buforze. Pominięcie poziomów buforowania i przejście do bazy danych.
+**    Czytaj z bazy danych tylko wtedy gdy obiekt nie istnieje w buforze
+
+===== LockMode.READ
+
+** pomiń oba poziomy buforowania i dokonaj sprawdzenia wersji , aby sprawdzić czy dane w pamięci są takie same jak bazie
+**   Czytaj z bazy niezależnie od zawartości bufora  
+
+===== LockMode.WRITE
+
+ ** uzyskiwany automatycznie , gdy zarządca trwałości zapisał dane do wiersza aktualnej transakcji
+ ** **LockMode.WRITE** jest zakładany automatycznie, gdy Hibernate wstawia lub aktualizuje wiersz
+ 
+===== LockMode.UPGRADE
+
+ ** pomija poziomy buforowania, dokonuje sprawdzenia wersji i uzyskuje blokadę pesymistyczną na poziomie bazy
+ ** **LockMode.UPGRADE** może być założony, gdy użytkownik użyje SELECT ... FOR UPDATE w bazie wspierającej tą składnie.
+ 
+ 
+===== LockMode.UPGRADE_NOWAIT
+
+ ** do samo co przy **UPGRADE** ale stosuje zapytanie SELECT ... FOR UPDATE NOWAIT . Wyłącza to czekanie na zwolnienie blokad dotyczących wpółbieżności i natychmiastowe 
+ zgłoszenie wyjątku , jeśli blokady nie udało się uzyskać.
+ ** LockMode.UPGRADE_NOWAIT może być założony, gdy użytkownik użyje SELECT ... FOR UPDATE NOWAIT w bazie Oracle.
+ 
+ 
+[source,java]
+----
+public Object load(Class theClass, Serializable id, LockMode lockMode) throws HibernateException 
+public Object load(String entityName, Serializable id, LockMode lockMode) throws HibernateException
+----
+ 
+ 
+==== Blokowanie pojedyńczych encji
+
+*** Przykład
+
+[source,java]
+----
+User user = em.find(User.class, 4L);
+em.lock(user, LockModeType.PESSIMISTIC_WRITE);
+//lub
+User user = em.find(User.class, 4L, LockModeType.PESSIMISTIC_WRITE);
+---- 
+
+==== Blokowanie wszystkich encji zwracanych przez kwerende
+
+*** Przykład
+
+[source,java]
+----
+String statement = ....
+TypedQuery<User> query = em.createQuery(statement, User.class);
+query.setLockMode(LockModeType.PESSIMISTIC_READ);
+List<User> users = query.getResultList();
+----
+ 
+

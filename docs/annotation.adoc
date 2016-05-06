@@ -1,0 +1,1301 @@
+
+=== Pola
+
+Ten rodzaj mapowania  oparty jest na typach i nazwach pól.
+
+=== Metody
+
+Na poziomie właściwości klasy. Adnotację umieszcza się przy @Getter.
+
+=== Mieszany @Access
+
+
+*** Przykład
+
+[source,java]
+----
+
+@Entity
+@Access(AccessType.FIELD)
+public class Book{
+@Id
+@Setter
+@Getter
+private Long id;
+
+private String name;
+
+@Access(AccessType.PROPERTY)
+public String getName()...
+public void setName(String name)...
+}
+----
+
+
+
+== **@Entity** 
+- oznacza klasy klasy,  które mają brać udział w procesie utrwalania
+- taka klasa może być abstract
+- klasa nie może być final
+- klasa nie może zawierać pola i metody final
+- klasa musi posiadać bezargumentowy konstruktor
+- klasa musi posiadać klucz główny **@Id**
+
+CAUTION:  Dla komunikacji (distributed/web/session/serializable) powinna implementować Serializable. Klasa posiada wyróżnioną tożsamość
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+public class Simple {
+    ...
+}
+----
+
+
+== Klucze **@Id** 
+
+=== Prosty
+
+
+=== Ustawianie wartości
+
+==== ręcznie
+
+==== automatyczne
+
+
+- każda klasa encyjna musi posiadać unikalny identyfikator.
+
+*** Przykład
+
+[source,java]
+----
+@Id
+public Long id;
+----
+
+**   **Database sequence** - wykorzystuje sekwencje. Wsparcie dla baz DB2, PostgreSQL, Oracle, SAP DB.
+**   **Native generator** - wybiera jedną ze strategii generowania identyfikatorów : identity, sequence, hilo w zależności od możliwości bazy
+*** wsparcie dla kolumn identity w bazach DB2, MySQL, MS SQL Server, Sybase, HypersonicSQL. 
+**   **Increment generator** (Identity)
+**   **Hilo generator** - identyfikatory są unikalne w ramach całej bazy. 
+**   **UUID** - generuje Stringi (unikalny w sieci adres ip + znacznik czasu). Jest to  kosztowne rozwiązanie.
+**  **assigned** - pozwala aplikacji nadać identyfikator zanim obiekt zostanie zapisany.(persist, save)
+
+
+
+==== @TableGenerator
+
+*** Przykład
+
+[source,java]
+----
+@TableGenerator(name="Book_Gen", table="ID_GEN",pkColumnName="GEN_NAME", valueColumnName="GEN_VAL", initialValue=10000, allocationSize=100)
+
+@Id
+@GeneratedValue(strategy = GenerationType.TABLE,generator="Book_Gen")
+private Long id;
+
+
+----
+
+[source,java]
+----
+ @Entity public class Employee {
+        ...
+        @TableGenerator(
+            name="empGen",
+            table="ID_GEN",
+            pkColumnName="GEN_KEY",
+            valueColumnName="GEN_VALUE",
+            pkColumnValue="EMP_ID",
+            allocationSize=1)
+        @Id
+        @GeneratedValue(strategy=TABLE, generator="empGen")
+        int id;
+        ...
+    }
+
+----
+
+
+==== @SequenceGenerator
+
+*** Przykład
+
+[source,java]
+----
+@SequenceGenerator(name="Book_Gen", sequenceName="Book_Seq",initialValue=10000,allocationSize=100)
+
+@Id
+@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="Book_Gen")
+private Long id;
+
+----
+
+
+=== Klucz złożony 
+
+==== Primary key column – @Id and @IdClass
+
+*** Przykład
+
+[source,java]
+----
+public class BookPK implements Serializable{
+
+private String name;
+private String isbn;
+public int hashCode() {
+return ...;
+}
+public boolean equals(Object obj) {
+return ...;
+}
+}
+----
+
+[source,java]
+----
+@IdClass(BookPK.class)
+@Entity
+public class Book{
+@Id
+private String id;
+@Id
+private String isbn;
+}
+----
+
+
+
+====  @EmbeddedId
+
+
+*** Przykład
+
+[source,java]
+----
+
+@Entity
+class User {
+   @EmbeddedId
+   @AttributeOverride(name="firstName", column=@Column(name="fld_firstname")
+   UserId id;
+
+   Integer age;
+}
+
+@Embeddable
+class UserId implements Serializable {
+   String firstName;
+   String lastName;
+}
+----
+
+
+NOTE : Może być wykorzystywany przez  @ElementCollection
+
+=== ElementCollection
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+public class Employee {
+  @Id
+  @Column(name="EMP_ID")
+  private long id;
+  ...
+  @ElementCollection
+  @CollectionTable(
+        name="PHONE",
+        joinColumns=@JoinColumn(name="OWNER_ID")
+  )
+  private List<Phone> phones;
+  ...
+}
+----
+
+[source,java]
+----
+@Embeddable
+public class Phone {
+  private String type;
+  private String areaCode;
+  @Column(name="P_NUMBER")
+  private String number;
+  ...
+}
+----
+
+
+
+=== AttributeOverride
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Entity
+public class Employee {
+  @Id
+  private long id;
+  ...
+  @Embedded
+  @AttributeOverrides({
+    @AttributeOverride(name="startDate", column=@Column(name="START_DATE")),
+    @AttributeOverride(name="endDate", column=@Column(name="END_DATE"))
+  })
+  private Period employmentPeriod;
+  ...
+}
+
+@Entity
+public class User {
+  @Id
+  private long id;
+  ...
+  @Embedded
+  @AttributeOverrides({
+    @AttributeOverride(name="startDate", column=@Column(name="SDATE")),
+    @AttributeOverride(name="endDate", column=@Column(name="EDATE"))
+  })
+  private Period period;
+  ...
+}
+
+----
+
+== **@Table**
+**  domyślnie nazwa tabeli jest taka sama jak nazwa klasy.
+** jeśli domyślne ustawienie jest nie wystarczające z różnych powodów możemy użyć @Table
+
+*** Przykład
+
+[source,java]
+----
+@Table(name = "ITEMS",uniqueConstraints =@UniqueConstraint(name = "UNQ_NAME",columnNames = { "ITEM_NAME" })
+)
+public class Item extends AbstractEntity {
+
+    private static final long serialVersionUID = 5474170031394030929L;
+    @Column(name="ITEM_NAME")
+    private String name;
+    }
+----
+
+[source,sql]
+----
+    create table ITEMS (
+        id bigint not null,
+        ITEM_NAME varchar(255),      
+        primary key (id)
+    )
+    alter table ITEMS  add constraint UNQ_NAME unique (ITEM_NAME)
+----
+
+ 
+=== Określenie schematu bazy w persistence.xml
+[source,xml]
+----
+<entity-mappings>
+    <persistence-unit-metadata>
+        <persistence-unit-defaults>
+            <schema name="purchasing"/>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>
+    ....
+</entity-mappings>
+----
+
+=== @Index
+
+
+*** Przykład
+
+[source,java]
+----
+@Table(name = "ITEMS",
+indexes = {@Index(name = "IDX_USERNAME", columnList = "ITEM_NAME")}
+public class Item extends AbstractEntity {
+  
+    @Column(name="ITEM_NAME")
+    private String name;
+    }
+----
+
+[source,sql]
+----
+ create table ITEMS (
+        id bigint not null,     
+        ITEM_NAME varchar(255),      
+        primary key (id)
+    )
+     create index IDX_USERNAME on ITEMS (ITEM_NAME)
+----
+
+
+== **@Column**
+** analogiczne zachowanie do adnotacji @Table
+
+** insertable/updatable - określa czy dana kolumna będzie brała udział w operacjach insert/update 
+
+*** Przykład
+
+[source,java]
+----
+
+    @Column(name = "retryattempt", columnDefinition = "numeric", nullable = true)
+    private int retryAttempt = 0;
+
+    @Column(name = "messageerror", columnDefinition = "nvarchar")
+    private String messageError;
+
+    @Column(name = "messagebody", length = Integer.MAX_VALUE, columnDefinition = "nvarchar")
+    private String body;
+
+    @Column(name = "detailstatus", columnDefinition = "nvarchar")
+    @Enumerated(EnumType.STRING)
+    private DetailStatus status;
+----
+
+*** Przykład 1
+
+[source,java]
+----
+ @Column(nullable=false,scale=2,precision=2)
+ private BigDecimal price;
+----
+
+[source,sql]
+----
+ price decimal(2,2) not null
+----
+
+*** Przykład 2
+
+[source,java]
+----
+ @Column
+ private BigDecimal price;
+----
+
+[source,sql]
+----
+ price decimal(19,2)
+----
+
+*** Przykład 3
+
+[source,java]
+----
+@Column(name="ITEM_NAME",length=20,unique=true)
+----
+
+[source,sql]
+----
+create table Item (
+        id bigint not null,
+        version bigint,
+        ITEM_NAME varchar(20),
+        price decimal(2,2) not null,
+        primary key (id)
+    )
+     alter table Item  add constraint UK_bjye5lp3xnccmg4ovtumigp3v unique (ITEM_NAME)
+----
+
+*** Przykład 4
+
+[source,java]
+----
+ @Column(columnDefinition ="varchar(15) not null unique check (not substring(lower(OWNER), 0, 5) = 'admin')")
+ private String owner;
+
+----
+
+[source,sql]
+----
+ create table Item (
+        id bigint not null,
+        version bigint,
+        ITEM_NAME varchar(20),
+        owner varchar(15) not null unique check (not substring(lower(OWNER), 0, 5) = 'admin'),
+        price decimal(2,2) not null,
+        primary key (id)
+----
+
+== @Check
+
+*** Przykład
+
+[source,java]
+----
+@org.hibernate.annotations.Check(
+constraints = "AUCTIONSTART < AUCTIONEND"
+)
+public class Offer extends AbstractEntity{
+@NotNull
+protected Date auctionStart;
+@NotNull
+protected Date auctionEnd;
+}
+----
+
+[source,sql]
+----
+  create table Offer (
+        id bigint not null,
+        version bigint,
+        auctionEnd binary(255) not null,
+        auctionStart binary(255) not null,
+        offer_value decimal(19,2),
+        ITEM_ID bigint not null,
+        primary key (id),
+        check (AUCTIONSTART < AUCTIONEND)
+    )
+----
+
+
+
+== **@Transient**
+- pole nie podlega procesowi utrwalania
+
+== **@Basic**
+ - określa czy pole ma być opcjonalne (przydatne podczas generowania schematu przez Hibernate).
+ - określa również sposób pobierania danych, czy pole ma być wypełniane od razu przy odczycie obiektu czy dopiero przy pierwszym odwołaniu.
+
+
+== @Embeddable i @Embedded**
+- umożliwia osadzanie nieencyjnych obiektów Java w objektach encyjnych
+
+source: __https://en.wikibooks.org/wiki/Java_Persistence/Embeddables__
+
+image:Embeddable.PNG[]
+
+*** Przykład
+
+[source,java]
+----
+@Embeddable 
+public class EmploymentPeriod {
+  @Column(name="START_DATE")
+  private java.sql.Date startDate;
+
+  @Column(name="END_DATE")
+  private java.sql.Date endDate;
+  ....
+}
+
+----
+
+[source,java]
+----
+@Entity
+public class Employee {
+  @Id
+  private long id;
+  ...
+  @Embedded
+  private EmploymentPeriod period;
+  ...
+}
+----
+
+[source,java]
+----
+@Embeddable
+public class Address {
+
+    private String line1;
+
+    private String line2;
+
+    @Embedded
+    private ZipCode zipCode;
+
+    ...
+
+    @Embeddable
+    public static class Zip {
+
+        private String postalCode;
+
+        private String plus4;
+
+        ...
+    }
+}
+@Entity
+public class Person {
+
+    @Id
+    private Integer id;
+
+    @Embedded
+    private Name name;
+
+    ...
+}
+----
+
+@Multiple embeddable types
+[source,java]
+----
+@Entity
+public class Contact {
+
+    @Id
+    private Integer id;
+
+    @Embedded
+    private Name name;
+
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    private Address mailingAddress;
+
+    @Embedded
+    private Address workAddress;
+
+    ...
+}
+----
+@AttributeOverride
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Entity
+public class Contact {
+
+    @Id
+    private Integer id;
+
+    @Embedded
+    private Name name;
+
+    @Embedded
+    @AttributeOverrides(
+        @AttributeOverride(
+            name = "line1",
+            column = @Column( name = "home_address_line1" ),
+        ),
+        @AttributeOverride(
+            name = "line2",
+            column = @Column( name = "home_address_line2" )
+        ),
+        @AttributeOverride(
+            name = "zipCode.postalCode",
+            column = @Column( name = "home_address_postal_cd" )
+        ),
+        @AttributeOverride(
+            name = "zipCode.plus4",
+            column = @Column( name = "home_address_postal_plus4" )
+        )
+    )
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides(
+        @AttributeOverride(
+            name = "line1",
+            column = @Column( name = "mailing_address_line1" ),
+        ),
+        @AttributeOverride(
+            name = "line2",
+            column = @Column( name = "mailing_address_line2" )
+        ),
+        @AttributeOverride(
+            name = "zipCode.postalCode",
+            column = @Column( name = "mailing_address_postal_cd" )
+        ),
+        @AttributeOverride(
+            name = "zipCode.plus4",
+            column = @Column( name = "mailing_address_postal_plus4" )
+        )
+    )
+    private Address mailingAddress;
+
+    @Embedded
+    @AttributeOverrides(
+        @AttributeOverride(
+            name = "line1",
+            column = @Column( name = "work_address_line1" ),
+        ),
+        @AttributeOverride(
+            name = "line2",
+            column = @Column( name = "work_address_line2" )
+        ),
+        @AttributeOverride(
+            name = "zipCode.postalCode",
+            column = @Column( name = "work_address_postal_cd" )
+        ),
+        @AttributeOverride(
+            name = "zipCode.plus4",
+            column = @Column( name = "work_address_postal_plus4" )
+        )
+    )
+    private Address workAddress;
+
+    ...
+}
+
+----
+ 
+
+== **@Enumerated**
+
+- mapowanie enum
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+public class Person {
+   @Enumerated
+    public Gender gender;
+    public static enum Gender {
+        MALE,
+        FEMALE
+    }
+}
+----
+
+* **@AttribureConverter**
+
+*** Przykład
+
+[source,java]
+----
+public enum Gender {
+
+    MALE('M'),
+    FEMALE('F');
+
+    private final char code;
+
+    private Gender( char code ) {
+        this.code = code;
+    }
+
+    public static Gender fromCode( char code ) {
+        if ( code == 'M' || code == 'm' ) {
+            return MALE;
+        }
+        if ( code == 'F' || code == 'f' ) {
+            return FEMALE;
+        }
+        throw...
+    }
+
+    public char getCode() {
+        return code;
+    }
+}
+
+@Entity
+public class Person {
+    ...
+
+    @Basic
+    @Convert( converter = GenderConverter.class )
+    public Gender gender;
+}
+
+@Converter
+public class GenderConverter implements AttributeConverter<Character, Gender> {
+
+    public Character convertToDatabaseColumn( Gender value ) {
+        if ( value == null ) {
+            return null;
+        }
+
+        return value.getCode();
+    }
+
+    public Gender convertToEntityAttribute( Character value ) {
+        if ( value == null ) {
+            return null;
+        }
+
+        return Gender.fromCode( value );
+    }
+}
+----
+
+   
+
+== **@Lob**
+
+=== java.sql.Blob
+  
+[source,java]
+----
+@Entity
+public class Step {
+    ...
+    @Lob
+    @Basic
+    public byte[] instructions;
+    ...
+}
+----    
+
+=== java.sql.Clob
+
+[source,java]
+----
+@Entity
+public class Product {
+    ...
+    @Lob
+    @Basic
+    public Clob description;
+    ...
+}
+----    
+ 
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+public class Product {
+    ...
+
+    @Lob
+    @Basic
+    public Clob description;
+    ...
+    
+    @Lob
+    @Basic
+    public char[] description;
+    
+    
+    @Lob
+    @Basic
+    public Blob instructions;
+    
+     @Lob
+    @Basic
+    public byte[] instructions;
+}
+----
+
+== **Date & time**
+
+=== DATE  
+
+-  java.sql.Date
+    
+=== TIME  
+
+-  java.sql.Time
+    
+=== TIMESTAMP  
+
+- java.sql.Timestamp
+   
+== Mapping Java 8 Date/Time Values
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-java8</artifactId>
+    <version>${hibernate.version}</version>
+</dependency>
+----
+
+=== DATE
+
+-  java.time.LocalDate
+ 
+[source,sql]
+----
+INSERT INTO DateEvent( timestamp, id ) VALUES ( '2015-12-29', 1 )
+----
+    
+=== TIME 
+
+-  java.time.LocalTime
+-  java.time.OffsetTime
+ 
+[source,sql]
+----
+INSERT INTO DateEvent( timestamp, id ) VALUES ( '16:51:58', 1 )
+----
+    
+=== TIMESTAMP
+
+-  java.time.Instant,
+-  java.time.LocalDateTime
+-  java.time.OffsetDateTime
+-  java.time.ZonedDateTime
+
+[source,sql]
+----
+INSERT INTO DateEvent  ( timestamp, id ) VALUES ( '2015-12-29 16:54:04.544', 1
+----
+    
+
+== AttributeConverters
+
+*** Przykład
+
+
+[source,java]
+----
+@Converter
+public class PeriodStringConverter implements AttributeConverter<Period, String> {
+
+    @Override
+    public String convertToDatabaseColumn(Period attribute) {
+        return attribute.toString();
+    }
+
+    @Override
+    public Period convertToEntityAttribute(String dbData) {
+        return Period.parse(dbData);
+    }
+}
+
+@Entity
+public class Event  {
+    @Convert(converter = PeriodStringConverter.class)
+    private Period span;
+
+}
+----    
+
+
+==  @Formula
+
+*** Przykład
+
+[source,java]
+----
+@Formula("obj_length * obj_height * obj_width")
+private long objectVolume;
+
+
+@Formula("UPPER(name)")
+private String capitalName;
+
+@Formula("(SELECT c.name FROM category c WHERE c.id=category_id)")
+private String categoryName;
+
+----
+ 
+== **@SecondaryTable** 
+
+source : __https://en.wikibooks.org/wiki/Java_Persistence/Tables__
+
+image::Emp_Tables_(Database).PNG[]
+
+[source,java]
+----
+@Entity
+@Table(name="EMPLOYEE")
+@SecondaryTable(name="EMP_DATA",
+                pkJoinColumns = @PrimaryKeyJoinColumn(name="EMP_ID", referencedColumnName="ID")
+               )
+public class Employee {
+    ...
+    @Column(name="YEAR_OF_SERV", table="EMP_DATA")
+    private int yearsOfService;
+
+    @OneToOne
+    @JoinColumn(name="MGR_ID", table="EMP_DATA", referencedColumnName="ID")
+    private Employee manager;
+    ...
+}
+----
+
+
+== @AttributeOverride
+
+** Patrz wyżej w przykładzie z  @Embedded.
+
+== @Version - blokowanie optymistyczne
+
+*** Przykład
+
+[source,java]
+----
+Employee employee = new Employee();
+employee.setId(1);
+employee.setName("przodownik");
+session.saveOrUpdate(employee);
+----
+[source,sql]
+----
+Hibernate: update employee set name=?, version=? where id=? and version=?
+----
+
+== @OrderColumn
+
+*** Przykład
+
+[source,java]
+----
+@OrderColumn(name = "index_id")
+    private List<Change> changes = new ArrayList<>();
+----
+
+
+== @ForeignKey
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+public class Phone {
+ @ManyToOne
+    @JoinColumn(name = "person_id",
+            foreignKey = @ForeignKey(name = "PERSON_ID_FK")
+    )
+    }
+----
+[source,sql]
+----
+
+CREATE TABLE Phone (
+    id BIGINT NOT NULL ,
+    number VARCHAR(255) ,
+    person_id BIGINT ,
+    PRIMARY KEY ( id )
+ )
+
+ALTER TABLE Phone ADD CONSTRAINT PERSON_ID_FK FOREIGN KEY (person_id) REFERENCES Person
+----
+
+
+== @Type (Hibernate only) 
+
+*** Przykład
+
+[source,java]
+----
+@org.hibernate.annotations.Type( type = "nstring" )
+private String name;
+
+@org.hibernate.annotations.Type( type = "materialized_nclob" )
+private String description;
+----
+
+
+@UniqueConstraint(columnNames = { "id" , "empCode"}))
+
+
+
+== @ElementCollection**  - dla typów prostych lub klas osadzonych
+
+*** Przykład
+
+[source,java]
+----
+@ElementCollection(fetch=FetchType.LAZY)
+@CollectionTable(name = "email")
+@IndexColumn(name="email_index")
+private List<String> emails;
+
+@ElementCollection(targetClass = CarBrands.class)
+@Enumerated(EnumType.STRING)
+private List<CarBrands> brands;
+}
+
+public enum CarBrands {
+SUZUKI, STAR, FERRARI,JAGUAR;
+}
+
+----
+ 
+== **@OrderBy**
+ - kolekcja może zostać uporządkowana według określonych kryteriów
+ - w przypadku kolekcji uporządkowanej wykorzystać należy typ **List**
+ 
+ *** Przykład
+ 
+[source,java]
+----
+
+@OneToMany(mappedBy="user")
+@OrderBy("lastName")
+protected List<User> children;
+
+
+
+----  
+
+== **@JoinTable**
+  -  name to  nazwa tabeli
+  - joinColumns – kolumna tabeli złączenia, stanowiąca klucz dla encji
+  - inverseJoinColumns – kolumna tabel złączenia, stanowiąca klucz dla encji po drugiej stronie relacji
+  
+
+
+== Relacje
+
+@JoinColumn + @JoinTable
+
+* One-To-One 1:1
+[source,xml]
+----
+@Entity
+public class Message {
+@Id
+Long id;
+
+@Column
+String content;
+ 
+@OneToOne
+Email email;
+
+}
+//ommit mutators and accessors 
+}
+----
+* One-To-Many 1:N
+Za pomoca kluczu obcego
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+public class Item extends AbstractEntity {
+    private String name;
+    private BigDecimal price;
+
+    @OneToMany(fetch = FetchType.LAZY) // Defaults to EAGER
+    @JoinColumn(name = "ITEM_ID")
+    private List<Offer> offers;
+
+
+}
+----
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+public class Offer extends AbstractEntity{
+    @Column(name="offer_value")
+    private BigDecimal value;
+}
+----
+
+** Generowany SQL : 
+
+[source,sql]
+----
+  create table Item (
+        id bigint not null,
+        version bigint,
+        name varchar(255),
+        price decimal(19,2),
+        primary key (id)
+    )
+    
+     create table Offer (
+        id bigint not null,
+        version bigint,
+        offer_value decimal(19,2),
+        ITEM_ID bigint,
+        primary key (id)
+    )
+    
+     alter table Offer 
+        add constraint FKp6fm8wffictppkc0m3ufurbpy 
+        foreign key (ITEM_ID) 
+        references Item
+    
+----
+
+Za pomoca kluczu głównego
+
+* Many-To-One N:1
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+public class Item  extends AbstractEntity{
+    private String name;
+    private BigDecimal price;
+}
+@Entity
+public class Offer extends AbstractEntity{
+    @ManyToOne(fetch = FetchType.LAZY) // Defaults to EAGER
+    @JoinColumn(name = "ITEM_ID", nullable = false,
+    foreignKey = @ForeignKey(name = "FK_ITEM_ID") )
+    private Item item;
+
+    @Column(name="offer_value")
+    private BigDecimal value;
+ }
+----
+
+[source,sql]
+----
+ create table Item (
+        id bigint not null,
+        version bigint,
+        name varchar(255),
+        price decimal(19,2),
+        primary key (id)
+    )
+      create table Offer (
+        id bigint not null,
+        version bigint,
+        offer_value decimal(19,2),
+        ITEM_ID bigint not null,
+        primary key (id)
+    )
+    alter table Offer 
+        add constraint FK_ITEM_ID 
+        foreign key (ITEM_ID) 
+        references Item
+    
+----
+
+* Many-To-Many N:M
+
+
+== @MapKey
+
+source : __https://en.wikibooks.org/wiki/Java_Persistence/Relationships#Nested_Collections.2C_Maps_and_Matrices__
+
+
+*** Przykład
+
+[source,java]
+----
+public class Employee {
+  private long id;
+  private Map<String, List<Project>> projects;
+}
+----
+
+[source,java]
+----
+public class Employee {
+  @Id
+  @GeneratedValue
+  private long id;
+  ...
+  @OneToMany(mappedBy="employee")
+  @MapKey(name="type")
+  private Map<String, ProjectType> projects;
+}
+----
+
+[source,java]
+----
+public class ProjectType {
+  @Id
+  @GeneratedValue
+  private long id;
+  @ManyToOne
+  private Employee employee;
+  @Column(name="PROJ_TYPE")
+  private String type;
+  @ManyToMany
+  private List<Project> projects;
+}
+----
+
+
+
+== Callbacks
+
+=== @PrePersist
+	
+	Wykonanie operacji przed operacją zapisu
+
+=== @PreRemove
+	
+    Wykonanie operacji przez operacją usunięcia
+
+=== @PostPersist
+	
+    Wykonanie operacji po operacji zapisu
+
+===  @PostRemove
+	
+    Wykonanie operacji po operacji usunięcia
+
+=== @PreUpdate
+	
+    Wykonanie kodu przed operacją aktualizacji
+
+=== @PostUpdate
+	
+   Wykonanie kodu po operacji aktualizacji
+
+=== @PostLoad
+	
+   Wykonanie akcji po załadowaniu encji z kontekstu trwałości
+
+
+== EventListener
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+@EntityListeners( LastUpdateListener.class )
+public static class Person {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    private Date dateOfBirth;
+
+    @Transient
+    private long age;
+
+    private Date lastUpdate;
+
+    @PostLoad
+    public void calculateAge() {
+        age = ChronoUnit.YEARS.between( LocalDateTime.ofInstant(
+                Instant.ofEpochMilli( dateOfBirth.getTime()), ZoneOffset.UTC),
+            LocalDateTime.now()
+        );
+    }
+}
+
+public static class LastUpdateListener {
+
+    @PreUpdate
+    @PrePersist
+    public void setLastUpdate( Person p ) {
+        p.setLastUpdate( new Date() );
+    }
+}
+----
+
+

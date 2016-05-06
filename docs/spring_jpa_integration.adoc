@@ -1,0 +1,767 @@
+
+
+== Transakcje + Integracja JPA/Hibernate z frameworkiem Spring
+
+
+=== Historia
+
+** Spring 1.0 - Marzec 2004
+** Spring 2.0 - Październik 2006
+** Spring 2.5 - Grudzień 2007
+** Spring 3.0 - Grudzień 2009
+** i dalsze wersje
+** aktualna 4.2.5.Release
+
+Stworzony przez Rod Johnson jako alternatywa dla ciężkiego EJB
+Bazuje na IoC  
+
+image:springarchitecture.png[]
+
+- zarys
+
+image:overview-full.png[]
+
+
+=== Cechy
+
+** testowalność
+** loose coupling
+** IoC / dependency injection
+** programowanie deklaratywne
+** wspracie dla AOP, Web, JMS, Batch, Security itd
+** eliminacje boilerplace code
+** szybkość wytwarzania
+** łatwość utrzymania
+ 
+
+source: __https://aishwaryavaishno.wordpress.com/category/technical-posts/java/__
+
+image::tx-annotation2.png[]
+
+
+=== Architektura
+
+source : __https://sites.google.com/site/telosystutorial/springmvc-jpa-springdatajpa__
+
+image::bundles_schema_springmvc-springdatajpa.png[]
+
+
+source : __https://fndong.wordpress.com/category/spring-framework/__
+
+image::architecture_springmvc_hibernate_jpa_mysql.jpg[]
+
+
+source : __www.genuitec.com__
+
+image::AppLayers-SpringMVC.jpg[]
+
+==== Przykładowy podglądowy diagram klas w projekcie
+
+image::diagram-springmvc-springdatajpa.png[]
+
+
+
+=== EntityManager
+- wstrzyknięcie jest zawsze wątkowo bezpieczne
+
+
+== Transakcja
+
+- grupa operacji jest postrzegana jako jedna niezależna operacja
+- grupuje operacje w całość, albo są akceptowane wszystkie albo żadna 
+- operacje w ramach transakcjo mogą pochodzić z różnych źródeł i brać udział w wielu składnicach danych (2PC)
+
+=== Wyjątki 
+
+WARNING: Domyślnie tylko niesprawdzane wyjątki : RuntimeException + Error prowadzą do wycofania transakcji
+
+
+=== ACID
+
+-  **atomowość/Atomicity** - akceptowane są wszystkie w ramach procesu transakcji. W przeciwnym wypadku są wycofywane.
+
+- **spójność/Consistency** - koniec transakcji pozostawia system w stanie spójnym i stabilnym
+
+- **izolacja/Isolation** - inne transakcje są nie widoczne dla danej w tej chwili wykonywanej
+ 
+- **trwałość/Durablility** - zakończone transakcje pozostają w stanie trwałym, to znaczy żę awaria systemu nie będzie stanowiła problemu dla danych
+
+
+
+=== Transakcje w kodzie
+
+- **uciążliwe kodowanie**
+- **drogie utrzymanie**
+- **boilerplace code**
+
+
+=== Transakcje deklaratywne
+
+- **większa elastyczność**
+- **sterowane adnotacją**
+- **sterowane plikami konfiguracyjnymi**
+- **sterowane AOP**
+- **spójny model** JTA , JPA, JDBC , Hibernate
+
+
+
+
+*** Przykład 
+
+
+[source,java]
+----
+@Transactional
+public class BookServiceImpl implements BookService {
+@Transactional
+public Book getBook(Long id) {
+return repository.getBook(id);
+}
+@Transactional
+public Book createBook(Book book) {
+return repository.createBook(book);
+}
+}
+----
+
+=== Atrybuty transakcji
+
+==== **Propagacja**
+
+- **PROPAGATION_MANDATORY**
+
+__source__ : http://docstore.mik.ua/orelly/java-ent/ebeans/ch08_02.htm
+
+image::mandatory.gif[]
+
+**  metoda musi działać w ramach transakcji. Jeśli nie istnieje uruchomiona transakcja zgłaszany jest wyjątek
+
+- **PROPAGATION_NESTED**
+
+** pojedyńcza fizyczna transakcja z wielona savepointami
+
+- **PROPAGATION_NEVER**
+
+
+** jeśli istnieje transakcja wyrzuć wyjątek.
+** System typowo beztransakcyjny
+
+- **PROPAGATION_NOT_SUPPORTED**
+
+__source__ : http://docstore.mik.ua/orelly/java-ent/ebeans/ch08_02.htm
+
+image::not_supported.gif[]
+
+- **PROPAGATION_REQUIRED**
+
+__source__ : http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/transaction.html
+
+image:propagation_req.png[]
+
+- **PROPAGATION_REQUIRES_NEW**
+
+
+__source__ : http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/transaction.html
+
+image:propagation_req_new.png[]
+
+- **PROPAGATION_SUPPORTS**
+
+__source__ : http://docstore.mik.ua/orelly/java-ent/ebeans/ch08_02.htm
+
+image::supported.gif[]
+
+** jeśli istnieje transakcja metoda działa w jej ramach , w przeciwnym razie metoda jest wykonywana poza kontekstem transakcyjnym
+
+==== **izolacja**
+   Stopień uniezależnienia od siebie poszczególnych transackcji
+   Wyższy poziom zapewnia lepszą separację - kosztem wydajności
+   Poprzez separacje rozumiemy, że jedna niezależna transakcja nie będzie wpływała na inną równoległą w systemie.
+
+==== Problemy związane z izolacją
+
+===== **Utrata aktualizacji**
+
+===== **Brudny odczyt**
+
+===== **Niepowtarzalny odczyt**
+
+===== **Problem utraty wcześniejszego zapisu**
+
+===== **Otrzymanie fantomu**
+
+===== **Odczyt niezatwierdzych (Read uncommited)**
+**    brak izolacji
+**    Jedna transakcja ma dostęp do danych modyfikowanych przez inne transakcji
+**    Dopuszcza brudne odczyty, ale uniemożliwia utratę aktualizacji
+   
+[source,java]
+----
+@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+public Order getOrder(Long orderId) {
+return repository.getOrder(orderId);
+}
+----
+
+   
+===== **Odczyt zatwierdzonych (Read commited)**
+
+NOTE: Domyśla dla większości baz DBMSs
+
+   ** bieżąca transakcja widzi tylko dane zatwierdzone.
+   ** problem z długi transakcjami, gdyż bieżąca transakcja będzie odczytywała dane zatwierdzone chwilowo przez inne.
+   ** transakcja odczytują dwa razy te same dane może zwrócić inne wyniki
+   ** nie zapewnia powtarzalnego odczytu ale zapobiega  brudnym odczytom
+   
+[source,java]
+----
+@Transactional(isolation = Isolation.READ_COMMITTED)
+public Order getOrder(Long orderId) {
+return repository.getOrder(orderId);
+}
+----   
+===== **Odczyt powtarzalny (Repeatable read)**
+ **  bieżąca transakcja widzi zmiany zatwierdzone już po jej rozpoczęciu przez inne równoległe transakcje.
+ **  ma zapewnioną powtarzalność odczytów
+ **  rozwiązuje problemy brudnego i niepowtarzalnego odczytu
+ ** mogą wystąpić fantomy
+   
+===== **Szeregowalność (Serializable)**
+  ** transakcja szeregowana. Możemy te sposób izolacji traktować synchroniczne wykonywane krok po kroku zamiast opcji zrównoleglenia.
+  ** bardzo możliwe są konflikty.
+
+==== Wybór poziomu
+** odrzucamy poziom odczytu niezatwierdzonego.(niezatwierdzone zmiany z innych transakcji są bardzo groźne)
+** odrzucamy również górny poziom serializable. Najtrudniej poddaje sie współbieżności.
+
+** powtarzalny - eliminacja nadpisywania przez inną transakcję. Zwiększa powtarzalność wyników zapytań.
+** zatwierdzony + wersjonowanie wydajne się być w większości przypadków najlepszą praktyką.
+   
+  
+
+=== **read only**
+
+*** Przykład
+
+[source,java]
+----
+@Transactional(readOnly = true)
+public Account getAccount(Long accountId) {
+return repository.getAccount(accountId);
+}
+----
+
+=== **timeout**
+
+*** Przykład
+
+[source,java]
+----
+@Transactional(timeout = 60)
+public List<Order> getActiveOrders(String from, String to) {
+}
+----
+
+=== **noRollbackFor** 
+
+** wyjątki dla których wyrzucenie przez metodę nie spowoduje wycofanie transakcji
+
+*** Przykład
+
+[source,java]
+----
+ @Transactional(noRollbackFor = MailException.class)
+    public void sendJobSuccessMessage(String jobName, String message);
+----
+
+=== **rollbackFor** 
+
+** wyjątki dla których wyrzucenie przez metodę może spowodować wycofanie transakcji
+
+*** Przykład
+
+[source,java]
+----
+
+    @Transactional(rollbackFor = Exception.class)
+    void createUser(final RegisterForm registerForm) throws Exception;
+----
+
+== Konfiguracja :  
+ 
+*** Przykład
+
+[source,java]
+----
+@EnableJpaRepositories(basePackages = "pl.java.scalatech.repository")
+@PropertySource("classpath:spring-data.properties")
+@Slf4j
+@Import(Metrics2Config.class)
+public abstract class JpaConfig {
+    
+    
+    @Autowired
+    Optional<MetricRegistry> metricRegistry;
+    
+    @Autowired
+    private Environment env;
+
+    @Value("${dataSource.driverClassName}")
+    protected String driver;
+
+    @Value("${dataSource.url}")
+    protected String url;
+
+    @Value("${dataSource.username}")
+    protected String username;
+
+    @Value("${dataSource.password}")
+    protected String password;
+
+    @Value("${hibernate.dialect}")
+    protected String dialect;
+
+    @Value("${hibernate.hbm2ddl.auto}")
+    protected Boolean hbm2ddlAuto;
+
+    @Value("${hibernate.show.sql}")
+    protected Boolean showSql;
+
+    @Value("${jpa.package}")
+    protected String jpaPackage;
+    
+    @Value("${jpa.hikariMaxPoolSize}")
+    protected int maxPoolSize;
+    
+    @Value("${jpa.hikariConnectionTimeoutMs}")
+    protected long connectionTimeoutMs;
+    
+    @Value("${jpa.hikariIdleTimeoutMs}")
+    protected long idleTimeoutMs;
+    
+    @Value("${jpa.hikariMaxLifetimeMs}")
+    protected long maxLifetimeMs;
+    
+    @Value("${jpa.hikariRegisterMbeans}")
+    protected boolean registerMbeans;
+    
+  
+
+    public abstract void dataSourceConfigure(HikariConfig hikariConfig) throws SQLException;
+    public abstract Database dataBase();
+    
+   
+  
+    @Bean
+    public DataSource datasource() throws SQLException{
+        HikariConfig config = new HikariConfig();
+        dataSourceConfigure(config);
+        config.setMaximumPoolSize(maxPoolSize);
+       // config.setConnectionTimeout(connectionTimeoutMs);
+        config.setIdleTimeout(idleTimeoutMs);
+        config.setMaxLifetime(maxLifetimeMs);
+        config.setRegisterMbeans(registerMbeans);
+        config.setPoolName("pool");
+        if(metricRegistry.isPresent()){
+         config.setMetricRegistry(metricRegistry.get());
+        }
+        HikariDataSource dataSource = new HikariDataSource(config);
+        return dataSource;
+}
+    
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        return new JpaTransactionManager();
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    public Map<String, Object> jpaProperties() {
+        Map<String, Object> props = new HashMap<>();
+        /*
+         * props.put("hibernate.cache.use_query_cache", "true");
+         * props.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+         * props.put("hibernate.cache.provider_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+         * props.put("hibernate.cache.use_second_level_cache", "true");
+         */
+        return props;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws SQLException {
+        log.info("+++ entityManagerFactory started ...");
+        LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
+        lef.setJpaDialect(customJpaDialect());
+        lef.setDataSource(datasource());
+        lef.setJpaVendorAdapter(jpaVendorAdapter());
+        lef.setJpaPropertyMap(jpaProperties());
+        lef.setPackagesToScan(jpaPackage); // eliminate persistence.xml
+        return lef;
+    }
+
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+        hibernateJpaVendorAdapter.setShowSql(showSql);
+        hibernateJpaVendorAdapter.setGenerateDdl(hbm2ddlAuto);
+        hibernateJpaVendorAdapter.setDatabase(dataBase());
+        hibernateJpaVendorAdapter.setDatabasePlatform(dialect);
+        return hibernateJpaVendorAdapter;
+    }
+
+    @Bean
+    public Log4JdbcCustomFormatter logFormater() {
+        Log4JdbcCustomFormatter formatter = new Log4JdbcCustomFormatter();
+        formatter.setLoggingType(LoggingType.SINGLE_LINE);
+        formatter.setSqlPrefix("SQL:\r");
+        return formatter;
+    }
+
+    public JpaDialect customJpaDialect() {
+        return new CustomHibernateJpaDialect();
+    }
+}
+
+----
+
+=== Strategia dla bazy wbudowanej : 
+
+*** Przykład
+
+[source,java]
+----
+@Configuration
+@Slf4j
+@Profile(value = "test")
+@Order(10001)
+public class JpaEmbeddedConfig extends JpaConfig {
+
+
+    @Override
+    public Database dataBase() {
+        return Database.H2;
+    }
+
+    @Override
+    public void dataSourceConfigure(HikariConfig config) throws SQLException {
+        config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
+        config.setConnectionTestQuery("VALUES 1");
+        config.addDataSourceProperty("URL", "jdbc:h2:~/test");
+        config.addDataSourceProperty("user", "sa");
+        config.addDataSourceProperty("password", "");
+
+       
+    }
+
+}
+----
+
+=== Baza wbudowana / konfiguracja xml
+
+*** Przykład
+
+[source,java]
+----
+<jdbc:embedded-database id="dataSource" type="HSQL|H2|Derby">
+<jdbc:script location="classpath:db-schema.sql"/>
+<jdbc:script location="classpath:test-data.sql"/>
+</jdbc:embedded-database>
+
+<bean class="pl.java.scalatech.repository.jdbc.BookJdbcRepository">
+<property name="dataSource" ref="dataSource"/>
+</bean>
+----
+
+== H2 w konsoli WEB
+
+*** Przykład
+
+[source,java]
+----
+@Configuration
+@Profile(value="h2")
+@Order(10001)
+public class H2Database extends JpaConfig{
+   
+    @Bean(destroyMethod = "close")
+    @DependsOn(value = "h2Server")
+    DataSource dataSource(Server h2Server) throws SQLException {
+        HikariConfig hikariConfig = new HikariConfig();
+        dataSourceConfigure(hikariConfig);
+        hikariConfig.setMaximumPoolSize(maxPoolSize);
+        hikariConfig.setConnectionTimeout(connectionTimeoutMs);
+        hikariConfig.setIdleTimeout(idleTimeoutMs);
+        hikariConfig.setMaxLifetime(maxLifetimeMs);
+        hikariConfig.setRegisterMbeans(registerMbeans);
+        hikariConfig.setConnectionTestQuery("VALUES 1");
+        hikariConfig.addDataSourceProperty("useServerPrepStmts", username);
+        HikariDataSource dataSource = new HikariDataSource(hikariConfig);
+        
+        createTcpServer();
+       // CodaHaleMetricsTracker cmt = new CodaHaleMetricsTracker(pool, dataSource.getMetricRegistry());
+        return dataSource;
+        
+    }
+
+    @Bean(name = "h2Server", initMethod = "start", destroyMethod = "stop")
+    @DependsOn(value = "h2WebServer")
+    public org.h2.tools.Server createTcpServer() throws SQLException {
+        return org.h2.tools.Server.createTcpServer("-tcp,-tcpAllowOthers,-tcpPort,9092".split(","));
+    }
+
+    @Bean(name = "h2WebServer", initMethod = "start", destroyMethod = "stop")
+    public org.h2.tools.Server createWebServer() throws SQLException {
+        return org.h2.tools.Server.createWebServer("-web,-webAllowOthers,-webPort,8082".split(","));
+    }
+
+   
+    @Override
+    public Database dataBase() {
+        return Database.H2;
+    }
+
+    @Override
+    public void dataSourceConfigure(HikariConfig hikariConfig) throws SQLException {
+        hikariConfig.addDataSourceProperty("url", url);
+        hikariConfig.setUsername(username);
+        hikariConfig.setPassword(password);
+        hikariConfig.setDataSourceClassName(driver);
+    }
+}
+
+---- 
+
+== Custom JPA = rozwiązanie problemów z izolacją transakcji
+
+*** Przykład
+
+[source,java]
+----
+public class CustomHibernateJpaDialect extends HibernateJpaDialect {
+
+    private static final long serialVersionUID = 1L;
+
+    /* 
+     * This method is overridden to set custom isolation levels on the connection
+     * (non-Javadoc)
+     * @see org.springframework.orm.jpa.vendor.HibernateJpaDialect#beginTransaction(javax.persistence.EntityManager, org.springframework.transaction.TransactionDefinition)
+     */
+    @Override
+    public Object beginTransaction(final EntityManager entityManager,
+            final TransactionDefinition definition)
+            throws PersistenceException, SQLException, TransactionException {
+
+        Session session = (Session) entityManager.getDelegate();
+        if (definition.getTimeout() != TransactionDefinition.TIMEOUT_DEFAULT) {
+            getSession(entityManager).getTransaction().setTimeout(
+                    definition.getTimeout());
+        }
+
+        final TransactionData data = new TransactionData();
+
+        session.doWork(new Work() {
+            @Override
+            public void execute(Connection connection) throws SQLException {
+                Integer previousIsolationLevel = DataSourceUtils
+                        .prepareConnectionForTransaction(connection, definition);
+                data.setPreviousIsolationLevel(previousIsolationLevel);
+                data.setConnection(connection);
+            }
+        });
+
+        entityManager.getTransaction().begin();
+
+        Object springTransactionData = prepareTransaction(entityManager,
+                definition.isReadOnly(), definition.getName());
+
+        data.setSpringTransactionData(springTransactionData);
+
+        return data;
+    }
+
+    @Override
+    public void cleanupTransaction(Object transactionData) {
+        super.cleanupTransaction(((TransactionData) transactionData)
+                .getSpringTransactionData());
+        ((TransactionData) transactionData).resetIsolationLevel();
+    }
+
+    private static class TransactionData {
+
+        private Object springTransactionData;
+        private Integer previousIsolationLevel;
+        private Connection connection;
+
+        public TransactionData() {
+        }
+
+        public void resetIsolationLevel() {
+            if (this.previousIsolationLevel != null) {
+                DataSourceUtils.resetConnectionAfterTransaction(connection,
+                        previousIsolationLevel);
+            }
+        }
+
+        public Object getSpringTransactionData() {
+            return this.springTransactionData;
+        }
+
+        public void setSpringTransactionData(Object springTransactionData) {
+            this.springTransactionData = springTransactionData;
+        }
+
+        public void setPreviousIsolationLevel(Integer previousIsolationLevel) {
+            this.previousIsolationLevel = previousIsolationLevel;
+        }
+
+        public void setConnection(Connection connection) {
+            this.connection = connection;
+        }
+
+    }
+}
+----
+
+== TransacionTemplate
+
+*** Przykład
+
+[source,xml]
+----
+
+<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+  <property name="sessionFactory" ref="sessionFactory"/>
+</bean>
+
+<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+  <property name="transactionManager" ref="transactionManager"/>
+</bean>
+
+<bean id="bookService" class="pl.java.scalatech.BookServiceImpl">
+  <property name="transactionTemplate" ref="transactionTemplate" />
+</bean>
+----
+
+=== Użycie
+
+[source,java]
+----
+@Override
+public void deleteBooks(final List<Book> books) {
+transactionTemplate.execute(new TransactionCallback() {
+@Override
+public Object doInTransaction(TransactionStatus status) {
+...
+...
+}
+}
+----
+
+
+
+== Tworzenie repozytorium jpa/Hibernate
+
+*** Przykład
+
+[source,java]
+----
+@Repository
+@Repository
+public class BookHibernateRepository implements BookRepository {
+@Autowired
+private DataSource dataSource;
+private HibernateTemplate hibernate;
+@Autowired
+public BookHibernateRepository(DataSource dataSource) {
+super
+this.hibernateTemplate = new HibernateTemplate(dataSource);
+}
+}
+----
+
+== Tworzenie repozytorium jpa
+
+
+[source,java]
+----
+@Repository
+@Repository
+public class BookJpaRepository implements BookRepository {
+
+@Autowired
+private EntityManager em;
+
+}
+----
+
+
+== Praca z wieloma  manadzerami transakcji 
+
+*** Przykład
+
+[source,java]
+----
+@Transactional(value = "txManager1")
+public BigDecimal getAndSavePrice (Book book) {}
+
+
+@Transactional(value = "txManager2")
+public Book merge(Book book ) {}
+----
+
+=== Ulepszenia / swoje adnotacje
+
+[source,java]
+----
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Transactional("txManager1")
+public @interface BookTx {}
+
+
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Transactional("txManager2")
+public @interface BookSecondTx {}
+
+@OrderTx
+public BigDecimal getAndSavePrice (Book book) {}
+
+@BookSecondTx
+public Book merge(Book book ) {}
+----
+
+
+== Dodatek 
+
+=== Wsparcie JDBC
+
+- JdbcTemplate
+- NamedParameterJdbcTemplate
+- SimpleJdbcTemplate
+- SimpleJdbcInsert
+- SimpleJdbcCall
+
+
+=== Tworzenie repozytorium jdbc
+
+*** Przykład
+
+[source,java]
+----
+@Repository
+@Repository
+public class BookJdbcRepository implements BookRepository {
+@Autowired
+private DataSource dataSource;
+private JdbcTemplate jdbcTemplate;
+@Autowired
+public BookJdbcRepository(DataSource dataSource) {
+super
+this.jdbcTemplate = new JdbcTemplate(dataSource);
+}
+}
+----

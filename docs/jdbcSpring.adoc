@@ -1,0 +1,260 @@
+
+
+
+== JDBC Testing Support
+
+The org.springframework.test.jdbc package contains JdbcTestUtils, which is a collection of JDBC related utility functions intended to simplify standard database testing scenarios. Specifically, JdbcTestUtils provides the following static utility methods.
+
+    countRowsInTable(..): counts the number of rows in the given table
+    countRowsInTableWhere(..): counts the number of rows in the given table, using the provided WHERE clause
+    deleteFromTables(..): deletes all rows from the specified tables
+    deleteFromTableWhere(..): deletes rows from the given table, using the provided WHERE clause
+    dropTables(..): drops the specified tables 
+
+
+== Executing SQL scripts declaratively with @Sql
+
+== DataSource
+
+[source,xml]
+
+----
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="${jdbc.driverClassName}" />
+    <property name="url" value="${jdbc.url}" />
+    <property name="username" value="${jdbc.username}" />
+    <property name="password" value="${jdbc.password}" />
+</bean>
+----
+
+== TransactionManager 
+
+[source,xml]
+----
+
+<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+</bean>
+----
+
+
+== Querying (SELECT)
+
+[source,java]
+----
+
+int rowCount = this.jdbcTemplate.queryForObject("select count(*) from t_actor", Integer.class);
+
+int countOfActorsNamedJoe = this.jdbcTemplate.queryForObject(
+        "select count(*) from t_actor where first_name = ?", Integer.class, "Joe");
+        
+        
+        String lastName = this.jdbcTemplate.queryForObject(
+        "select last_name from t_actor where id = ?",
+        new Object[]{1212L}, String.class);
+        
+        
+        Actor actor = this.jdbcTemplate.queryForObject(
+        "select first_name, last_name from t_actor where id = ?",
+        new Object[]{1212L},
+        new RowMapper<Actor>() {
+            public Actor mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Actor actor = new Actor();
+                actor.setFirstName(rs.getString("first_name"));
+                actor.setLastName(rs.getString("last_name"));
+                return actor;
+            }
+        });
+        
+        List<Actor> actors = this.jdbcTemplate.query(
+        "select first_name, last_name from t_actor",
+        new RowMapper<Actor>() {
+            public Actor mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Actor actor = new Actor();
+                actor.setFirstName(rs.getString("first_name"));
+                actor.setLastName(rs.getString("last_name"));
+                return actor;
+            }
+        });
+----
+
+
+[source,java]
+----
+public List<Actor> findAllActors() {
+    return this.jdbcTemplate.query( "select first_name, last_name from t_actor", new ActorMapper());
+}
+
+private static final class ActorMapper implements RowMapper<Actor> {
+
+    public Actor mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Actor actor = new Actor();
+        actor.setFirstName(rs.getString("first_name"));
+        actor.setLastName(rs.getString("last_name"));
+        return actor;
+    }
+}
+----
+
+== Updating (INSERT/UPDATE/DELETE) with jdbcTemplate
+
+[source,java]
+----
+this.jdbcTemplate.update(
+        "insert into t_actor (first_name, last_name) values (?, ?)",
+        "Leonor", "Watling");
+
+this.jdbcTemplate.update(
+        "update t_actor set last_name = ? where id = ?",
+        "Banjo", 5276L);
+
+this.jdbcTemplate.update(
+        "delete from actor where id = ?",
+        Long.valueOf(actorId));
+----
+
+== Other jdbcTemplate operations
+
+[source,java]
+----
+
+this.jdbcTemplate.execute("create table mytable (id integer, name varchar(100))");
+
+this.jdbcTemplate.update(
+        "call SUPPORT.REFRESH_ACTORS_SUMMARY(?)",
+        Long.valueOf(unionId));
+
+----
+
+== NamedParameterJdbcTemplate
+
+[source,java]
+----
+private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+public void setDataSource(DataSource dataSource) {
+    this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+}
+
+public int countOfActorsByFirstName(String firstName) {
+
+    String sql = "select count(*) from T_ACTOR where first_name = :first_name";
+
+    SqlParameterSource namedParameters = new MapSqlParameterSource("first_name", firstName);
+
+    return this.namedParameterJdbcTemplate.queryForObject(sql, namedParameters, Integer.class);
+}
+
+----
+
+[source,java]
+----
+
+private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+public void setDataSource(DataSource dataSource) {
+    this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+}
+
+public int countOfActors(Actor exampleActor) {
+
+    // notice how the named parameters match the properties of the above 'Actor' class
+    String sql = "select count(*) from T_ACTOR where first_name = :firstName and last_name = :lastName";
+
+    SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(exampleActor);
+
+    return this.namedParameterJdbcTemplate.queryForObject(sql, namedParameters, Integer.class);
+}
+----
+== Running queries
+
+[source,java]
+
+----
+
+public class RunAQuery {
+
+    private JdbcTemplate jdbcTemplate;
+
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public int getCount() {
+        return this.jdbcTemplate.queryForObject("select count(*) from mytable", Integer.class);
+    }
+
+    public String getName() {
+        return this.jdbcTemplate.queryForObject("select name from mytable", String.class);
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+}
+----
+
+== Updating the database
+
+[source,java]
+----
+
+public class ExecuteAnUpdate {
+
+    private JdbcTemplate jdbcTemplate;
+
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public void setName(int id, String name) {
+        this.jdbcTemplate.update("update mytable set name = ? where id = ?", name, id);
+    }
+}
+----
+
+== Retrieving auto-generated keys
+
+[source,java]
+----
+final String INSERT_SQL = "insert into my_test (name) values(?)";
+final String name = "Rob";
+
+KeyHolder keyHolder = new GeneratedKeyHolder();
+jdbcTemplate.update(
+    new PreparedStatementCreator() {
+        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+            PreparedStatement ps = connection.prepareStatement(INSERT_SQL, new String[] {"id"});
+            ps.setString(1, name);
+            return ps;
+        }
+    },
+    keyHolder);
+
+// keyHolder.getKey() now contains the generated key
+----
+
+
+== Control DataSource connection
+[source,xml
+----
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="${jdbc.driverClassName}"/>
+    <property name="url" value="${jdbc.url}"/>
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+</bean>
+
+<context:property-placeholder location="jdbc.properties"/>
+
+C3P0 configuration:
+
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+    <property name="driverClass" value="${jdbc.driverClassName}"/>
+    <property name="jdbcUrl" value="${jdbc.url}"/>
+    <property name="user" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+</bean>
+
+<context:property-placeholder location="jdbc.properties"/>
+----

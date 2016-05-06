@@ -1,0 +1,1016 @@
+
+== Spring Data
+
+=== Najnowsze features:)
+
+**    Support for Projections in repository query methods.
+
+**    Support for Query by Example.
+
+**    The following annotations have been enabled to build own, composed annotations: @EntityGraph, @Lock, @Modifying, @Query, @QueryHints and @Procedure.
+
+**    Support for Contains keyword on collection expressions.
+
+**    AttributeConverters for ZoneId of JSR-310 and ThreeTenBP.
+
+**    Upgrade to Querydsl 4, Hibernate 5, OpenJPA 2.4 and EclipseLink 2.6.1.
+
+=== Geneza
+
+ Powstał 2010 podczas sesji Roda Jonsona z Emilem Eifrem (Neo Technologies), jako próba integracji Spring z Neo4j
+ 
+=== Charakretystyka
+
+** generyczna impl DAO
+** postawowa impl CRUD
+** kod dao generowany poprzez definicję metody np findByName , findByAgeBetween
+** paging i sortowanie w standardzie
+** wsparcie dla JPA, Mongo, Neo4j, Redis itd
+** wsparcie dla QueryDSL 
+ 
+
+source : __www.patrick-gotthard.de__
+
+image::repository-inheritance-hierarchy.png[]
+
+source: __https://visola.github.io__
+
+image::spring-data-001.png[]
+
+
+source: __http://luxosuseadicto.blogspot.com__
+
+image::dataaccess_jpa_basic_flow.png[]
+
+==== Przykład całej minimalnej konfiguracji 
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Configuration
+@EnableJpaRepositories
+@EnableTransactionManagement
+class ApplicationConfig {
+
+  @Bean
+  public DataSource dataSource() {
+
+    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+    return builder.setType(EmbeddedDatabaseType.HSQL).build();
+  }
+
+  @Bean
+  public EntityManagerFactory entityManagerFactory() {
+
+    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+    vendorAdapter.setGenerateDdl(true);
+
+    LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+    factory.setJpaVendorAdapter(vendorAdapter);
+    factory.setPackagesToScan("com.acme.domain");
+    factory.setDataSource(dataSource());
+    factory.afterPropertiesSet();
+
+    return factory.getObject();
+  }
+
+  @Bean
+  public PlatformTransactionManager transactionManager() {
+
+    JpaTransactionManager txManager = new JpaTransactionManager();
+    txManager.setEntityManagerFactory(entityManagerFactory());
+    return txManager;
+  }
+}
+
+
+----
+
+==== Tworzenie proxy
+
+*** Przykład
+
+[source,java]
+----
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+@EnableJpaRepositories
+class Config {}
+----
+
+
+
+====  Annotation-driven configuration 
+
+*** Przykład
+
+[source,java]
+----
+
+
+@EnableJpaRepositories(basePackages = "com.acme.repositories.jpa")
+@EnableMongoRepositories(basePackages = "com.acme.repositories.mongo")
+interface Configuration { }
+
+
+----
+
+==== Standalone 
+
+*** Przykład
+
+[source,java]
+----
+
+
+RepositoryFactorySupport factory = … // Instantiate factory here
+UserRepository repository = factory.getRepository(UserRepository.class);
+
+
+----
+
+==== Wybór metod CRUD
+
+*** Przykład
+ 
+[source,java]
+----
+
+
+@NoRepositoryBean
+interface MyBaseRepository<T, ID extends Serializable> extends Repository<T, ID> {
+
+  T findOne(ID id);
+
+  T save(T entity);
+}
+
+interface UserRepository extends MyBaseRepository<User, Long> {
+  User findByEmailAddress(EmailAddress emailAddress);
+}
+
+
+----
+
+==== Wykorzystanie Pageable, Slice, Sort  
+
+*** Przykład
+
+[source,java]
+----
+Page<User> findByLastname(String lastname, Pageable pageable);
+
+Slice<User> findByLastname(String lastname, Pageable pageable);
+
+List<User> findByLastname(String lastname, Sort sort);
+
+List<User> findByLastname(String lastname, Pageable pageable);
+
+----
+
+==== Ograniczenie wyników zapytań
+
+*** Przykład
+
+[source,java]
+----
+
+
+User findFirstByOrderByLastnameAsc();
+
+User findTopByOrderByAgeDesc();
+
+Page<User> queryFirst10ByLastname(String lastname, Pageable pageable);
+
+Slice<User> findTop3ByLastname(String lastname, Pageable pageable);
+
+List<User> findFirst10ByLastname(String lastname, Sort sort);
+
+List<User> findTop10ByLastname(String lastname, Pageable pageable);
+
+
+
+----
+
+==== Streaming
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Query("select u from User u")
+Stream<User> findAllByCustomQueryAndStream();
+
+Stream<User> readAllByFirstnameNotNull();
+
+@Query("select u from User u")
+Stream<User> streamAllPaged(Pageable pageable);
+
+///
+
+
+try (Stream<User> stream = repository.findAllByCustomQueryAndStream()) {
+  stream.forEach(…);
+}
+
+
+----
+
+
+==== Asynchroniczność
+
+*** Przykład
+
+[source,java]
+----
+
+@Async
+Future<User> findByFirstname(String firstname);               
+
+@Async
+CompletableFuture<User> findOneByFirstname(String firstname); 
+
+@Async
+ListenableFuture<User> findOneByLastname(String lastname); 
+----
+
+==== Dostrajanie do swoich potrzeb
+
+*** Przykład
+
+[source,java]
+----
+
+
+interface UserRepositoryCustom {
+  public void someCustomMethod(User user);
+}
+
+
+
+class UserRepositoryImpl implements UserRepositoryCustom {
+
+  public void someCustomMethod(User user) {
+    // Your custom implementation
+  }
+}
+
+
+
+
+interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom {
+
+  // Declare query methods here
+}
+
+
+----
+
+==== DSL
+
+*** Przykład
+
+[source,java]
+----
+ 
+
+public interface QueryDslPredicateExecutor<T> {
+
+    T findOne(Predicate predicate);             
+
+    Iterable<T> findAll(Predicate predicate);   
+
+    long count(Predicate predicate);            
+
+    boolean exists(Predicate predicate);        
+
+    // … more functionality omitted.
+    
+    
+    
+
+interface UserRepository extends CrudRepository<User, Long>, QueryDslPredicateExecutor<User> {
+
+}
+
+    
+}
+
+ 
+----
+
+*** Przykład
+
+[source,java]
+----
+Predicate predicate = user.firstname.equalsIgnoreCase("dave")
+	.and(user.lastname.startsWithIgnoreCase("mathews"));
+
+userRepository.findAll(predicate);
+----
+
+=== Nazwane zapytania
+
+*** Przykład
+
+[source,java]
+----
+@Entity
+@NamedQuery(name = "User.findByEmailAddress",
+  query = "select u from User u where u.emailAddress = ?1")
+public class User {
+
+}
+
+
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+  List<User> findByLastname(String lastname);
+
+  User findByEmailAddress(String emailAddress);
+}
+
+
+----
+
+====  @Query
+
+*** Przykład
+
+[source,java]
+----
+
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+  @Query("select u from User u where u.emailAddress = ?1")
+  User findByEmailAddress(String emailAddress);
+}
+
+
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+  @Query("select u from User u where u.firstname like %?1")
+  List<User> findByFirstnameEndsWith(String firstname);
+}
+
+
+
+----
+
+==== Natywne zapytania
+
+*** Przykład
+
+[source,java]
+----
+
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+  @Query(value = "SELECT * FROM USERS WHERE EMAIL_ADDRESS = ?1", nativeQuery = true)
+  User findByEmailAddress(String emailAddress);
+}
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+  @Query("select u from User u where u.firstname = :firstname or u.lastname = :lastname")
+  User findByLastnameOrFirstname(@Param("lastname") String lastname,
+                                 @Param("firstname") String firstname);
+}
+----
+
+
+
+====  SpEL expressions
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Entity
+public class User {
+
+  @Id
+  @GeneratedValue
+  Long id;
+
+  String lastname;
+}
+
+public interface UserRepository extends JpaRepository<User,Long> {
+
+  @Query("select u from #{#entityName} u where u.lastname = ?1")
+  List<User> findByLastname(String lastname);
+}
+
+
+----
+
+==== Modyfikacja danych 
+
+[source,java]
+----
+
+
+@Modifying
+@Query("update User u set u.firstname = ?1 where u.lastname = ?2")
+int setFixedFirstnameFor(String firstname, String lastname);
+
+
+----
+
+==== Hint
+
+*** Przykład
+
+[source,java]
+----
+
+
+public interface UserRepository extends Repository<User, Long> {
+
+  @QueryHints(value = { @QueryHint(name = "name", value = "value")},
+              forCounting = false)
+  Page<User> findByLastname(String lastname, Pageable pageable);
+}
+
+
+----
+
+==== Fetch load EntityGraph
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Entity
+@NamedEntityGraph(name = "GroupInfo.detail",
+  attributeNodes = @NamedAttributeNode("members"))
+public class GroupInfo {
+
+  // default fetch mode is lazy.
+  @ManyToMany
+  List<GroupMember> members = new ArrayList<GroupMember>();
+
+  …
+  
+}
+@Repository
+public interface GroupRepository extends CrudRepository<GroupInfo, String> {
+
+  @EntityGraph(value = "GroupInfo.detail", type = EntityGraphType.LOAD)
+  GroupInfo getByGroupName(String name);
+
+}
+
+
+
+@Repository
+public interface GroupRepository extends CrudRepository<GroupInfo, String> {
+
+  @EntityGraph(attributePaths = { "members" })
+  GroupInfo getByGroupName(String name);
+
+}
+
+
+
+----
+
+==== Projection
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Entity
+public class Person {
+
+  @Id @GeneratedValue
+  private Long id;
+  private String firstName, lastName;
+
+  @OneToOne
+  private Address address;
+  …
+}
+
+@Entity
+public class Address {
+
+  @Id @GeneratedValue
+  private Long id;
+  private String street, state, country;
+
+  …
+}
+
+
+interface PersonRepository extends CrudRepository<Person, Long> {
+
+  Person findPersonByFirstName(String firstName);
+}
+
+
+
+interface AddressRepository extends CrudRepository<Address, Long> {}
+
+
+
+interface NoAddresses {  
+
+  String getFirstName(); 
+
+  String getLastName();  
+}
+
+
+
+----
+==== Procedury składowane
+
+*** Przykład
+
+[source,sql]
+----
+
+
+/;
+DROP procedure IF EXISTS plus1inout
+/;
+CREATE procedure plus1inout (IN arg int, OUT res int)
+BEGIN ATOMIC
+ set res = arg + 1;
+END
+/;
+
+
+----
+
+[source,java]
+----
+
+
+@Entity
+@NamedStoredProcedureQuery(name = "User.plus1", procedureName = "plus1inout", parameters = {
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "arg", type = Integer.class),
+  @StoredProcedureParameter(mode = ParameterMode.OUT, name = "res", type = Integer.class) })
+public class User {}
+
+
+@Procedure("plus1inout")
+Integer explicitlyNamedPlus1inout(Integer arg);
+
+
+
+@Procedure(procedureName = "plus1inout")
+Integer plus1inout(Integer arg);
+
+
+
+@Procedure(name = "User.plus1IO")
+Integer entityAnnotatedCustomNamedProcedurePlus1IO(@Param("arg") Integer arg);
+
+
+
+
+@Procedure
+Integer plus1(@Param("arg") Integer arg);
+
+
+----
+
+
+==== Specifications
+
+*** Przykład
+
+[source,java]
+----
+
+
+public interface CustomerRepository extends CrudRepository<Customer, Long>, JpaSpecificationExecutor {
+ …
+}
+
+
+
+
+List<T> findAll(Specification<T> spec);
+
+
+
+public interface Specification<T> {
+  Predicate toPredicate(Root<T> root, CriteriaQuery<?> query,
+            CriteriaBuilder builder);
+}
+
+
+
+public class CustomerSpecs {
+
+  public static Specification<Customer> isLongTermCustomer() {
+    return new Specification<Customer>() {
+      public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query,
+            CriteriaBuilder builder) {
+
+         LocalDate date = new LocalDate().minusYears(2);
+         return builder.lessThan(root.get(_Customer.createdAt), date);
+      }
+    };
+  }
+
+  public static Specification<Customer> hasSalesOfMoreThan(MontaryAmount value) {
+    return new Specification<Customer>() {
+      public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query,
+            CriteriaBuilder builder) {
+
+         // build query here
+      }
+    };
+  }
+}
+
+// using
+
+
+List<Customer> customers = customerRepository.findAll(isLongTermCustomer());
+
+
+----
+
+*** Przykład 2
+
+[source,java]
+----
+public class UserSpecifications {
+
+    public static Specification<User> getUserByLogin(final String str) {
+        return new Specification<User>() {
+            @Override
+            public Predicate toPredicate(Root<User> personRoot, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(personRoot.<String> get(User_.login), str);
+            }
+        };
+    }
+
+    public static Specification<User> getUsersWhoEarMoreThan(final BigDecimal salary) {
+        return new Specification<User>() {
+            @Override
+            public Predicate toPredicate(Root<User> personRoot, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.greaterThan(personRoot.<BigDecimal> get(User_.salary), salary);
+            }
+        };
+    }
+}
+
+//
+
+
+----
+
+*** Przykład 
+
+[source,java]
+----
+
+@Test
+    public void shouldSpecificationsPredicateWork() {
+        assertThat(userRepository.findAll(getUserByLogin("przodownik"))).hasSize(1)
+            .containsOnly(User.builder().login("przodownik").name("borowiec").salary(new BigDecimal(120)).build());
+        assertThat(userRepository.findAll(getUsersWhoEarMoreThan(new BigDecimal(300)))).hasSize(2);
+    }
+----
+
+
+
+
+==== Query by Example
+
+
+
+
+[source,java]
+*** Przykład
+
+----
+public class Person {
+
+  @Id
+  private String id;
+  private String firstname;
+  private String lastname;
+  private Address address;
+
+  // … getters and setters omitted
+}
+
+Person person = new Person();                         
+person.setFirstname("Dave");                          
+
+Example<Person> example = Example.of(person); 
+
+public interface QueryByExampleExecutor<T> {
+
+  <S extends T> S findOne(Example<S> example);
+
+  <S extends T> Iterable<S> findAll(Example<S> example);
+
+  // … more functionality omitted.
+}
+
+
+
+//example
+
+Person person = new Person();                          
+person.setFirstname("Dave");                           
+
+ExampleMatcher matcher = ExampleMatcher.matching()     
+  .withIgnorePaths("lastname")                         
+  .withIncludeNullValues()                             
+  .withStringMatcherEnding();                          
+
+Example<Person> example = Example.of(person, matcher);
+
+
+----
+
+==== Transakcyjność
+
+*** Przykład
+
+[source,java]
+----
+public interface UserRepository extends CrudRepository<User, Long> {
+
+  @Override
+  @Transactional(timeout = 10)
+  public List<User> findAll();
+
+  // Further query method declarations
+}
+
+
+
+@Transactional(readOnly = true)
+public interface UserRepository extends JpaRepository<User, Long> {
+
+  List<User> findByLastname(String lastname);
+
+  @Modifying
+  @Transactional
+  @Query("delete from User u where u.active = false")
+  void deleteInactiveUsers();
+}
+
+
+
+
+----
+
+==== Locking
+
+[source,java]
+----
+
+
+interface UserRepository extends Repository<User, Long> {
+
+  // Plain query method
+  @Lock(LockModeType.READ)
+  List<User> findByLastname(String lastname);
+}
+
+
+
+----
+
+==== Audyt / Audit
+
+*** Przykład
+
+[source,java]
+----
+
+
+class Customer {
+
+  @CreatedBy
+  private User user;
+
+  @CreatedDate
+  private DateTime createdDate;
+
+  // … further properties omitted
+}
+
+
+----
+
+==== AuditorAware
+
+*** Przykład
+
+[source,java]
+----
+class SpringSecurityAuditorAware implements AuditorAware<User> {
+
+  public User getCurrentAuditor() {
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    if (authentication == null || !authentication.isAuthenticated()) {
+      return null;
+    }
+
+    return ((MyUserDetails) authentication.getPrincipal()).getUser();
+  }
+}
+
+
+----
+
+[source,java]
+----
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class MyEntity {
+
+}
+
+
+
+@Configuration
+@EnableJpaAuditing
+class Config {
+
+  @Bean
+  public AuditorAware<AuditableUser> auditorProvider() {
+    return new AuditorAwareImpl();
+  }
+}
+
+
+
+----
+
+=== Web support
+
+==== Konfiguracja
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Configuration
+@EnableWebMvc
+@EnableSpringDataWebSupport
+class WebConfiguration { }
+
+
+----
+
+
+
+
+=====  DomainClassConverter 
+
+*** Przykład
+
+[source,java]
+----
+@Controller
+@RequestMapping("/users")
+public class UserController {
+
+  @RequestMapping("/{id}")
+  public String showUserForm(@PathVariable("id") User user, Model model) {
+
+    model.addAttribute("user", user);
+    return "userForm";
+  }
+}
+----
+
+=====    HandlerMethodArgumentResolver  dostęp do  Pageable i  Sort z poziomu parametrów requesta
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Controller
+@RequestMapping("/users")
+public class UserController {
+
+  @Autowired UserRepository repository;
+
+  @RequestMapping
+  public String showUsers(Model model, Pageable pageable) {
+
+    model.addAttribute("users", repository.findAll(pageable));
+    return "users";
+  }
+}
+
+
+----
+
+===== Hypermedia wsparcie dla  Pageables
+
+*** Przykład
+
+[source,java]
+----
+
+
+@Controller
+class PersonController {
+
+  @Autowired PersonRepository repository;
+
+  @RequestMapping(value = "/persons", method = RequestMethod.GET)
+  HttpEntity<PagedResources<Person>> persons(Pageable pageable,
+    PagedResourcesAssembler assembler) {
+
+    Page<Person> persons = repository.findAll(pageable);
+    return new ResponseEntity<>(assembler.toResources(persons), HttpStatus.OK);
+  }
+}
+
+
+----
+
+===== Querydsl web support  / QuerydslPredicateArgumentResolver.
+
+*** Przykład
+
+[source,txt]
+----
+?firstname=Dave&lastname=Matthews
+
+=> 
+
+QUser.user.firstname.eq("Dave").and(QUser.user.lastname.eq("Matthews"))
+
+----
+
+*** Przykład
+
+[source,java]
+----
+
+
+
+@Controller
+class UserController {
+
+  @Autowired UserRepository repository;
+
+  @RequestMapping(value = "/", method = RequestMethod.GET)
+  String index(Model model, @QuerydslPredicate(root = User.class) Predicate predicate,    
+          Pageable pageable, @RequestParam MultiValueMap<String, String> parameters) {
+
+    model.addAttribute("users", repository.findAll(predicate, pageable));
+
+    return "index";
+  }
+}
+
+
+
+interface UserRepository extends CrudRepository<User, String>,
+                                 QueryDslPredicateExecutor<User>,                
+                                 QuerydslBinderCustomizer<QUser> {               
+
+  @Override
+  default public void customize(QuerydslBindings bindings, QUser user) {
+
+    bindings.bind(user.username).first((path, value) -> path.contains(value))    
+    bindings.bind(String.class)
+      .first((StringPath path, String value) -> path.containsIgnoreCase(value)); 
+    bindings.excluding(user.password);                                           
+  }
+}
+
+
+----
+

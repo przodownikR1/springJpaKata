@@ -1,0 +1,31 @@
+
+== Envers
+
+Pozwala na zarządzanie historią zmian w bazie. Możemy traktować to jako narzędzie podobne do SVN'a czy Git'a
+
+
+=== Konfiguracja
+
+[source,xml]
+----
+<dependency>
+<groupId>org.hibernate</groupId>
+<artifactId>hibernate-envers</artifactId>
+<version>4.3.10.Final</version>
+</dependency>
+----
+
+[source,xml]
+----
+<listener class="org.hibernate.envers.event.AuditEventListener" type="post-insert"/>
+<listener class="org.hibernate.envers.event.AuditEventListener" type="post-update"/>
+<listener class="org.hibernate.envers.event.AuditEventListener" type="post-delete"/>
+----
+
+*@Audited* = poziom klasy. Hibernate uaktywni audyt dla danej encji. 
+Jeśli obiekt encyjny będzie się zmieniał spowoduje to również zmiany w tabeli revision.
+
+
+*NotAudited* != @Audited
+
+ 

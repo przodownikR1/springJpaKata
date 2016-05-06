@@ -1,0 +1,361 @@
+
+== Topic
+
+* Problem on granularity
+  Productivity 
+   - concentrate on the business problem 
+   - reduce develop time
+   
+  Maintainability
+    -reduce of LOC
+    - making system more understandable
+  Performance
+    - might be faster in the same query write in classic jdbc way
+    - enable caching in application tier
+  Vendor independence
+     - can help to flexible migrate data from one dataStore to other
+     
+     
+  * Modules: 
+     - EntityManager
+     - Validator - implementation on 
+     - Search - help in easy way handle lucene index. Allow on effient full-text search capabilities    
+     - OGM - support for NoSql database operation. Reusing Hibernate core engine to persistence and mapping nosql data.
+     - Envers - audit logging and keeping multiple version. Allow to show history operation is also similar to version control system like svn or git
+  
+* Hibernate benefits:
+    - Productivity -> (metadate, query data, decrease development time -> productivity increase )
+    - Prototyping  -> extremely useful for quick prototyping
+    - Maintainability
+    - Vendor independence
+    
+* Hibernate disadventage
+   - Learning curve
+   - Overhead
+   - Slower performance: For large batch updates, performance is slower.
+   
+   
+* SessionFactory
+* Opening and Closing Sessions
+  represents a unit of work and is bound to the current thread
+  It also represents a
+ transaction in a database. A session begins when getCurrentSession() is first called on the current thread.
+ The Session object is then bound to the current thread. When the transaction ends with a commit or
+ rollback, Hibernate unbinds the session from the thread and closes it.   
+ :source-highlighter: coderay
+ [source,java]
+----
+ Session session = factory.openSession();
+try {
+// Using the session to retrieve objects
+}catch(Exception e)
+{
+e.printStackTrace();
+} finally {
+session.close();
+}
+----
+ 
+Retrieving and Persisting Objects
+Book book = (Book) session.load(Book.class, isbn);    
+  when the given ID can’t be found, the load() method throws an org.hibernate.ObjectNotFoundException exception
+  he load() method just returns a proxy by default; the database  isn’t hit until the proxy is first invoked
+  
+Book book = (Book) session.get(Book.class, isbn);
+   get() method returns a null object
+   get() method hits the database immediately
+   
+The load() method is useful when you need only a proxy, not’ a database call. You need only a proxy in a given session  when you have to associate an entity before persisting.   
+      
+* Using the JPA EntityManager
+ [source,groovy]
+----
+<dependency>
+<groupId>org.hibernate</groupId>
+<artifactId>hibernate-entitymanager</artifactId>
+<version>4.3.5.Final</version>
+</dependency>
+----
+
+EntityManagerFactory has the same role as SessionFactory in Hibernate. It acts a factory class that
+provides the EntityManager class to the application.
+
+
+JTA is used in J2EE-managed applications in which the container is responsible for  transaction propagation.
+For application-managed transactions, you can use RESOURCE_LOCAL.
+
+
+Enabling Logging in Hibernate
+Inspecting the SQL Statements Issued by Hibernate <property name="show_sql">true</property>
+Enabling Live Statistics  <property name="hibernate.generate_statistics">true</property>      
+      
+* Problem of subtypes
+
+* Simple entity
+  - class must have @Entity annotation
+  - must have an identifier attribute like @Id
+  - someone must generate id number
+  - no argument constructor
+  - getter and setter for all interested fields
+  - 
+  
+Providing an ID for Persistence
+
+ ID element has attributes such as column, type, and generator that you use to generate the identifier.
+ 
+•	 Database sequence
+•	 Native generator
+•	 Increment generator
+•	 Hilo generator
+
+Some of these strategies are available only for specified databases; for instance, the sequence strategy is
+not supported in MYSQL, but it is provided by Oracle.
+
+Sequence:
+[source,java]
+----
+@Id  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+public Long id;
+----
+
+Enhanced Sequence Style Generator
+
+Optimization allows you to query a bunch of identifiers at a time and store them in local memory.
+Once they have been exhausted, the database can be queried for the next group of identifiers, which avoids
+making a call to the database for every new identifier.
+Use the GenericGenerator tag for these enhanced generators:
+ 
+[source,java]
+----
+@GeneratedValue( generator="IdGen")
+@GenericGenerator(strategy="org.hibernate.id.enhanced.SequenceStyleGenerator",name="IdGen",
+parameters = {
+@Parameter(name = "sequence_name", value = "seq_id_gen"),
+@Parameter(name = "optimizer", value = "pooled"),
+@Parameter(name = "initial_value", value = "1000"),
+@Parameter(name = "increment_size", value = "10")
+})
+----
+
+The initial value is set to 1000 and the increment size is 10. The optimizer
+values can be one of the following:
+•	 none does not perform any optimizations and hits the database for every new
+identifier
+•	 hilo generates the identifiers according to the hi/lo algorithm
+•	 pooled stores the high value in the series as the nextval
+•	 pooled-lo stores the low value in the series as the nextval
+
+
+[source,java]
+---- 
+@Id
+@GeneratedValue( generator="IdGen")
+@GenericGenerator(strategy="org.hibernate.id.enhanced.SequenceStyleGenerator",name="IdGen",
+parameters = {
+@Parameter(name = "sequence_name", value = "seq_id_gen"),
+@Parameter(name = "optimizer", value = "pooled"),
+@Parameter(name = "initial_value", value = "1000"),
+@Parameter(name = "increment_size", value = "10")
+})
+----
+
+
+
+Increment reads the maximum primary key column value from the table and increments the value by one.
+[source,java]
+----
+@Id  @GeneratedValue(generator = "increment")
+public Long id;
+----   
+   
+Hilo Generator uses the hi/lo algorithm to generate the identifiers that are unique to a particular database.
+It retrieves the high value from a global source (by default, the hibernate_unique_key table and next_hi
+column), and the low value from a local source. The max_lo value option is provided to define how many low
+values are added before a high value is fetched
+[source,java]
+----
+@Id
+@GeneratedValue(generator = "hilo")
+public Long id;
+----
+
+The hilo generator is of type long. This generator should not be used with a user-supplied connection.
+The high value must be fetched in a separate transaction from the Session transaction, so the generator must
+be able to obtain a new connection and commit it. Hence, this implementation cannot be used when the user
+is supplying connections. In that case, a SequenceHiLoGenerator is a better choice (where supported).
+The hilo generator is used for batch operations
+
+
+Enhanced Table Generator
+This generator defines a table that holds the increment values, and the same table can be used by multiple
+applications for the increment values. Each application is distinguished by the key value.
+[source,java]
+----
+@GeneratedValue( generator="TableIdGen")
+@GenericGenerator(strategy="org.hibernate.id.enhanced.TableGenerator",name="TableIdGen",
+parameters = {
+@Parameter(name = "table_name", value = "enhanced_hibernate_sequences"),
+@Parameter(name = "segment_value", value = "id"),
+@Parameter(name = "optimizer", value = "pooled"),
+@Parameter(name = "initial_value", value = "1000"),
+@Parameter(name = "increment_size", value = "10")
+})
+----
+
+Creating a Composite Key
+ 
+[source,java]
+----
+public class EmployeeId implements Serializable {
+Long department;
+Long idCard;
+
+ 
+@Entity
+@IdClass(EmployeeId.class)
+public class Employee {
+@Id
+Long department;
+@Id
+Long idCard;
+----
+
+
+Composite ID as a Property Using a Component Type
+[source,java]
+----
+@Embeddable
+public class ISBN implements Serializable {
+@Column(name = "group_number")
+int group;
+int publisher;
+int titleRef;
+int checkDigit;
+}
+
+
+@Entity
+public class Book {
+@Id
+ISBN id;
+@Column
+String title;
+----
+
+
+
+==klucz naturalny
+
+There are two options to get around this problem:
+• Don’t use a generated identifier strategy (and instead assign an entity identifier
+when the domain object is first instantiated)
+• Base equals() and hashCode() on business equality, rather than row equality
+Using an assigned identifier strategy isn’t too difficult, but can impose some limitations on your application.
+Generally, the recommended approach is to generate equals() and hashCode() using the values of key
+properties of a domain object—specifically, properties that define an object’s uniqueness from a business
+logic perspective.
+Here is an example of a customized equals and hashCode for the Category domain object:
+@Override
+public boolean equals(Object o) {
+if (this == o) return true;
+if (!(o instanceof Category)) return false;
+Category category = (Category) o;
+if (categoryName != null ?
+!categoryName.equals(category.categoryName) : category.categoryName != null) {
+return false;
+} else {
+return true;
+}
+}
+@Override
+public int hashCode() {
+
+Hibernate is able to maintain entity equivalence only within a single EntityManager scope. If you attempt to
+reattach a detached entity, Hibernate is no longer able to make the same guarantees. The way to resolve
+this problem is to override equals() and hashCode() for each of your domain objects, providing equality
+rules that are reflective of its identity within the database.
+The simplest approach is to use an entity’s identifier to determine equality and generate its hash code.
+However, if you are planning to use a generated identifier strategy, this can have negative implications.
+When an object is first created, it will have a default null identifier. If you attempt to add this newly created
+entity to a java.util.Set and then later save this instance, the invocation of EntityManager.save() will
+trigger an identifier to be generated for the entity in question. However, because you have based equals
+and hashCode on the object’s identifier, you will run into a situation where the hashCode for the object
+suddenly changes. This change breaks the contract for many of the Java collection types, such as Set , and
+could lead to unexpected behavior in your application.
+
+
+== Usuwanie
+
+If the record does not exist in the database, you will face the Exception in thread
+"main" java.lang.IllegalArgumentException: attempt to create delete
+event with null entity exception because get() returns the null object while you try
+to delete that object.
+
+However, if you use the following code to delete the record, you will face another type of error:
+Employee employee = new Employee();
+employee.setId(1);
+session.delete(employee);
+When the preceding code is executed, you will face the Exception in thread "main"
+org.hibernate.StaleStateException: Batch update returned unexpected
+row count from update [0]; actual row count: 0; expected: 1 " exception.
+This is because we are trying to delete Employee#1 from the database (which does not
+exist), and the employee object is also not null; so, it throws an error.
+
+There are many cases where you may face an exception; for example, when you try to remove
+a parent object that is referred to by the child object. In such cases, you will get a foreign
+key constraint violated exception.
+
+If the record does not exist in the database, you will face the Exception in thread
+"main" java.lang.IllegalArgumentException: attempt to create delete
+event with null entity exception because get() returns the null object while you try
+to delete that object.
+However, if you use the following code to delete the record, you will face another type of error:
+Employee employee = new Employee();
+employee.setId(1);
+session.delete(employee);
+When the preceding code is executed, you will face the Exception in thread "main"
+org.hibernate.StaleStateException: Batch update returned unexpected
+row count from update [0]; actual row count: 0; expected: 1 " exception.
+This is because we are trying to delete Employee#1 from the database (which does not
+exist), and the employee object is also not null; so, it throws an error.
+
+
+== aktualizacja
+
+
+In the preceding section, we used the update() method for updating a particular
+record. Apart from this method, hibernate will provide one more useful method called
+saveOrUpdate() .
+This particular method is used to save or update records. Hibernate updates the records for a
+given object if the identifier field is given. If an identifier is not given, then hibernate will insert
+a new record.
+
+
+== merge
+
+Merging is performed when you desire to have a detached entity changed to persistent state again, with the detached
+entity’s changes migrated to (or overriding) the database. The method signatures for the merge operations are:
+
+ 
+Merging is the inverse of refresh(), which overrides the detached entity’s values with the values from the
+database
+
+== reload
+
+
+These methods will reload the properties of the object from the database, overwriting them; thus, as stated,
+refresh() is the inverse of merge(). Merging overrides the database with the values held by the previously transient
+object, and refresh() overrides the values in the transient object with the values in the database.
+
+
+
+
+== Pitfalls
+ n+1 selects problem
+ https://dzone.com/articles/pitfalls-hibernate-second-0
+ https://blog.srcclr.com/jpa-query-performance/
+ http://www.developerfusion.com/article/84945/flush-and-clear-or-mapping-antipatterns/
+ http://lorenzo-dee.blogspot.com/2016/01/jpa-pitfalls-mistakes.html
+
+
+
