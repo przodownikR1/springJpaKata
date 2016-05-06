@@ -994,3 +994,970 @@ Database is already closed (to disable automatic closing at VM shutdown, add ";D
 [INFO] 2016-05-06 10:29:13.949 [Thread-10] o.s.j.e.a.AnnotationMBeanExporter - [requestID: ] Unregistering JMX-exposed beans on shutdown
 [INFO] 2016-05-06 10:29:13.950 [Thread-10] o.s.j.e.a.AnnotationMBeanExporter - [requestID: ] Unregistering JMX-exposed beans
 [INFO] 2016-05-06 10:29:13.952 [Thread-10] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:31:00.705 [Test worker] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 10:31:00.773 [Test worker] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2637d04e, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@642a0261, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@633ff90a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1b43e658, org.springframework.test.context.transaction.TransactionalTestExecutionListener@3eef0de, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3763c3c8]
+[INFO] 2016-05-06 10:31:01.215 [Test worker] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@729666c8: startup date [Fri May 06 10:31:01 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:31:02.099 [Test worker] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 10:31:02.347 [Test worker] o.h.validator.internal.util.Version - [requestID: ] HV000001: Hibernate Validator 5.3.0.Alpha1
+[INFO] 2016-05-06 10:31:03.423 [Test worker] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:31:03.465 [Test worker] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO] 2016-05-06 10:31:03.659 [Test worker] org.hibernate.Version - [requestID: ] HHH000412: Hibernate Core {5.1.0.Final}
+[INFO] 2016-05-06 10:31:03.662 [Test worker] org.hibernate.cfg.Environment - [requestID: ] HHH000206: hibernate.properties not found
+[INFO] 2016-05-06 10:31:03.666 [Test worker] org.hibernate.cfg.Environment - [requestID: ] HHH000021: Bytecode provider name : javassist
+[INFO] 2016-05-06 10:31:03.782 [Test worker] o.h.annotations.common.Version - [requestID: ] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[WARN] 2016-05-06 10:31:03.810 [Test worker] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 10:31:04.790 [Test worker] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 10:31:06.280 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: ADDRESS
+[INFO] 2016-05-06 10:31:06.282 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: ADDRESS
+[INFO] 2016-05-06 10:31:06.300 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: DEPARTMENT
+[INFO] 2016-05-06 10:31:06.303 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: DEPARTMENT
+[INFO] 2016-05-06 10:31:06.309 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: EMPLOYEE
+[INFO] 2016-05-06 10:31:06.311 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: EMPLOYEE
+[INFO] 2016-05-06 10:31:06.317 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: PHONE
+[INFO] 2016-05-06 10:31:06.319 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: PHONE
+[INFO] 2016-05-06 10:31:06.326 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: PROJECT
+[INFO] 2016-05-06 10:31:06.329 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: PROJECT
+[INFO] 2016-05-06 10:31:06.334 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: PROJECT_EMPLOYEE
+[INFO] 2016-05-06 10:31:06.337 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: PROJECT_EMPLOYEE
+[DEBUG] 2016-05-06 10:31:06.987 [Test worker] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 10:31:07.002 [Test worker] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@68b76b26 testClass = JpaExerciseOneTest, testInstance = pl.java.scalatech.exercise.one.JpaExerciseOneTest@780819c7, testMethod = shouldBoostrap@JpaExerciseOneTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@2a425fcb testClass = JpaExerciseOneTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.one.Jpa1Config}', contextInitializerClasses = '[]', activeProfiles = '{exerciseOne}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@55f46b40]; rollback [true]
+[INFO] 2016-05-06 10:31:07.014 [Test worker] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    73432 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:31:07.016 [Test worker] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@68b76b26 testClass = JpaExerciseOneTest, testInstance = pl.java.scalatech.exercise.one.JpaExerciseOneTest@780819c7, testMethod = shouldBoostrap@JpaExerciseOneTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@2a425fcb testClass = JpaExerciseOneTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.one.Jpa1Config}', contextInitializerClasses = '[]', activeProfiles = '{exerciseOne}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 10:31:07.026 [Test worker] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 10:31:07.027 [Test worker] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@73853ebe, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@b2da97f, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@38d195d3, org.springframework.test.context.support.DirtiesContextTestExecutionListener@419f797b, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1b35cf38, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@7d35eb70]
+[INFO] 2016-05-06 10:31:07.033 [Test worker] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@497e8608: startup date [Fri May 06 10:31:07 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:31:07.149 [Test worker] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 10:31:07.341 [Test worker] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:31:07.341 [Test worker] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[WARN] 2016-05-06 10:31:07.347 [Test worker] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 10:31:07.353 [Test worker] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 10:31:07.476 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Company
+[INFO] 2016-05-06 10:31:07.478 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Company
+[INFO] 2016-05-06 10:31:07.484 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Company_Department
+[INFO] 2016-05-06 10:31:07.487 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Company_Department
+[WARN] 2016-05-06 10:31:07.660 [Test worker] o.h.j.i.EntityManagerFactoryRegistry - [requestID: ] HHH000436: Entity manager factory name (default) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+[DEBUG] 2016-05-06 10:31:07.742 [Test worker] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 10:31:07.743 [Test worker] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@45c7dbc0 testClass = JpqlTest, testInstance = pl.java.scalatech.exercise.jpql.JpqlTest@66f086a3, testMethod = shouldBoostrap@JpqlTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@479c810a testClass = JpqlTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.jpql.JpaJpqlConfig}', contextInitializerClasses = '[]', activeProfiles = '{jpql}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@4808884a]; rollback [true]
+[INFO] 2016-05-06 10:31:07.745 [Test worker] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    68017 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:31:07.752 [Test worker] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@45c7dbc0 testClass = JpqlTest, testInstance = pl.java.scalatech.exercise.jpql.JpqlTest@66f086a3, testMethod = shouldBoostrap@JpqlTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@479c810a testClass = JpqlTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.jpql.JpaJpqlConfig}', contextInitializerClasses = '[]', activeProfiles = '{jpql}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 10:31:07.762 [Test worker] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 10:31:07.763 [Test worker] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3c0df26b, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@149b8e99, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@338a88c5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1ffd6045, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4cb0477b, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@497e732]
+[INFO] 2016-05-06 10:31:07.773 [Test worker] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@63bc9bc5: startup date [Fri May 06 10:31:07 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:31:08.048 [Test worker] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:31:08.049 [Test worker] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[WARN] 2016-05-06 10:31:08.060 [Test worker] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 10:31:08.071 [Test worker] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 10:31:08.677 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Cart
+[INFO] 2016-05-06 10:31:08.678 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Cart
+[INFO] 2016-05-06 10:31:08.727 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[INFO] 2016-05-06 10:31:08.729 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[INFO] 2016-05-06 10:31:08.749 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: SimpleProduct
+[INFO] 2016-05-06 10:31:08.751 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: SimpleProduct
+[INFO] 2016-05-06 10:31:08.755 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Todo
+[INFO] 2016-05-06 10:31:08.757 [Test worker] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Todo
+[WARN] 2016-05-06 10:31:08.886 [Test worker] o.h.j.i.EntityManagerFactoryRegistry - [requestID: ] HHH000436: Entity manager factory name (default) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+[DEBUG] 2016-05-06 10:31:09.014 [Test worker] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=false]
+[INFO] 2016-05-06 10:31:09.436 [Test worker] o.h.h.i.QueryTranslatorFactoryInitiator - [requestID: ] HHH000397: Using ASTQueryTranslatorFactory
+[INFO] 2016-05-06 10:31:09.878 [Thread-9] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@63bc9bc5: startup date [Fri May 06 10:31:07 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:31:09.883 [Thread-7] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@729666c8: startup date [Fri May 06 10:31:01 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:31:09.885 [Thread-8] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@497e8608: startup date [Fri May 06 10:31:07 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:31:10.032 [Thread-8] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:31:10.032 [Thread-9] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:31:10.035 [Thread-7] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:44:41.294 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 10:44:41.321 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6328d34a, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@145eaa29, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@15bb6bea, org.springframework.test.context.support.DirtiesContextTestExecutionListener@8b96fde, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2d2e5f00, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@4c40b76e]
+[INFO] 2016-05-06 10:44:41.481 [main] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@2b6856dd: startup date [Fri May 06 10:44:41 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:44:41.971 [main] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 10:44:42.132 [main] o.h.validator.internal.util.Version - [requestID: ] HV000001: Hibernate Validator 5.3.0.Alpha1
+[INFO] 2016-05-06 10:44:42.673 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:44:42.696 [main] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO] 2016-05-06 10:44:42.779 [main] org.hibernate.Version - [requestID: ] HHH000412: Hibernate Core {5.1.0.Final}
+[INFO] 2016-05-06 10:44:42.781 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000206: hibernate.properties not found
+[INFO] 2016-05-06 10:44:42.783 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000021: Bytecode provider name : javassist
+[INFO] 2016-05-06 10:44:42.828 [main] o.h.annotations.common.Version - [requestID: ] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[WARN] 2016-05-06 10:44:42.837 [main] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 10:44:43.245 [main] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[DEBUG] 2016-05-06 10:44:44.009 [main] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 10:44:44.018 [main] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@2b7962a2 testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@6ad16c5d, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@5b852b49 testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@74ea46e2]; rollback [true]
+[INFO] 2016-05-06 10:44:44.024 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    100875 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:44:44.026 [main] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@2b7962a2 testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@6ad16c5d, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@5b852b49 testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 10:44:44.029 [Thread-3] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@2b6856dd: startup date [Fri May 06 10:44:41 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:44:44.033 [Thread-3] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:45:06.452 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 10:45:06.472 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6328d34a, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@145eaa29, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@15bb6bea, org.springframework.test.context.support.DirtiesContextTestExecutionListener@8b96fde, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2d2e5f00, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@4c40b76e]
+[INFO] 2016-05-06 10:45:06.629 [main] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@2b6856dd: startup date [Fri May 06 10:45:06 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:45:07.147 [main] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 10:45:07.338 [main] o.h.validator.internal.util.Version - [requestID: ] HV000001: Hibernate Validator 5.3.0.Alpha1
+[INFO] 2016-05-06 10:45:07.908 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:45:07.925 [main] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO] 2016-05-06 10:45:08.000 [main] org.hibernate.Version - [requestID: ] HHH000412: Hibernate Core {5.1.0.Final}
+[INFO] 2016-05-06 10:45:08.002 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000206: hibernate.properties not found
+[INFO] 2016-05-06 10:45:08.005 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000021: Bytecode provider name : javassist
+[INFO] 2016-05-06 10:45:08.055 [main] o.h.annotations.common.Version - [requestID: ] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[WARN] 2016-05-06 10:45:08.067 [main] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 10:45:08.600 [main] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 10:45:09.349 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 10:45:09.351 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 10:45:09.358 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[INFO] 2016-05-06 10:45:09.360 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[DEBUG] 2016-05-06 10:45:09.730 [main] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 10:45:09.740 [main] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@5649d11a testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@294f9d50, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@4da39ca9 testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@27443560]; rollback [true]
+[INFO] 2016-05-06 10:45:09.746 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    89513 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:45:09.748 [main] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@5649d11a testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@294f9d50, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@4da39ca9 testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 10:45:09.752 [Thread-3] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@2b6856dd: startup date [Fri May 06 10:45:06 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:45:09.754 [Thread-3] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:54:58.096 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 10:54:58.117 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@568bf312, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@ca263c2, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@589b3632, org.springframework.test.context.support.DirtiesContextTestExecutionListener@45f45fa1, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4c6e276e, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@534df152]
+[INFO] 2016-05-06 10:54:58.264 [main] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@6e75aa0d: startup date [Fri May 06 10:54:58 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:54:58.744 [main] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 10:54:58.911 [main] o.h.validator.internal.util.Version - [requestID: ] HV000001: Hibernate Validator 5.3.0.Alpha1
+[INFO] 2016-05-06 10:54:59.336 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:54:59.353 [main] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO] 2016-05-06 10:54:59.421 [main] org.hibernate.Version - [requestID: ] HHH000412: Hibernate Core {5.1.0.Final}
+[INFO] 2016-05-06 10:54:59.423 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000206: hibernate.properties not found
+[INFO] 2016-05-06 10:54:59.425 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000021: Bytecode provider name : javassist
+[INFO] 2016-05-06 10:54:59.465 [main] o.h.annotations.common.Version - [requestID: ] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[WARN] 2016-05-06 10:54:59.474 [main] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 10:54:59.871 [main] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 10:55:00.536 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 10:55:00.538 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 10:55:00.549 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[INFO] 2016-05-06 10:55:00.551 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[DEBUG] 2016-05-06 10:55:00.935 [main] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 10:55:00.941 [main] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@70721c12 testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@769bd849, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@1d4fb213 testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@101ca8da]; rollback [true]
+[INFO] 2016-05-06 10:55:00.953 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')]
+[INFO] 2016-05-06 10:55:00.955 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')] in 2 ms.
+[INFO] 2016-05-06 10:55:00.955 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')]
+[INFO] 2016-05-06 10:55:00.956 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')] in 1 ms.
+[INFO] 2016-05-06 10:55:00.956 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')]
+[INFO] 2016-05-06 10:55:00.956 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')] in 0 ms.
+[INFO] 2016-05-06 10:55:00.957 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')]
+[INFO] 2016-05-06 10:55:00.957 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')] in 0 ms.
+[INFO] 2016-05-06 10:55:00.957 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')]
+[INFO] 2016-05-06 10:55:00.958 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')] in 1 ms.
+[INFO] 2016-05-06 10:55:00.958 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')]
+[INFO] 2016-05-06 10:55:00.958 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')] in 0 ms.
+[INFO] 2016-05-06 10:55:00.959 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')]
+[INFO] 2016-05-06 10:55:00.959 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')] in 0 ms.
+[INFO] 2016-05-06 10:55:00.960 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')]
+[INFO] 2016-05-06 10:55:00.960 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')] in 0 ms.
+[INFO] 2016-05-06 10:55:00.960 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')]
+[INFO] 2016-05-06 10:55:00.961 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')] in 1 ms.
+[INFO] 2016-05-06 10:55:00.961 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')]
+[INFO] 2016-05-06 10:55:00.961 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')] in 0 ms.
+[INFO] 2016-05-06 10:55:00.961 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')]
+[INFO] 2016-05-06 10:55:00.962 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')] in 1 ms.
+[INFO] 2016-05-06 10:55:00.962 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')]
+[INFO] 2016-05-06 10:55:00.962 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')] in 0 ms.
+[INFO] 2016-05-06 10:55:00.963 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)]
+[INFO] 2016-05-06 10:55:00.964 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)] in 1 ms.
+[INFO] 2016-05-06 10:55:00.964 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)]
+[INFO] 2016-05-06 10:55:00.965 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)] in 1 ms.
+[INFO] 2016-05-06 10:55:00.965 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)]
+[INFO] 2016-05-06 10:55:00.965 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.966 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)]
+[INFO] 2016-05-06 10:55:00.966 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.966 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)]
+[INFO] 2016-05-06 10:55:00.967 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.967 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)]
+[INFO] 2016-05-06 10:55:00.967 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.968 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)]
+[INFO] 2016-05-06 10:55:00.968 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.968 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)]
+[INFO] 2016-05-06 10:55:00.969 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)] in 1 ms.
+[INFO] 2016-05-06 10:55:00.969 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)]
+[INFO] 2016-05-06 10:55:00.969 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.970 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)]
+[INFO] 2016-05-06 10:55:00.970 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.971 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)]
+[INFO] 2016-05-06 10:55:00.971 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.971 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)]
+[INFO] 2016-05-06 10:55:00.972 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.972 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)]
+[INFO] 2016-05-06 10:55:00.973 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)] in 1 ms.
+[INFO] 2016-05-06 10:55:00.973 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)]
+[INFO] 2016-05-06 10:55:00.974 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)] in 1 ms.
+[INFO] 2016-05-06 10:55:00.974 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)]
+[INFO] 2016-05-06 10:55:00.974 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)] in 0 ms.
+[INFO] 2016-05-06 10:55:00.985 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    63177 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:55:00.986 [main] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@70721c12 testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@769bd849, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@1d4fb213 testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 10:55:00.990 [Thread-3] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@6e75aa0d: startup date [Fri May 06 10:54:58 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:55:00.992 [Thread-3] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:58:21.060 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 10:58:21.081 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2b546384, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5d740a0f, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@214b199c, org.springframework.test.context.support.DirtiesContextTestExecutionListener@20d3d15a, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2893de87, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55ca8de8]
+[INFO] 2016-05-06 10:58:21.292 [main] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@6a01e23: startup date [Fri May 06 10:58:21 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:58:21.780 [main] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 10:58:21.947 [main] o.h.validator.internal.util.Version - [requestID: ] HV000001: Hibernate Validator 5.3.0.Alpha1
+[INFO] 2016-05-06 10:58:22.444 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:58:22.466 [main] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO] 2016-05-06 10:58:22.565 [main] org.hibernate.Version - [requestID: ] HHH000412: Hibernate Core {5.1.0.Final}
+[INFO] 2016-05-06 10:58:22.566 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000206: hibernate.properties not found
+[INFO] 2016-05-06 10:58:22.569 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000021: Bytecode provider name : javassist
+[INFO] 2016-05-06 10:58:22.621 [main] o.h.annotations.common.Version - [requestID: ] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[WARN] 2016-05-06 10:58:22.632 [main] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 10:58:23.090 [main] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 10:58:23.872 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 10:58:23.873 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 10:58:23.884 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[INFO] 2016-05-06 10:58:23.887 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[DEBUG] 2016-05-06 10:58:24.301 [main] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 10:58:24.307 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:58:24.310 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:58:24.328 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:58:24.361 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:58:24.374 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:58:24.376 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:58:24.378 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:58:24.460 [main] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@7a6ea47d testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@54b2fc58, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@53d9826f testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@daf22f0]; rollback [true]
+[INFO] 2016-05-06 10:58:24.479 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')]
+[INFO] 2016-05-06 10:58:24.483 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')] in 3 ms.
+[INFO] 2016-05-06 10:58:24.484 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')]
+[INFO] 2016-05-06 10:58:24.485 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')] in 1 ms.
+[INFO] 2016-05-06 10:58:24.485 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')]
+[INFO] 2016-05-06 10:58:24.486 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')] in 0 ms.
+[INFO] 2016-05-06 10:58:24.487 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')]
+[INFO] 2016-05-06 10:58:24.488 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')] in 1 ms.
+[INFO] 2016-05-06 10:58:24.488 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')]
+[INFO] 2016-05-06 10:58:24.489 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')] in 1 ms.
+[INFO] 2016-05-06 10:58:24.489 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')]
+[INFO] 2016-05-06 10:58:24.490 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')] in 1 ms.
+[INFO] 2016-05-06 10:58:24.490 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')]
+[INFO] 2016-05-06 10:58:24.490 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')] in 0 ms.
+[INFO] 2016-05-06 10:58:24.491 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')]
+[INFO] 2016-05-06 10:58:24.491 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')] in 0 ms.
+[INFO] 2016-05-06 10:58:24.491 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')]
+[INFO] 2016-05-06 10:58:24.492 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')] in 0 ms.
+[INFO] 2016-05-06 10:58:24.492 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')]
+[INFO] 2016-05-06 10:58:24.493 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')] in 1 ms.
+[INFO] 2016-05-06 10:58:24.493 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')]
+[INFO] 2016-05-06 10:58:24.493 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')] in 0 ms.
+[INFO] 2016-05-06 10:58:24.494 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')]
+[INFO] 2016-05-06 10:58:24.514 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')] in 20 ms.
+[INFO] 2016-05-06 10:58:24.515 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)]
+[INFO] 2016-05-06 10:58:24.518 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)] in 3 ms.
+[INFO] 2016-05-06 10:58:24.519 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)]
+[INFO] 2016-05-06 10:58:24.520 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)] in 1 ms.
+[INFO] 2016-05-06 10:58:24.521 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)]
+[INFO] 2016-05-06 10:58:24.522 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)] in 1 ms.
+[INFO] 2016-05-06 10:58:24.522 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)]
+[INFO] 2016-05-06 10:58:24.523 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)] in 1 ms.
+[INFO] 2016-05-06 10:58:24.523 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)]
+[INFO] 2016-05-06 10:58:24.524 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)] in 0 ms.
+[INFO] 2016-05-06 10:58:24.524 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)]
+[INFO] 2016-05-06 10:58:24.525 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)] in 0 ms.
+[INFO] 2016-05-06 10:58:24.526 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)]
+[INFO] 2016-05-06 10:58:24.526 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)] in 0 ms.
+[INFO] 2016-05-06 10:58:24.527 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)]
+[INFO] 2016-05-06 10:58:24.527 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)] in 0 ms.
+[INFO] 2016-05-06 10:58:24.527 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)]
+[INFO] 2016-05-06 10:58:24.528 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)] in 1 ms.
+[INFO] 2016-05-06 10:58:24.528 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)]
+[INFO] 2016-05-06 10:58:24.529 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)] in 1 ms.
+[INFO] 2016-05-06 10:58:24.529 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)]
+[INFO] 2016-05-06 10:58:24.530 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)] in 1 ms.
+[INFO] 2016-05-06 10:58:24.530 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)]
+[INFO] 2016-05-06 10:58:24.531 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)] in 1 ms.
+[INFO] 2016-05-06 10:58:24.531 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)]
+[INFO] 2016-05-06 10:58:24.531 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)] in 0 ms.
+[INFO] 2016-05-06 10:58:24.532 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)]
+[INFO] 2016-05-06 10:58:24.532 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)] in 0 ms.
+[INFO] 2016-05-06 10:58:24.532 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)]
+[INFO] 2016-05-06 10:58:24.533 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)] in 0 ms.
+[INFO] 2016-05-06 10:58:24.564 [main] o.h.h.i.QueryTranslatorFactoryInitiator - [requestID: ] HHH000397: Using ASTQueryTranslatorFactory
+[DEBUG] 2016-05-06 10:58:24.722 [main] o.h.s.i.ConcurrentStatisticsImpl - [requestID: ] HHH000117: HQL: select generatedAlias0 from Address as generatedAlias0, time: 49ms, rows: 15
+[INFO] 2016-05-06 10:58:24.724 [main] p.j.s.exercise.fetch.JpaFetchTest - [requestID: ] address [FAILED toString()]
+[DEBUG] 2016-05-06 10:58:24.778 [main] o.h.s.i.ConcurrentStatisticsImpl - [requestID: ] HHH000117: HQL: select generatedAlias0 from Person as generatedAlias0, time: 1ms, rows: 12
+[INFO] 2016-05-06 10:58:24.779 [main] p.j.s.exercise.fetch.JpaFetchTest - [requestID: ] person [FAILED toString()]
+[INFO] 2016-05-06 10:58:24.799 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    92569 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    2308502 nanoseconds spent preparing 15 JDBC statements;
+    2465793 nanoseconds spent executing 15 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    11924381 nanoseconds spent executing 2 partial-flushes (flushing a total of 27 entities and 27 collections)
+}
+[INFO] 2016-05-06 10:58:24.800 [main] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@7a6ea47d testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@54b2fc58, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@53d9826f testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 10:58:24.804 [Thread-3] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@6a01e23: startup date [Fri May 06 10:58:21 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:58:24.806 [Thread-3] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:59:12.772 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 10:59:12.795 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2b546384, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5d740a0f, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@214b199c, org.springframework.test.context.support.DirtiesContextTestExecutionListener@20d3d15a, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2893de87, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55ca8de8]
+[INFO] 2016-05-06 10:59:12.983 [main] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@6a01e23: startup date [Fri May 06 10:59:12 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:59:13.481 [main] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 10:59:13.639 [main] o.h.validator.internal.util.Version - [requestID: ] HV000001: Hibernate Validator 5.3.0.Alpha1
+[INFO] 2016-05-06 10:59:14.107 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 10:59:14.126 [main] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO] 2016-05-06 10:59:14.214 [main] org.hibernate.Version - [requestID: ] HHH000412: Hibernate Core {5.1.0.Final}
+[INFO] 2016-05-06 10:59:14.217 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000206: hibernate.properties not found
+[INFO] 2016-05-06 10:59:14.219 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000021: Bytecode provider name : javassist
+[INFO] 2016-05-06 10:59:14.278 [main] o.h.annotations.common.Version - [requestID: ] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[WARN] 2016-05-06 10:59:14.289 [main] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 10:59:14.778 [main] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 10:59:15.563 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 10:59:15.565 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 10:59:15.577 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[INFO] 2016-05-06 10:59:15.579 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[DEBUG] 2016-05-06 10:59:15.981 [main] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 10:59:15.990 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:59:15.993 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:59:16.021 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:59:16.066 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:59:16.080 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:59:16.084 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:59:16.086 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 10:59:16.171 [main] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@7a6ea47d testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@54b2fc58, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@53d9826f testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@daf22f0]; rollback [true]
+[INFO] 2016-05-06 10:59:16.194 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')]
+[INFO] 2016-05-06 10:59:16.197 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')] in 3 ms.
+[INFO] 2016-05-06 10:59:16.198 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')]
+[INFO] 2016-05-06 10:59:16.199 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')] in 0 ms.
+[INFO] 2016-05-06 10:59:16.200 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')]
+[INFO] 2016-05-06 10:59:16.200 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')] in 0 ms.
+[INFO] 2016-05-06 10:59:16.201 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')]
+[INFO] 2016-05-06 10:59:16.201 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')] in 0 ms.
+[INFO] 2016-05-06 10:59:16.202 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')]
+[INFO] 2016-05-06 10:59:16.202 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')] in 0 ms.
+[INFO] 2016-05-06 10:59:16.202 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')]
+[INFO] 2016-05-06 10:59:16.203 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')] in 0 ms.
+[INFO] 2016-05-06 10:59:16.203 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')]
+[INFO] 2016-05-06 10:59:16.204 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')] in 0 ms.
+[INFO] 2016-05-06 10:59:16.204 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')]
+[INFO] 2016-05-06 10:59:16.205 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')] in 1 ms.
+[INFO] 2016-05-06 10:59:16.205 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')]
+[INFO] 2016-05-06 10:59:16.206 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')] in 1 ms.
+[INFO] 2016-05-06 10:59:16.206 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')]
+[INFO] 2016-05-06 10:59:16.207 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')] in 1 ms.
+[INFO] 2016-05-06 10:59:16.207 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')]
+[INFO] 2016-05-06 10:59:16.208 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')] in 1 ms.
+[INFO] 2016-05-06 10:59:16.208 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')]
+[INFO] 2016-05-06 10:59:16.208 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')] in 0 ms.
+[INFO] 2016-05-06 10:59:16.209 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)]
+[INFO] 2016-05-06 10:59:16.210 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.210 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)]
+[INFO] 2016-05-06 10:59:16.211 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.212 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)]
+[INFO] 2016-05-06 10:59:16.213 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.214 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)]
+[INFO] 2016-05-06 10:59:16.215 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.215 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)]
+[INFO] 2016-05-06 10:59:16.216 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.216 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)]
+[INFO] 2016-05-06 10:59:16.217 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)] in 0 ms.
+[INFO] 2016-05-06 10:59:16.218 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)]
+[INFO] 2016-05-06 10:59:16.219 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.220 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)]
+[INFO] 2016-05-06 10:59:16.221 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.221 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)]
+[INFO] 2016-05-06 10:59:16.222 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)] in 0 ms.
+[INFO] 2016-05-06 10:59:16.223 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)]
+[INFO] 2016-05-06 10:59:16.224 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.224 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)]
+[INFO] 2016-05-06 10:59:16.225 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)] in 0 ms.
+[INFO] 2016-05-06 10:59:16.226 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)]
+[INFO] 2016-05-06 10:59:16.227 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.227 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)]
+[INFO] 2016-05-06 10:59:16.228 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.229 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)]
+[INFO] 2016-05-06 10:59:16.230 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.230 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)]
+[INFO] 2016-05-06 10:59:16.231 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)] in 1 ms.
+[INFO] 2016-05-06 10:59:16.293 [main] o.h.h.i.QueryTranslatorFactoryInitiator - [requestID: ] HHH000397: Using ASTQueryTranslatorFactory
+[DEBUG] 2016-05-06 10:59:16.455 [main] o.h.s.i.ConcurrentStatisticsImpl - [requestID: ] HHH000117: HQL: select generatedAlias0 from Address as generatedAlias0, time: 50ms, rows: 15
+[INFO] 2016-05-06 10:59:16.458 [main] p.j.s.exercise.fetch.JpaFetchTest - [requestID: ] address [Address(city=warszawa, personId=1), Address(city=poznan, personId=1), Address(city=lodz, personId=1), Address(city=warszawa, personId=2), Address(city=radom, personId=3), Address(city=krakow, personId=4), Address(city=wroclaw, personId=5), Address(city=gdansk, personId=6), Address(city=ilza, personId=7), Address(city=ciechanow, personId=8), Address(city=lezajsk, personId=9), Address(city=katowice, personId=10), Address(city=sopot, personId=11), Address(city=gdynia, personId=12), Address(city=poznan, personId=12)]
+[DEBUG] 2016-05-06 10:59:16.476 [main] o.h.s.i.ConcurrentStatisticsImpl - [requestID: ] HHH000117: HQL: select generatedAlias0 from Person as generatedAlias0, time: 1ms, rows: 12
+[INFO] 2016-05-06 10:59:16.476 [main] p.j.s.exercise.fetch.JpaFetchTest - [requestID: ] person [Person(firstName=slawek1, lastName=borowiec1, addresses=[Address(city=warszawa, personId=1), Address(city=poznan, personId=1), Address(city=lodz, personId=1)]), Person(firstName=slawek2, lastName=borowiec2, addresses=[Address(city=warszawa, personId=2)]), Person(firstName=slawek3, lastName=borowiec3, addresses=[Address(city=radom, personId=3)]), Person(firstName=slawek4, lastName=borowiec4, addresses=[Address(city=krakow, personId=4)]), Person(firstName=slawek5, lastName=borowiec5, addresses=[Address(city=wroclaw, personId=5)]), Person(firstName=slawek6, lastName=borowiec6, addresses=[Address(city=gdansk, personId=6)]), Person(firstName=slawek7, lastName=borowiec7, addresses=[Address(city=ilza, personId=7)]), Person(firstName=slawek8, lastName=borowiec8, addresses=[Address(city=ciechanow, personId=8)]), Person(firstName=slawek9, lastName=borowiec9, addresses=[Address(city=lezajsk, personId=9)]), Person(firstName=slawek10, lastName=borowiec10, addresses=[Address(city=katowice, personId=10)]), Person(firstName=slawek11, lastName=borowiec11, addresses=[Address(city=sopot, personId=11)]), Person(firstName=slawek12, lastName=borowiec12, addresses=[Address(city=gdynia, personId=12), Address(city=poznan, personId=12)])]
+[INFO] 2016-05-06 10:59:16.502 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    93931 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    2579055 nanoseconds spent preparing 26 JDBC statements;
+    3976798 nanoseconds spent executing 26 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    13078307 nanoseconds spent executing 2 partial-flushes (flushing a total of 27 entities and 27 collections)
+}
+[INFO] 2016-05-06 10:59:16.503 [main] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@7a6ea47d testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@54b2fc58, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@53d9826f testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 10:59:16.505 [Thread-3] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@6a01e23: startup date [Fri May 06 10:59:12 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 10:59:16.509 [Thread-3] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 11:00:16.243 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 11:00:16.264 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2b546384, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5d740a0f, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@214b199c, org.springframework.test.context.support.DirtiesContextTestExecutionListener@20d3d15a, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2893de87, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55ca8de8]
+[INFO] 2016-05-06 11:00:16.439 [main] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@6a01e23: startup date [Fri May 06 11:00:16 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 11:00:16.902 [main] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 11:00:17.072 [main] o.h.validator.internal.util.Version - [requestID: ] HV000001: Hibernate Validator 5.3.0.Alpha1
+[INFO] 2016-05-06 11:00:17.542 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 11:00:17.561 [main] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO] 2016-05-06 11:00:17.646 [main] org.hibernate.Version - [requestID: ] HHH000412: Hibernate Core {5.1.0.Final}
+[INFO] 2016-05-06 11:00:17.649 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000206: hibernate.properties not found
+[INFO] 2016-05-06 11:00:17.651 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000021: Bytecode provider name : javassist
+[INFO] 2016-05-06 11:00:17.718 [main] o.h.annotations.common.Version - [requestID: ] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[WARN] 2016-05-06 11:00:17.731 [main] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 11:00:18.219 [main] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 11:00:18.992 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 11:00:18.994 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 11:00:19.004 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[INFO] 2016-05-06 11:00:19.006 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[DEBUG] 2016-05-06 11:00:19.419 [main] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 11:00:19.425 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:19.427 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:19.447 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:19.478 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:19.490 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:19.493 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:19.494 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:19.572 [main] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@7a6ea47d testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@54b2fc58, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@53d9826f testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@daf22f0]; rollback [true]
+[INFO] 2016-05-06 11:00:19.587 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')]
+[INFO] 2016-05-06 11:00:19.590 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')] in 3 ms.
+[INFO] 2016-05-06 11:00:19.590 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')]
+[INFO] 2016-05-06 11:00:19.591 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')] in 1 ms.
+[INFO] 2016-05-06 11:00:19.591 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')]
+[INFO] 2016-05-06 11:00:19.591 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')] in 0 ms.
+[INFO] 2016-05-06 11:00:19.592 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')]
+[INFO] 2016-05-06 11:00:19.592 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')] in 0 ms.
+[INFO] 2016-05-06 11:00:19.592 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')]
+[INFO] 2016-05-06 11:00:19.593 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')] in 0 ms.
+[INFO] 2016-05-06 11:00:19.593 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')]
+[INFO] 2016-05-06 11:00:19.594 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')] in 1 ms.
+[INFO] 2016-05-06 11:00:19.594 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')]
+[INFO] 2016-05-06 11:00:19.594 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')] in 0 ms.
+[INFO] 2016-05-06 11:00:19.594 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')]
+[INFO] 2016-05-06 11:00:19.595 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')] in 0 ms.
+[INFO] 2016-05-06 11:00:19.595 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')]
+[INFO] 2016-05-06 11:00:19.596 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')] in 1 ms.
+[INFO] 2016-05-06 11:00:19.596 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')]
+[INFO] 2016-05-06 11:00:19.596 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')] in 0 ms.
+[INFO] 2016-05-06 11:00:19.596 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')]
+[INFO] 2016-05-06 11:00:19.597 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')] in 0 ms.
+[INFO] 2016-05-06 11:00:19.597 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')]
+[INFO] 2016-05-06 11:00:19.616 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')] in 19 ms.
+[INFO] 2016-05-06 11:00:19.617 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)]
+[INFO] 2016-05-06 11:00:19.618 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.618 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)]
+[INFO] 2016-05-06 11:00:19.619 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)] in 0 ms.
+[INFO] 2016-05-06 11:00:19.620 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)]
+[INFO] 2016-05-06 11:00:19.620 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)] in 0 ms.
+[INFO] 2016-05-06 11:00:19.620 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)]
+[INFO] 2016-05-06 11:00:19.621 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.621 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)]
+[INFO] 2016-05-06 11:00:19.621 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)] in 0 ms.
+[INFO] 2016-05-06 11:00:19.622 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)]
+[INFO] 2016-05-06 11:00:19.622 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)] in 0 ms.
+[INFO] 2016-05-06 11:00:19.622 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)]
+[INFO] 2016-05-06 11:00:19.623 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.623 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)]
+[INFO] 2016-05-06 11:00:19.624 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.624 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)]
+[INFO] 2016-05-06 11:00:19.625 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.625 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)]
+[INFO] 2016-05-06 11:00:19.626 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.626 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)]
+[INFO] 2016-05-06 11:00:19.627 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.627 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)]
+[INFO] 2016-05-06 11:00:19.627 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)] in 0 ms.
+[INFO] 2016-05-06 11:00:19.628 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)]
+[INFO] 2016-05-06 11:00:19.628 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)] in 0 ms.
+[INFO] 2016-05-06 11:00:19.628 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)]
+[INFO] 2016-05-06 11:00:19.629 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.629 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)]
+[INFO] 2016-05-06 11:00:19.630 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)] in 1 ms.
+[INFO] 2016-05-06 11:00:19.657 [main] o.h.h.i.QueryTranslatorFactoryInitiator - [requestID: ] HHH000397: Using ASTQueryTranslatorFactory
+[DEBUG] 2016-05-06 11:00:19.775 [main] o.h.s.i.ConcurrentStatisticsImpl - [requestID: ] HHH000117: HQL: select count(*) from Address x, time: 9ms, rows: 1
+[INFO] 2016-05-06 11:00:19.832 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    77059 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    431567 nanoseconds spent preparing 1 JDBC statements;
+    166331 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    75011 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:19.834 [main] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@7a6ea47d testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@54b2fc58, testMethod = shouldBootstrap@JpaFetchTest, testException = org.junit.ComparisonFailure: expected:<1[2]L> but was:<1[5]L>, mergedContextConfiguration = [MergedContextConfiguration@53d9826f testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 11:00:19.845 [Thread-3] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@6a01e23: startup date [Fri May 06 11:00:16 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 11:00:19.848 [Thread-3] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 11:00:30.151 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+[INFO] 2016-05-06 11:00:30.172 [main] o.s.t.c.s.DefaultTestContextBootstrapper - [requestID: ] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2b546384, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5d740a0f, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@214b199c, org.springframework.test.context.support.DirtiesContextTestExecutionListener@20d3d15a, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2893de87, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55ca8de8]
+[INFO] 2016-05-06 11:00:30.343 [main] o.s.c.s.GenericApplicationContext - [requestID: ] Refreshing org.springframework.context.support.GenericApplicationContext@6a01e23: startup date [Fri May 06 11:00:30 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 11:00:30.860 [main] p.j.s.config.PropertiesLoader - [requestID: ] +++  propertySource -> prop profile launch
+[INFO] 2016-05-06 11:00:31.038 [main] o.h.validator.internal.util.Version - [requestID: ] HV000001: Hibernate Validator 5.3.0.Alpha1
+[INFO] 2016-05-06 11:00:31.607 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Building JPA container EntityManagerFactory for persistence unit 'default'
+[INFO] 2016-05-06 11:00:31.627 [main] o.h.jpa.internal.util.LogHelper - [requestID: ] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[INFO] 2016-05-06 11:00:31.712 [main] org.hibernate.Version - [requestID: ] HHH000412: Hibernate Core {5.1.0.Final}
+[INFO] 2016-05-06 11:00:31.713 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000206: hibernate.properties not found
+[INFO] 2016-05-06 11:00:31.715 [main] org.hibernate.cfg.Environment - [requestID: ] HHH000021: Bytecode provider name : javassist
+[INFO] 2016-05-06 11:00:31.765 [main] o.h.annotations.common.Version - [requestID: ] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[WARN] 2016-05-06 11:00:31.776 [main] org.hibernate.orm.deprecation - [requestID: ] HHH90000006: Attempted to specify unsupported NamingStrategy via setting [hibernate.ejb.naming_strategy]; NamingStrategy has been removed in favor of the split ImplicitNamingStrategy and PhysicalNamingStrategy; use [hibernate.implicit_naming_strategy] or [hibernate.physical_naming_strategy], respectively, instead.
+[INFO] 2016-05-06 11:00:32.240 [main] org.hibernate.dialect.Dialect - [requestID: ] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[INFO] 2016-05-06 11:00:32.941 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 11:00:32.942 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Address
+[INFO] 2016-05-06 11:00:32.950 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[INFO] 2016-05-06 11:00:32.952 [main] o.h.t.s.e.i.InformationExtractorJdbcDatabaseMetaDataImpl - [requestID: ] HHH000262: Table not found: Person
+[DEBUG] 2016-05-06 11:00:33.327 [main] o.h.s.internal.StatisticsInitiator - [requestID: ] Statistics initialized [enabled=true]
+[INFO] 2016-05-06 11:00:33.334 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:33.337 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:33.358 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:33.400 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:33.417 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:33.420 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:33.422 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    0 nanoseconds spent acquiring 0 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:33.513 [main] o.s.t.c.t.TransactionContext - [requestID: ] Began transaction (1) for test context [DefaultTestContext@7a6ea47d testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@54b2fc58, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@53d9826f testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.jpa.JpaTransactionManager@daf22f0]; rollback [true]
+[INFO] 2016-05-06 11:00:33.528 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')]
+[INFO] 2016-05-06 11:00:33.531 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1')] in 3 ms.
+[INFO] 2016-05-06 11:00:33.531 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')]
+[INFO] 2016-05-06 11:00:33.532 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2')] in 1 ms.
+[INFO] 2016-05-06 11:00:33.532 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')]
+[INFO] 2016-05-06 11:00:33.557 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3')] in 24 ms.
+[INFO] 2016-05-06 11:00:33.557 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')]
+[INFO] 2016-05-06 11:00:33.558 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4')] in 0 ms.
+[INFO] 2016-05-06 11:00:33.558 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')]
+[INFO] 2016-05-06 11:00:33.559 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (5,0,'slawek5', 'borowiec5')] in 0 ms.
+[INFO] 2016-05-06 11:00:33.560 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')]
+[INFO] 2016-05-06 11:00:33.561 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (6,0,'slawek6', 'borowiec6')] in 1 ms.
+[INFO] 2016-05-06 11:00:33.561 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')]
+[INFO] 2016-05-06 11:00:33.562 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (7,0,'slawek7', 'borowiec7')] in 1 ms.
+[INFO] 2016-05-06 11:00:33.562 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')]
+[INFO] 2016-05-06 11:00:33.563 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (8,0,'slawek8', 'borowiec8')] in 0 ms.
+[INFO] 2016-05-06 11:00:33.564 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')]
+[INFO] 2016-05-06 11:00:33.568 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (9,0,'slawek9', 'borowiec9')] in 1 ms.
+[INFO] 2016-05-06 11:00:33.568 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')]
+[INFO] 2016-05-06 11:00:33.569 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (10,0,'slawek10', 'borowiec10')] in 1 ms.
+[INFO] 2016-05-06 11:00:33.569 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')]
+[INFO] 2016-05-06 11:00:33.570 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11')] in 0 ms.
+[INFO] 2016-05-06 11:00:33.570 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')]
+[INFO] 2016-05-06 11:00:33.571 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12')] in 1 ms.
+[INFO] 2016-05-06 11:00:33.571 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)]
+[INFO] 2016-05-06 11:00:33.572 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.573 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)]
+[INFO] 2016-05-06 11:00:33.575 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1)] in 2 ms.
+[INFO] 2016-05-06 11:00:33.576 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)]
+[INFO] 2016-05-06 11:00:33.577 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.577 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)]
+[INFO] 2016-05-06 11:00:33.578 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2)] in 0 ms.
+[INFO] 2016-05-06 11:00:33.579 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)]
+[INFO] 2016-05-06 11:00:33.580 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.580 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)]
+[INFO] 2016-05-06 11:00:33.581 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4)] in 0 ms.
+[INFO] 2016-05-06 11:00:33.582 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)]
+[INFO] 2016-05-06 11:00:33.583 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (7,0,'wroclaw', 5)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.584 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)]
+[INFO] 2016-05-06 11:00:33.585 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (8,0,'gdansk', 6)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.585 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)]
+[INFO] 2016-05-06 11:00:33.586 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (9,0,'ilza', 7)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.587 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)]
+[INFO] 2016-05-06 11:00:33.588 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (10,0,'ciechanow', 8)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.589 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)]
+[INFO] 2016-05-06 11:00:33.590 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (11,0,'lezajsk', 9)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.590 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)]
+[INFO] 2016-05-06 11:00:33.591 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (12,0,'katowice', 10)] in 1 ms.
+[INFO] 2016-05-06 11:00:33.591 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)]
+[INFO] 2016-05-06 11:00:33.592 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11)] in 0 ms.
+[INFO] 2016-05-06 11:00:33.593 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)]
+[INFO] 2016-05-06 11:00:33.593 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12)] in 0 ms.
+[INFO] 2016-05-06 11:00:33.593 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executing SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)]
+[INFO] 2016-05-06 11:00:33.594 [main] o.s.jdbc.datasource.init.ScriptUtils - [requestID: ] Executed SQL script from Byte array resource [from inlined SQL statement: insert into Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12)] in 0 ms.
+[INFO] 2016-05-06 11:00:33.633 [main] o.h.h.i.QueryTranslatorFactoryInitiator - [requestID: ] HHH000397: Using ASTQueryTranslatorFactory
+[DEBUG] 2016-05-06 11:00:33.790 [main] o.h.s.i.ConcurrentStatisticsImpl - [requestID: ] HHH000117: HQL: select count(*) from Address x, time: 13ms, rows: 1
+[DEBUG] 2016-05-06 11:00:33.850 [main] o.h.s.i.ConcurrentStatisticsImpl - [requestID: ] HHH000117: HQL: select count(*) from Person x, time: 0ms, rows: 1
+[INFO] 2016-05-06 11:00:33.865 [main] o.h.e.i.StatisticalLoggingSessionEventListener - [requestID: ] Session Metrics {
+    65909 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    879087 nanoseconds spent preparing 2 JDBC statements;
+    349636 nanoseconds spent executing 2 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    89530 nanoseconds spent executing 2 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+[INFO] 2016-05-06 11:00:33.867 [main] o.s.t.c.t.TransactionContext - [requestID: ] Rolled back transaction for test context [DefaultTestContext@7a6ea47d testClass = JpaFetchTest, testInstance = pl.java.scalatech.exercise.fetch.JpaFetchTest@54b2fc58, testMethod = shouldBootstrap@JpaFetchTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@53d9826f testClass = JpaFetchTest, locations = '{}', classes = '{class pl.java.scalatech.config.PropertiesLoader, class pl.java.scalatech.exercise.fetch.JpaFetchConfig}', contextInitializerClasses = '[]', activeProfiles = '{fetch}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+[INFO] 2016-05-06 11:00:33.870 [Thread-3] o.s.c.s.GenericApplicationContext - [requestID: ] Closing org.springframework.context.support.GenericApplicationContext@6a01e23: startup date [Fri May 06 11:00:30 CEST 2016]; root of context hierarchy
+[INFO] 2016-05-06 11:00:33.874 [Thread-3] o.s.o.j.LocalContainerEntityManagerFactoryBean - [requestID: ] Closing JPA EntityManagerFactory for persistence unit 'default'
