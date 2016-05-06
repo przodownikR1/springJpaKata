@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,6 +58,7 @@ public class JpaFetchTest {
     @Repeat(10)
     public void shouldRetrievePersonEM(){
        em.createQuery("FROM Person",Person.class).getResultList().forEach(p -> log.info("person : {}",p));
+       log.info("{}",Persistence.getPersistenceUtil().isLoaded(em.createQuery("FROM Person",Person.class).getResultList().get(0).getAddresses()));
 
 
     }
