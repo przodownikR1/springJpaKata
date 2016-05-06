@@ -49,10 +49,5 @@ public class Employee extends AbstractEntity{
     private Collection<Employee> directs = new ArrayList<>();
 
     @ManyToMany(mappedBy="employees")
-    /*@JoinTable(
-            name = "PROJECT_EMPLOYEE",
-            joinColumns = @JoinColumn(name = "EMPLOYEES_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PROJECTS_ID")
-    )*/
     private Collection<Project> projects = new ArrayList<>();
 }

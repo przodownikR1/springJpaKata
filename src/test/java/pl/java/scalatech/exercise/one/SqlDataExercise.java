@@ -1,0 +1,104 @@
+package pl.java.scalatech.exercise.one;
+
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import org.springframework.test.context.jdbc.Sql;
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+
+@Sql(
+        statements = {
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (1, 'Radom','dolna')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (2, 'Warszawa', 'grzybowa')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (3, 'Plock', 'lesna')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (4, 'Ilza', 'polna')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (5, 'Krakow', 'krzaklewskiego')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (6, 'Krakow', 'pawla')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (7, 'Wroclaw', 'koscielna')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (8, 'Wroclaw', 'tylnia')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (9, 'Warszawa', 'parkowa')",
+                "INSERT INTO ADDRESS (ID, CITY,  STREET) VALUES (10, 'Gdansk', 'szpitalna')",
+
+                "INSERT INTO DEPARTMENT (ID, NAME) VALUES (1, 'Engineering')",
+                "INSERT INTO DEPARTMENT (ID, NAME) VALUES (2, 'QA')",
+                "INSERT INTO DEPARTMENT (ID, NAME) VALUES (3, 'Accounting')",
+                "INSERT INTO DEPARTMENT (ID, NAME) VALUES (4, 'UAT')",
+                "INSERT INTO DEPARTMENT (ID, NAME) VALUES (5, 'HR')",
+                "INSERT INTO DEPARTMENT (ID, NAME) VALUES (6, 'JAVA')",
+                "INSERT INTO DEPARTMENT (ID, NAME) VALUES (7, 'C#')",
+                "INSERT INTO DEPARTMENT (ID, NAME) VALUES (8, 'DB')",
+
+                "INSERT INTO PROJECT (ID, NAME) VALUES (1, 'Shield')",
+                "INSERT INTO PROJECT (ID, NAME) VALUES (2, 'rocket')",
+                "INSERT INTO PROJECT (ID, NAME) VALUES (3, 'tank')",
+                "INSERT INTO PROJECT (ID, NAME) VALUES (4, 'eb')",
+
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (10, 'staszek', 59000, {d '2003-04-16'}, 10, 1, NULL)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (9, 'tomek', 52000, {d '2002-04-26'}, 9, 2, 10)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (1, 'slawek', 55000, {d '2001-01-01'}, 1, 2, 9)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (2, 'pawel', 53000, {d '2001-05-23'}, 2, 2, 9)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (3, 'tomek', 40000, {d '2002-08-06'}, 3, 2, 9)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (4, 'jacek', 41000, {d '2003-02-17'}, 4, 1, 10)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (5, 'ola', 60000, {d '2004-11-14'}, 5, 1, 10)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (6, 'ela', 62000, {d '2005-08-18'}, 6, 1, 10)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (7, 'kasia', 54000, {d '2006-06-07'}, 7, 1, 10)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (8, 'paulina', 45000, {d '1999-08-11'}, 8, 1, NULL)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (11, 'jan', 35000, {d '1995-07-22'}, NULL, NULL, NULL)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (12, 'karol', 36000, {d '1995-07-22'}, NULL, 3, 11)",
+                "INSERT INTO EMPLOYEE (ID, NAME, SALARY, STARTDATE, ADDRESS_ID, DEPT_ID, MANAGER_ID) VALUES (13, 'marek', 43000, {d '1995-07-22'}, NULL, 3, NULL)",
+
+               /* "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (1, '(212)555-1234', 'Office', 1)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (2, '(212)555-9843', 'Home', 1)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (3, '(315)555-6253', 'Office', 2)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (4, '(516)555-9837', 'Office', 3)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (5, '(516)555-2034', 'Cell', 3)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (6, '(650)555-7583', 'Office', 4)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (7, '(650)555-5345', 'Home', 4)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (8, '(650)555-9386', 'Office', 5)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (9, '(650)555-4885', 'Cell', 5)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (10, '(650)555-3836', 'Office', 6)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (11, '(650)555-0985', 'Home', 6)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (12, '(650)555-1946', 'Cell', 6)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (13, '(650)555-4759', 'Office', 7)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (14, '(650)555-4757', 'Home', 7)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (15, '(650)555-6753', 'Office', 8)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (16, '(585)555-0693', 'Office', 9)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (17, '(585)555-3098', 'Home', 9)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (18, '(585)555-1457', 'Cell', 9)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (19, '(650)555-9838', 'Office', 10)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (20, '(650)555-2346', 'Home', 10)",
+                "INSERT INTO PHONE (ID, NUMBER, TYPE, EMPLOYEE_ID) VALUES (21, '(650)555-9874', 'Cell', 10)",*/
+
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (1, 1)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (2, 2)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (2, 3)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (3, 4)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (3, 2)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (3, 3)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (4, 1)",
+               /* "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (5, 4)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (5, 2)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (6, 1)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (6, 2)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (7, 3)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (8, 1)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (8, 2)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (9, 3)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (9, 1)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (10, 1)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (10, 4)",
+                "INSERT INTO PROJECT_EMPLOYEE (EMPLOYEES_ID, PROJECTS_ID) VALUES (10, 3)",*/
+
+
+
+        },
+        executionPhase = BEFORE_TEST_METHOD
+)
+
+public @interface SqlDataExercise {
+}

@@ -2,6 +2,7 @@ package pl.java.scalatech.domain.exerciseOne;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +27,7 @@ public class Phone extends AbstractEntity{
     @Column(name = "NUMBER")
     private String number;
     @Column(name = "TYPE")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private PhoneType type;
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID")

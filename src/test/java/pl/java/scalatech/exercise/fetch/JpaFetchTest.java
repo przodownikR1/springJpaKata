@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.PropertiesLoader;
-import pl.java.scalatech.domain.fetching.SqlDataAccount;
 import pl.java.scalatech.repository.fetch.AddressRepo;
 import pl.java.scalatech.repository.fetch.PersonRepo;
 

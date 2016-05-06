@@ -1,4 +1,4 @@
-package pl.java.scalatech.domain.fetching;
+package pl.java.scalatech.exercise.fetch;
 
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
