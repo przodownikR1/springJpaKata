@@ -57,7 +57,7 @@ public class JpaFetchTest {
     @Test
     @Repeat(10)
     public void shouldRetrievePersonEM(){
-       em.createQuery("FROM Person",Person.class).getResultList().forEach(p -> log.info("person : {}",p));
+       em.createQuery("FROM Person",  Person.class).getResultList().forEach(p -> log.info("person : {}",p));
        log.info("{}",Persistence.getPersistenceUtil().isLoaded(em.createQuery("FROM Person",Person.class).getResultList().get(0).getAddresses()));
 
 

@@ -17,12 +17,18 @@
 		</encoder>
 	</appender>
 	<logger name="pl.java.scalatech" level="INFO"/>
-	<logger name="org.springframework.aop.interceptor" level="trace" />
+	<logger name="org.springframework.aop.interceptor" level="INFO" />
+	<logger name="org.springframework" level="INFO" />
 	 <logger name="org.springframework.data" level="INFO" additivity="false"/>
     <logger name="org.hibernate" level="INFO"/>
-    <logger name="org.hibernate.stat" level="DEBUG"/>
+   <!--  <logger name="org.hibernate.stat" level="DEBUG"/> -->
+    
+    <!-- <logger name="org.hibernate.SQL" level="DEBUG"/> -->
+   <!--  <logger name="org.hibernate.type" level="TRACE"/> -->
 
-	<root level="INFO">
+     
+
+	<root level="DEBUG">
 	    <appender-ref ref="console"/>
 	    <appender-ref ref="FILE"/>
 	</root>

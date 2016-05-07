@@ -1224,7 +1224,33 @@ public class ProjectType {
 }
 ----
 
+== @Dynamic
 
+=== @DynamicInsert (false/true)
+
+Manipulowanie operacjami Insert na poziomie encji. Wstawiamy tylko wybrane kolumny.
+
+NOTE: Tuning. Potencjalne przyspieszenie dla dużych tabel w szególności. 
+
+=== @DynamicUpdate (false/true)
+
+Manipulowanie operacjami Update na poziomie encji. Uaktualniamy tylko te kolumny, które się zmieniły
+
+NOTE: Tuning. Potencjalne przyspieszenie dla dużych tabel w szczególności
+
+
+== @Immutable
+
+[source,java]
+----
+@Entity
+@Immutable
+@Cache (usage=CacheConcurrencyStrategy.READ_ONLY) 
+@Table(name = "products")
+public class Product extends AbstractEntity {
+
+}
+----
 
 == Callbacks
 

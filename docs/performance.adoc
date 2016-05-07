@@ -119,6 +119,14 @@ return artEntities;
 
 === OpenInView
 
+** Pojedyńcza instancja EntityManagera na HttpRequest
+** Tworzy nową transakcję na początku każdego HttpRequest'u
+** Komituje lub Rollback'uje transakcję na końcu każdego requestu
+
+
+CAUTION: Lock transakcji na połączenie bazodanowe. Opóźniona reakcja bazodanowa dopóki nie zostanie wyredendowany widok.
+
+
 *** Przykład
 
 [source,xml]

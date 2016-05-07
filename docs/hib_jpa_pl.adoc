@@ -1138,6 +1138,8 @@ public Serializable save(Object object) throws HibernateException
  
 public Serializable save(String entityName,Object object) throws HibernateException
  
+ 
+NOTE: Hibernate zrobi zapis do bazy danych w dowolnym momencie, tzn operacja save nie jest natychmiastowo przekładana na bazę. 
 
 
 == MERGE vs UPDATE
@@ -1161,6 +1163,7 @@ saveOrUpdate() .
 This particular method is used to save or update records. Hibernate updates the records for a
 given object if the identifier field is given. If an identifier is not given, then hibernate will insert
 a new record.
+
 
 == Trwałość przechodnia
 
