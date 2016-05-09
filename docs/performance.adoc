@@ -308,7 +308,65 @@ List<Author> authors = this.em.createQuery(
 ----
 
 
+== Kartezjan problem 
 
+** Omówienie
+
+** Przykład 
+
+
+[source,java]
+----
+  @Entity
+  public class Person extends AbstractEntity{
+
+    private static final long serialVersionUID = -4106601879598237198L;
+    private String firstName = null;
+    private String lastName = null;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+  //  @Fetch(FetchMode.SELECT)
+    @JoinColumn(name="PERSON_ID")
+    private List<Address> addresses;
+
+
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+  //  @Fetch(FetchMode.SELECT)
+    @JoinColumn(name="PERSON_ID")
+    private List<Phone> phones;
+
+}
+
+----
+
+[source,sql]
+----
+ select
+        person0_.id as id1_1_0_,
+        person0_.version as version2_1_0_,
+        person0_.firstName as firstNam3_1_0_,
+        person0_.lastName as lastName4_1_0_,
+        addresses1_.PERSON_ID as PERSON_I4_0_1_,
+        addresses1_.id as id1_0_1_,
+        addresses1_.id as id1_0_2_,
+        addresses1_.version as version2_0_2_,
+        addresses1_.CITY as CITY3_0_2_,
+        phones2_.PERSON_ID as PERSON_I4_2_3_,
+        phones2_.id as id1_2_3_,
+        phones2_.id as id1_2_4_,
+        phones2_.version as version2_2_4_,
+        phones2_.phoneNumber as phoneNum3_2_4_ 
+    from
+        Person person0_ 
+    left outer join
+        Address addresses1_ 
+            on person0_.id=addresses1_.PERSON_ID 
+    left outer join
+        Phone phones2_ 
+            on person0_.id=phones2_.PERSON_ID 
+    where
+        person0_.id=?
+---- 
 
 == Kroki optymalizacji 
 

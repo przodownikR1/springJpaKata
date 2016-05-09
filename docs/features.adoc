@@ -5,3 +5,90 @@ WARNING: Watch out for...
 CAUTION: Ensure that...
 
 NOTE: For you info
+
+
+====
+
+  Predicate predicate = criteriabuilder.conjunction();
+        if(orderStatus != null)
+            predicate = criteriabuilder.and(predicate, criteriabuilder.equal(root.get("orderStatus"), orderStatus));
+        if(paymentStatus != null)
+            predicate = criteriabuilder.and(predicate, criteriabuilder.equal(root.get("paymentStatus"), paymentStatus));
+        if(shippingStatus != null)
+            predicate = criteriabuilder.and(predicate, criteriabuilder.equal(root.get("shippingStatus"), shippingStatus));
+        if(hasExpired != null)
+            if(hasExpired.booleanValue())
+                predicate = criteriabuilder.and(new Predicate[] {
+                    predicate, root.get("expire").isNotNull(), criteriabuilder.lessThan(root.get("expire"), new Date())
+                });
+            else
+                predicate = criteriabuilder.and(predicate, criteriabuilder.or(root.get("expire").isNull(), criteriabuilder.greaterThanOrEqualTo(root.get("expire"), new Date())));
+        criteriaquery.where(predicate);
+        return super.IIIllIlI(criteriaquery, pageable);
+        
+        
+        
+        ====
+        Predicate and
+        
+        
+        Root<Employee> employeeRoot = criteriaQuery.from(Employee.class);
+        Predicate qaDepartment = criteriaBuilder.equal(employeeRoot.get("department").get("name"),"QA");
+        Predicate salary = criteriaBuilder.ge(employeeRoot.<Long>get("salary"), 55000L);
+
+        List<Predicate> andList = new ArrayList<Predicate>();
+        andList.add(qaDepartment);
+        andList.add(salary);
+
+        criteriaQuery.select(employeeRoot);
+        criteriaQuery.where(andList.toArray(new Predicate[0]));
+        //criteriaQuery.where(qaDepartment,salary);
+        
+        
+        =============== Or _ + join
+         public static Specification<Application> isPublicOrHasForMember(SSOId ssoId) {
+        return new Specification<Application>() {
+            @Override
+            public Predicate toPredicate(Root<Application> applications, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                final Join<Object, Object> members = applications.join("members", JoinType.LEFT);
+                final Predicate isPublic = criteriaBuilder.equal(applications.get("isPublic"), Boolean.TRUE);
+                final Predicate hasForMember = criteriaBuilder.equal(members.get("value"), ssoId.getValue());
+                return criteriaBuilder.or(isPublic, hasForMember);
+            }
+        };
+    }
+        ============
+        
+        int arg1 = 20000;
+int arg2 = 50000;
+Query query = entityManager.createQuery("from SimpleBean s where s.pint>=:arg1 and s.pint<=:arg2");
+query.setParameter("arg1", arg1);
+query.setParameter("arg2", arg2);
+List<SimpleBean> list = query.getResultList();
+ 
+//..
+Predicate predicate1 = criteriaBuilder.ge(from.get("pint"), arg1);
+Predicate predicate2 = criteriaBuilder.le(from.get("pint"), arg2);
+criteriaQuery.where(criteriaBuilder.and(predicate1, predicate2));
+
+
+===min
+
+Query query = entityManager.createQuery("select min(s.pint) from SimpleBean s");
+ 
+Object minActual = query.getSingleResult();
+ 
+CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+Root from = criteriaQuery.from(SimpleBean.class);
+ 
+Expression minExpression = criteriaBuilder.min(from.get("pint"));
+CriteriaQuery<Object> select = criteriaQuery.select(minExpression);
+ 
+TypedQuery<Object> typedQuery = entityManager.createQuery(select);
+Object minExpected = typedQuery.getSingleResult();
+assertEquals(minActual, minExpected);
+
+===
+
+

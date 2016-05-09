@@ -5,10 +5,8 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Immutable;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,12 +20,12 @@ import pl.java.scalatech.domain.AbstractEntity;
 @Builder
 @ToString
 @Data
-@BatchSize(size=15)
+//@BatchSize(size=15)
 @DynamicUpdate(value=true)
 @DynamicInsert(value=true)
 //@Immutable
 public class JobCandidate extends AbstractEntity{
-    
+
     private static final long serialVersionUID = -7860714163822149386L;
     private String fullName;
     @Column(nullable=true)
@@ -38,7 +36,7 @@ public class JobCandidate extends AbstractEntity{
         this.fullName = fullName;
     }
     public JobCandidate(Long key, String fullName) {
-        this.id = key;
+        id = key;
         this.fullName = fullName;
     }
 

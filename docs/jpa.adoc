@@ -198,6 +198,58 @@ EntityManager manager;
 
 ** em.remove(object);
 
+==== getReference()
+
+** zwraca proxy zamiast zaincjalizowanego obiektu. Encja nie będzie ładowana jeśli nie była w buforze EntityManager'a
+** jeśli obiekt nie istnieje wyrzuci EntityNotFoundException
+
+[source,java]
+----
+public class PersonServiceImpl implements PersonService {
+
+    public void changeAge(Integer personId, Integer newAge) {
+        Person person = em.getReference(Person.class, personId);
+
+        // person is a proxy
+        person.setAge(newAge);
+    }
+
+}
+----
+
+[source,sql]
+----
+UPDATE PERSON SET AGE = ? WHERE PERSON_ID = ?
+----
+
+
+==== find()
+
+** zwraca zaincjalizowany obiekt. Jeśli nie był załadowany w EntityManage'rze, pozyska go z bazy
+** jeśli obiekt nie istnieje zwróci null
+
+[source,java]
+----
+public class PersonServiceImpl implements PersonService {
+
+    public void changeAge(Integer personId, Integer newAge) {
+        Person person = em.getReference(Person.class, personId);
+
+        // person is a proxy
+        person.setAge(newAge);
+    }
+
+}
+----
+
+[source,java]
+----
+SELECT NAME, AGE FROM PERSON WHERE PERSON_ID = ?
+
+UPDATE PERSON SET AGE = ? WHERE PERSON_ID = ?
+----
+
+
 === persistence.xml
  
 Powinnien znajdować się w classpath w katalogu **META-INF**

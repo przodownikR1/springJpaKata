@@ -36,7 +36,7 @@
                 insert into Address (id, version,CITY,PERSON_ID) values (23,0,'gdansk', 6);
                 insert into Address (id, version,CITY,PERSON_ID) values (24,0,'ilza', 7);
                 insert into Address (id, version,CITY,PERSON_ID) values (25,0,'ciechanow', 8);
-                insert into Address (id, version,CITY,PERSON_ID) values (26,0,'lezajsk', 9);
+                insert into Address (id, version,CITY,PERSON_ID) values (26,0,'lezajsk2', 9);
                 insert into Address (id, version,CITY,PERSON_ID) values (27,0,'katowice', 10);
                 insert into Address (id, version,CITY,PERSON_ID) values (28,0,'sopot', 11);
                 insert into Address (id, version,CITY,PERSON_ID) values (29,0,'gdynia', 12);

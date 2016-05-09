@@ -7,10 +7,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
+import org.hibernate.Session;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -55,12 +55,20 @@ public class JpaFetchTest {
     }
 
     @Test
-    @Repeat(10)
+   // @Repeat(10)
     public void shouldRetrievePersonEM(){
-       em.createQuery("FROM Person",  Person.class).getResultList().forEach(p -> log.info("person : {}",p));
+       em.createQuery("FROM Person",Person.class).getResultList().forEach(p -> log.info("person : {}",p));
        log.info("{}",Persistence.getPersistenceUtil().isLoaded(em.createQuery("FROM Person",Person.class).getResultList().get(0).getAddresses()));
-
-
     }
 
+    @Test
+    // @Repeat(10)
+     public void shouldFetchJoinProfile(){
+        em.unwrap(Session.class).enableFetchProfile("fetchJoinProfile");
+        Person p = em.find(Person.class, 1l);
+        log.info("person {}",p);
+      //  p.getAddresses().forEach(address->log.info("address : {},",address));
+
+
+     }
 }

@@ -5,8 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.BatchSize;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,18 +19,26 @@ import pl.java.scalatech.domain.AbstractEntity;
 @NoArgsConstructor
 @Builder
 @ToString(exclude="candidate1")
+@NamedEntityGraphs({
+@NamedEntityGraph(
+name = "candidate",
+attributeNodes = {
+@NamedAttributeNode("candidate")
+}
+)
+})
 
 public class Skill extends AbstractEntity
 {
 
     private static final long serialVersionUID = 3076731294612256956L;
     private String name;
-    
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="candidateId")
     JobCandidate candidate;
-    
+
     @Column(name = "candidateId", insertable = false, updatable = false)
     private Integer candidateId ;
-    
+
 }
