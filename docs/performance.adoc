@@ -499,5 +499,11 @@ Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.Quer
   
 ** dla małych woluminów danych Eager loading zawsze sens.
 
+** opcja **hibernate.max_fetch_depth** - dostosowuje ilość możliwych złączeń w systemie. (optymalna wartość to 1-5)
+
+** tam gdzie to możliwe wybieraj implementację Set zamiast List (cartesian problem)
+
+** dla dużych wartości kolekcji używaj późnego ładowania
+
 
 
