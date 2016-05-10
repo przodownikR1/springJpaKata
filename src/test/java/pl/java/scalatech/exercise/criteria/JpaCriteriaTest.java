@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Tuple;
+import javax.persistence.TupleElement;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -23,6 +26,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.PropertiesLoader;
@@ -172,10 +177,149 @@ public class JpaCriteriaTest {
             criteriaQuery.where(criteria);
             List<Person> result  = em.createQuery(criteriaQuery).getResultList();
             log.info("result : {}",result);
+    }
+
+    @Test
+    public void shouldUseTuple(){
+
+                String searchName = "borowiec2";
+                CriteriaBuilder cb = em.getCriteriaBuilder();
+                //CriteriaQuery<Object[]> c = cb.createQuery(Object[].class); //<4>
+                CriteriaQuery<Tuple> criteria = cb.createQuery(Tuple.class); //<1>
+                Root<Person> root = criteria.from(Person.class);//<2>
+                ParameterExpression<String> lastNameParameter = cb.parameter(String.class,"lastName");
+                criteria.multiselect(root.get("firstName"), root.get("version")).where(cb.equal(root.get("lastName"),lastNameParameter));
+
+                List<Tuple> tupleResult = em.createQuery(criteria).setParameter("lastName", searchName).getResultList();//<3>
+                for (Tuple t : tupleResult) {
+                   log.info("fistName : {} , version : {} ",t.get(0),t.get(1));
+                }
+                Assertions.assertThat(tupleResult.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void shouldUseTupleWithAlias(){
+
+                String searchName = "borowiec2";
+                CriteriaBuilder cb = em.getCriteriaBuilder();
+                //CriteriaQuery<Object[]> c = cb.createQuery(Object[].class); //<4>
+                CriteriaQuery<Tuple> criteria = cb.createQuery(Tuple.class); //<1>
+                Root<Person> root = criteria.from(Person.class);//<2>
+                ParameterExpression<String> lastNameParameter = cb.parameter(String.class,"lastName");
+                criteria.multiselect(root.get("firstName").alias("fn"), root.get("version").alias("v")).where(cb.equal(root.get("lastName"),lastNameParameter));
+
+                List<Tuple> tupleResult = em.createQuery(criteria).setParameter("lastName", searchName).getResultList();//<3>
+                for (Tuple t : tupleResult) {
+                   log.info("fistName : {} , version : {} ",t.get("fn"),t.get("v"));
+                 //META
+                   for (TupleElement<?> element : t.getElements()) {
+                       Class<?> clazz = element.getJavaType();
+                       String alias = element.getAlias();
+                       Object value = t.get(element);
+                       log.info("class : {} , alias : {}, value : {}",clazz,alias,value);
+                       }
+                }
+                Assertions.assertThat(tupleResult.size()).isEqualTo(1);
+
+
+    }
+
+  @Test
+    public void shouldUseConstruct(){
+
+        String searchName = "borowiec2";
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        //CriteriaQuery<Object[]> c = cb.createQuery(Object[].class); //<4>
+        CriteriaQuery<PersonWrapper> criteria = cb.createQuery(PersonWrapper.class); //<1>
+        Root<Person> root = criteria.from(Person.class);//<2>
+        ParameterExpression<String> lastNameParameter = cb.parameter(String.class,"lastName");
+        criteria.select(cb.construct(PersonWrapper.class, root.get("firstName"),root.get("version"))).where(cb.equal(root.get("lastName"),lastNameParameter));
+
+        List<PersonWrapper> result = em.createQuery(criteria).setParameter("lastName", searchName).getResultList();//<3>
+        for (PersonWrapper pw : result) {
+           log.info("pw : {}",pw);
+        }
+
+}
 
 
 
+    @Test
+    public void shouldUseParameterExpressionToFindName(){
 
+                String searchName = "borowiec2";
+                CriteriaBuilder cb = em.getCriteriaBuilder();
+                CriteriaQuery<String> criteria = cb.createQuery(String.class); //<1>
+                Root<Person> root = criteria.from(Person.class);//<2>
+                ParameterExpression<String> lastNameParameter = cb.parameter(String.class,"lastName"); //<3>
+                criteria.select(root.get("firstName")).where(cb.equal(root.get("lastName"),lastNameParameter)); //<4>
+                List<String> result  = em.createQuery(criteria).setParameter("lastName", searchName).getResultList(); //<5>
+                log.info("{}",result);
+
+
+    }
+
+    @Test
+    public void shouldUseParameterExpressionToFindLikeName(){
+
+                String searchName = "borowie%";
+                CriteriaBuilder cb = em.getCriteriaBuilder();
+                CriteriaQuery<String> criteria = cb.createQuery(String.class);
+                Root<Person> root = criteria.from(Person.class);
+                ParameterExpression<String> lastNameParameter = cb.parameter(String.class,"lastName");
+                criteria.select(root.get("firstName")).where(cb.like(root.get("lastName"),lastNameParameter));
+                criteria.orderBy(cb.desc(root.get("firstName")));
+                List<String> result  = em.createQuery(criteria).setParameter("lastName", searchName).getResultList();
+                log.info("{}",result);
+
+
+    }
+    @Test
+    public void shouldFindLikeLowerName(){
+
+                String searchName = "borowie%";
+                CriteriaBuilder cb = em.getCriteriaBuilder();
+                CriteriaQuery<String> criteria = cb.createQuery(String.class);
+                Root<Person> root = criteria.from(Person.class);
+                ParameterExpression<String> lastNameParameter = cb.parameter(String.class,"lastName");
+                criteria.select(root.get("firstName")).where(cb.like(cb.lower(root.get("lastName")),lastNameParameter));
+                criteria.orderBy(cb.desc(root.get("firstName")));
+                List<String> result  = em.createQuery(criteria).setParameter("lastName", searchName).getResultList();
+                log.info("{}",result);
+
+
+    }
+
+    @Test
+    public void shouldQueryRootsWork(){
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Person> c = cb.createQuery(Person.class);
+        Root<Person> person = c.from(Person.class);
+        Root<Address> address = c.from(Address.class);
+        c.select(person)
+        .distinct(true)
+        .where(cb.equal(person, address.get("person")));
+        List<Person> result  = em.createQuery(c).getResultList();
+        log.info("result : {}", result);
+
+    }
+
+
+    @Test
+    //TODO
+    public void shouldInWork(){
+        List<String> cityNames = newArrayList("borowiec1,borowiec2");
+        String []cityNamesArray = cityNames.toArray(new String[0]);
+        log.info("++++++++++++++  {}",cityNamesArray);
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Person> c = cb.createQuery(Person.class);
+        Root<Person> person = c.from(Person.class);
+
+        c.select(person).where(cb.in(person.<String>get("lastName")).value("borowiec1").value("borowiec2"));
+        //c.select(person).where(cb.in(person.<String>get("lastName")).value(cityNamesArray));
+        List<Person> result  = em.createQuery(c).getResultList();
+        Assertions.assertThat(result).hasSize(2);
 
     }
 

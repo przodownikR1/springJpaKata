@@ -35,6 +35,8 @@ import pl.java.scalatech.domain.AbstractEntity;
 })
 //@ToString(exclude="addresses")
 public class Person extends AbstractEntity{
+
+    private static final long serialVersionUID = -8324897794910579206L;
     private String firstName = null;
     private String lastName = null;
 
