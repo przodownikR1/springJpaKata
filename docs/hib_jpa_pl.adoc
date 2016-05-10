@@ -1299,7 +1299,7 @@ include::cache.adoc[]
 )
 
 this.em.createNativeQuery(“Select …", "myResultMapping")
----
+----
 
 include::validation.adoc[]
 
