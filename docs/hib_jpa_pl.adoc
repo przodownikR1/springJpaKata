@@ -26,6 +26,8 @@ ifndef::imgsdir[:imgsdir: ./../img]
 image:{image-link} [role='img-circle']
 
 == Źródła wiedzy 
+ - Designing_Data_Intensive_Applications
+ - Java EE 7 Performance Tuning and Optimization 
  - Hibernate in Action
  - Java Persistence with Hibernate
  - Java JEE 6
@@ -50,6 +52,13 @@ image:{image-link} [role='img-circle']
  - wiele sposobów tworzenia i wydawania zapytań
  - nakładka na **JDBC** 
 
+== Trendy :)
+
+image::hibernateTrends.png[]
+
+=== Nosql vs Hibernate
+
+image::nosql_hib.png[]
 
 
 == Architektura
@@ -114,6 +123,10 @@ NOTE: Zauważ, że to podejście właściwe dla wzorca template.
 *** wydajnego operowania na kolekcjach relacji
 *** wbudowany mechanizm cache'u
 *** wprowadza obiektowe techniki do świata relacyjnych baz danych
+*** wprowadza runtime'owy mechanizm trzymania i zarządzania grafem zależności w pamięci wraz z synchronizacją z bazą. 
+
+NOTE: Szukaj alternatyw jak naturalne trzymanie grafów obiektów w bazie Neo4j czy dokumentów w MongoDB.
+
  
 ==== Wady
 
