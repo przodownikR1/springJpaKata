@@ -123,6 +123,9 @@ NOTE: Zauważ, że to podejście właściwe dla wzorca template.
 * w pewnych przypadkach powoduje spadek wydajności z stosunku do zwykłych zapytania JDBC
 * wraz ze wzrostem złożoności modelu domenowego występują trudności z mapowaniem, wydajnością. Skutkuje to często wprowadzaniem 'haków' 
  
+source : http://martinfowler.com/bliki/OrmHate.html
+
+source : http://blogs.tedneward.com/post/the-vietnam-of-computer-science/
 
 
 == Moduły
