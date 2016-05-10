@@ -1579,6 +1579,15 @@ Zastosowanie Springa dla architektury DDD
 
 image::ddd-building-blocks.png[]
 
+
+** DDD kontekst:
+
+source : https://www.youtube.com/watch?v=aieoAWXNjl0
+
+image::ddd_default.jpg[] 
+
+
+
 == Blokady
 
 include::lock.adoc[]
