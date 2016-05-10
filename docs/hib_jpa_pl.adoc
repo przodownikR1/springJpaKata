@@ -992,20 +992,10 @@ public class ProjectAssociation {
   private boolean isProjectLead;
   @ManyToOne
   @PrimaryKeyJoinColumn(name="EMPLOYEEID", referencedColumnName="ID")
-  /* if this JPA model doesn't create a table for the "PROJ_EMP" entity,
-  *  please comment out the @PrimaryKeyJoinColumn, and use the ff:
-  *  @JoinColumn(name = "employeeId", updatable = false, insertable = false)
-  * or @JoinColumn(name = "employeeId", updatable = false, insertable = false, referencedColumnName = "id")
-  */
+  
   private Employee employee;
   @ManyToOne
   @PrimaryKeyJoinColumn(name="PROJECTID", referencedColumnName="ID")
-  /* the same goes here:
-  *  if this JPA model doesn't create a table for the "PROJ_EMP" entity,
-  *  please comment out the @PrimaryKeyJoinColumn, and use the ff:
-  *  @JoinColumn(name = "projectId", updatable = false, insertable = false)
-  * or @JoinColumn(name = "projectId", updatable = false, insertable = false, referencedColumnName = "id")
-  */
   private Project project;
   ...
 }
@@ -1142,7 +1132,7 @@ public Serializable save(String entityName,Object object) throws HibernateExcept
 NOTE: Hibernate zrobi zapis do bazy danych w dowolnym momencie, tzn operacja save nie jest natychmiastowo przekładana na bazę. 
 
 
-== MERGE vs UPDATE
+== MERGE vs UPDATE (stackoverflow)
 
 Merge Does Following
 
@@ -1160,9 +1150,8 @@ session.merge is expensive than update
 
 
 saveOrUpdate() .
-This particular method is used to save or update records. Hibernate updates the records for a
-given object if the identifier field is given. If an identifier is not given, then hibernate will insert
-a new record.
+
+** Hibernate uaktualnia rekord o danym Id. Jeśli Id nie istnieje w bazie tworzony jest nowy rekord.
 
 
 == Trwałość przechodnia
@@ -1294,29 +1283,6 @@ include::criteriaApi.adoc[]
 ----
 
 include::cache.adoc[]
-
-
-Stores query results for a query and its parameters
-
-[„FROM Author WHERE id=?“, 1]     [1]
-
-Stores only entity references or scalars
-
-Always use together with 2nd Level Cache
-
-
-Hibernate specific
-
-Stores query result session independent
-
-Needs to be activated
-persistence.xml: hibernate.cache.use_query_cache = true
-
-Activate caching for a specific query
-org.hibernate.Query.setCacheable(true)
-@NamedQuery(… hints = @QueryHint(name="org.hibernate.cacheable", value="true"))
-
-
 
 
 == Zapytania natywne  
