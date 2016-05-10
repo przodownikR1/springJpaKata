@@ -1301,8 +1301,11 @@ include::cache.adoc[]
 this.em.createNativeQuery(“Select …", "myResultMapping")
 ----
 
+== Walidacja
+
 include::validation.adoc[]
 
+== Wydajność 
 include::performance.adoc[] 
 
 == Paginacja
