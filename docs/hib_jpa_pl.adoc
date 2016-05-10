@@ -1287,8 +1287,10 @@ include::cache.adoc[]
 
 == Zapytania natywne  
 
-SqlResultSetMapping
+** SqlResultSetMapping
 
+[source,java]
+----
 @SqlResultSetMapping(
 	name		= "myResultMapping ",
 	entities		= {@EntityResult(...), …},
@@ -1297,15 +1299,15 @@ SqlResultSetMapping
 )
 
 this.em.createNativeQuery(“Select …", "myResultMapping")
-
+---
 
 include::validation.adoc[]
 
 include::performance.adoc[] 
 
-* N+1
 == Paginacja
-*[source,java]
+
+[source,java]
 ----
 public List<Employee> findEmployees(int offset, int limit) {
     TypedQuery<Employee> query = entityManager.createQuery("SELECT e FROM Employee e ORDER BY e.name", Employee.class);
@@ -1495,6 +1497,34 @@ Query query = em.createQuery(
 
 === Meet in the middle (z JDBC na Hibernate’a)
  - startujemy z istniejącym modelem danych i gotowymi w pewnym stopniu plikami POJO po czym przekształcamy je na pełnoprawne encje.
+
+=== Architektury 
+ 
+==== CQRS Command–query separation
+
+** cqrs  http://martinfowler.com/bliki/CQRS.html
+*** skalowalne systemy 
+*** większy nakład pracy 
+*** dane do odczytu są dostępne z opóźnieniem 
+
+image::cqrs.png[]
+
+==== DDD
+
+source: wikipedia
+
+Jest to podejście do tworzenia oprogramowania kładące nacisk na takie definiowanie obiektów i komponentów systemu oraz ich zachowań, aby wiernie odzwierciedlały rzeczywistość. Dopiero po utworzeniu takiego modelu należy rozważyć zagadnienia związane z techniczną realizacją.
+Podejście to umożliwia modelowanie systemów informatycznych przez ekspertów, którzy znają specyfikę problemu lecz nie muszą znać się na projektowaniu architektury systemów informatycznych.
+Domain-Driven Design zaleca stosowanie określonych wzorców projektowych i architektonicznych.
+
+
+source: http://static.olivergierke.de/lectures/ddd-and-spring/
+source: http://www.infoq.com/minibooks/domain-driven-design-quickly
+
+Zastosowanie Springa dla architektury DDD 
+
+image::ddd-building-blocks.png[]
+
 
 include::lock.adoc[]
 
