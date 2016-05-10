@@ -16,6 +16,7 @@ ifndef::imgsdir[:imgsdir: ./../img]
 
 
 == O mnie
+* Scalatech 
 * Architect Solution - RiscoSoftware 
 * JavaTech trener : Spring ekosystem, JPA , EIP Camel 
 * Sages trener : JPA , EIP - Apache Camel 
