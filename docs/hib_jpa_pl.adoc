@@ -1341,7 +1341,7 @@ image::JPAEclipseLinkDemo_Project_Img002.JPG[]
 
 === Problemy z asocjacjami dwukierunkowymi
 
-=== kłopoty z pamięcią
+=== Kłopoty z pamięcią
 
 === Problemy z wydajnością mechnika : 
  - sprawdź wygenerowane SQL
@@ -1523,18 +1523,26 @@ Domain-Driven Design zaleca stosowanie określonych wzorców projektowych i arch
 
 
 source: http://static.olivergierke.de/lectures/ddd-and-spring/
+
 source: http://www.infoq.com/minibooks/domain-driven-design-quickly
 
 Zastosowanie Springa dla architektury DDD 
 
 image::ddd-building-blocks.png[]
 
+== Blokady
 
 include::lock.adoc[]
 
+== Integracja ze Spring
+
 include::spring_jpa_integration.adoc[]
 
+== Spring Data
+
 include::springData.adoc[]
+
+== Envers
 
 include::envers.adoc[]
 
