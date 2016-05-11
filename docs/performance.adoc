@@ -43,6 +43,32 @@ image:{image-link} [role='img-circle']
 
 == Wydajność (Performance)
 
+== Sposoby pobierania rekorów / Fetching 
+
+=== JOIN 
+
+** Tworzymy join'a w obrębie instrukcji SELECT
+
+=== SELECT
+
+** Tworzony jest dodatkowy SELECT oprócz bazowego zapytania SELECT 
+
+*** N+1 problem jest możliwy
+ 
+*** Lazy
+
+=== SUBSELECT
+
+** Tworzony jest dodatkowy SELECT w obrębie już istniejącego polecanie SELECT w celu dociągnięcia kolekcji.
+
+*** możliwy dla relacji *-to-Many
+
+=== BATCH
+
+** Tworzone dodatkowe polecenia SELECT w obrębie w celu przyspieszenia dociągania części kolekcji
+ 
+
+
 == Lazy
 
 ** leniwe ładowanie to jeden z features Hibernate. Pozwala ładować grafy obiektów w momencie faktycznej potrzeby skorzystania z tych danych.
