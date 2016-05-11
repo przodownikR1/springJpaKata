@@ -21,6 +21,8 @@
 	 <logger name="org.springframework.data" level="INFO" additivity="false"/>
     <logger name="org.hibernate" level="INFO"/>
     <logger name="org.hibernate.stat" level="DEBUG"/>
+     <logger name="MyDS" level="INFO" additivity="false"/>
+     <logger name="net.ttddyy" level="INFO"/>
 
 	<root level="INFO">
 	    <appender-ref ref="console"/>
