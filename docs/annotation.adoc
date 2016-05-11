@@ -1094,10 +1094,24 @@ protected List<User> children;
 
 == Relacje
 
+=== FetchType
+
+
+
+[width="45%"]
+|=======
+|Strategia   |Domyślny tryb
+|OneToMany   |LAZY 
+|ManyToOne   |EAGER
+|ManyToMany  |LAZY
+|OneToOne    |EAGER 
+|=======
+
 @JoinColumn + @JoinTable
 
 * One-To-One 1:1
-[source,xml]
+
+[source,java]
 ----
 @Entity
 public class Message {
