@@ -31,23 +31,86 @@ public class SampleRepoTest {
     @Autowired
     private SampleRepo sampleRepo;
 
-
     @Test
-    public void shouldBootstrap(){
+    public void shouldBootstrap() {
 
     }
 
     @Test
-    public void shouldFindByName(){
-         List<Employee> employees = sampleRepo.findEmployeeWithName("tomek");
-         Assertions.assertThat(employees).hasSize(2);
+    public void shouldFindByName() {
+        List<Employee> employees = sampleRepo.findEmployeeWithName("tomek");
+        Assertions.assertThat(employees).hasSize(2);
     }
-   @Test
-    public void shouldFindEmployees(){
+
+    @Test
+    public void shouldFindEmployees() {
         List<String> employeeNames = sampleRepo.findEmpNames();
         Assertions.assertThat(employeeNames).hasSize(13);
-        log.info("{}",employeeNames);
+        log.info("{}", employeeNames);
     }
 
+    @Test
+    public void shouldFindEmployeesByConditionsLikeNameDeptProjNameCity() {
+        // TODO
+    }
 
+    @Test
+    public void shouldFindEmployeeByNameAndProjectName() {
+        // TODO
+    }
+
+    @Test
+    public void shouldRetrieveAllDept() {
+        // TODO
+    }
+
+    @Test
+    public void shouldRetrieveAllEmployeeNames() {
+        // TODO
+    }
+
+    @Test
+    public void shouldRetrieveOnlyIdAndNameFromEmployee() {
+        // TODO
+    }
+
+    @Test
+    public void shouldRetrieveEmployeeUsingMultiSelect() {
+        // TODO
+    }
+
+    @Test
+    public void shouldUseJoinMap() {
+        // TODO
+    }
+
+    @Test
+    public void shouldRetrieveEmpleyeeFetchPhones() {
+        // TODO
+    }
+
+    @Test
+    public void shouldFindEmployeesByDeptName() {
+        // TODO
+    }
+
+    @Test
+    public void shouldRetrieveEmployeeUsingSubQuery() {
+        // TODO
+    }
+
+    @Test
+    public void shouldEmployeeFindInStates() {
+        // TODO
+    }
+
+    @Test
+    public void shouldEmployeeFindInSubquery() {
+        // TODO
+    }
+
+    @Test
+    public void shouldDeptRetrieveUsingCoaleasce() {
+        // TODO
+    }
 }
