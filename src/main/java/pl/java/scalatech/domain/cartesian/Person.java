@@ -26,7 +26,7 @@ public class Person extends AbstractEntity{
     private String firstName = null;
     private String lastName = null;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER) //lazy
   //  @Fetch(FetchMode.SELECT)
     @BatchSize(size=7)
     @JoinColumn(name="PERSON_ID")

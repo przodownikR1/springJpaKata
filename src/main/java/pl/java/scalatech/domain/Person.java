@@ -35,6 +35,8 @@ public class Person implements Serializable{
 
     private LocalDate modify;
 
+    private Boolean disable;
+
     @DateTimeFormat(pattern = "dd/MM/yy")
     @NotNull
     //@Past
