@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ public class Person implements Serializable{
 
     private LocalDate modify;
 
+    @Type(type="yes_no")
     private Boolean disable;
 
     @DateTimeFormat(pattern = "dd/MM/yy")

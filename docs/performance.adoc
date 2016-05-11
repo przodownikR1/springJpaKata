@@ -169,6 +169,8 @@ return artEntities;
 
 CAUTION: Lock transakcji na połączenie bazodanowe. Opóźniona reakcja bazodanowa dopóki nie zostanie wyredendowany widok.
 
+CAUTION: File upload requests 
+
 
 *** Przykład
 
