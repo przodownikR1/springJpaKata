@@ -13,7 +13,12 @@ import pl.java.scalatech.domain.Person;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
     Optional<Person> findByEmail(String email);
-    
+
     @Query("select u from #{#entityName} u")
     Stream<Person>  all();
+
+    @Query("select p from Person p")
+    Stream<Person> streamAllPerson();
+
+    Stream<Person> findById(long id);
 }
