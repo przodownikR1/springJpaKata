@@ -26,6 +26,8 @@ ifndef::imgsdir[:imgsdir: ./../img]
 image:{image-link} [role='img-circle']
 
 == Źródła wiedzy 
+ - Designing_Data_Intensive_Applications
+ - Java EE 7 Performance Tuning and Optimization 
  - Hibernate in Action
  - Java Persistence with Hibernate
  - Java JEE 6
@@ -50,6 +52,13 @@ image:{image-link} [role='img-circle']
  - wiele sposobów tworzenia i wydawania zapytań
  - nakładka na **JDBC** 
 
+== Trendy :)
+
+image::hibernateTrends.png[]
+
+=== Nosql vs Hibernate
+
+image::nosql_hib.png[]
 
 
 == Architektura
@@ -65,14 +74,15 @@ image::ORM-jdbc.jpg[]
 
 Standardowe podejście oparte na JDBC wymaga od programisty następujących czynności:
  
- - Opening a database connection
- - Maintaining an open connection
- - Building a query
- - Executing a query
- - Getting a response to the query
- - Mapping the query response with the custom classes
- - Closing the database connection
+ - Otwarcie połączenia bazodanowego
+ - Zarządzanie połączeniami w ramach puli
+ - Budowanie kwerendy
+ - Wykonanie kwerendy
+ - Otrzymanie wyniku
+ - Zmapowanie wyniku na właściwą klasę
+ - Zamknięcie połączenia bazowanowego
 
+NOTE: Zauważ, że to podejście właściwe dla wzorca template.
 
 **Czyli ORM :**
 [options=interactive]
@@ -113,6 +123,10 @@ Standardowe podejście oparte na JDBC wymaga od programisty następujących czyn
 *** wydajnego operowania na kolekcjach relacji
 *** wbudowany mechanizm cache'u
 *** wprowadza obiektowe techniki do świata relacyjnych baz danych
+*** wprowadza runtime'owy mechanizm trzymania i zarządzania grafem zależności w pamięci wraz z synchronizacją z bazą. 
+
+NOTE: Szukaj alternatyw jak naturalne trzymanie grafów obiektów w bazie Neo4j czy dokumentów w MongoDB.
+
  
 ==== Wady
 
@@ -122,6 +136,9 @@ Standardowe podejście oparte na JDBC wymaga od programisty następujących czyn
 * w pewnych przypadkach powoduje spadek wydajności z stosunku do zwykłych zapytania JDBC
 * wraz ze wzrostem złożoności modelu domenowego występują trudności z mapowaniem, wydajnością. Skutkuje to często wprowadzaniem 'haków' 
  
+source : http://martinfowler.com/bliki/OrmHate.html
+
+source : http://blogs.tedneward.com/post/the-vietnam-of-computer-science/
 
 
 == Moduły
