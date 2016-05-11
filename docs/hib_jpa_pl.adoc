@@ -1609,8 +1609,6 @@ include::envers.adoc[]
 
 include::exercices.adoc[]
 
-http://undermineddeveloper.com/2013/09/11/hibernating/
-
 INFO
 == info adoc
 
