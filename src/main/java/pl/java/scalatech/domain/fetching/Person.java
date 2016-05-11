@@ -5,10 +5,16 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
+import javax.persistence.FieldResult;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
 
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
@@ -20,30 +26,45 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.AbstractEntity;
+
 @Entity
 @Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@FetchProfiles({ @FetchProfile(name = "fetchJoinProfile", fetchOverrides = { @FetchOverride(
-        entity = Person.class,
-        association = "addresses",
-        mode = FetchMode.JOIN) }) })
+@FetchProfiles({ @FetchProfile(name = "fetchJoinProfile", fetchOverrides = { @FetchOverride(entity = Person.class, association = "addresses", mode = FetchMode.JOIN) }) })
 
-@NamedEntityGraphs({
-@NamedEntityGraph
+@NamedEntityGraphs({ @NamedEntityGraph })
+
+@NamedNativeQueries({
+@NamedNativeQuery(name = "findPersonByfistName", query = "select * from Person where firstname = :firstName", resultClass = Person.class),
+@NamedNativeQuery(name = "queryPerson", query = "Select id, firstName, lastName,version from Person p where p.id = :id ", resultSetMapping = "personResult")
 })
-//@ToString(exclude="addresses")
-public class Person extends AbstractEntity{
+
+@SqlResultSetMappings({
+    @SqlResultSetMapping(name = "personResult",
+            entities = @EntityResult(entityClass = Person.class,
+            fields = {
+                    @FieldResult(name = "id", column = "id"),
+                    @FieldResult(name = "firstName", column = "firstName"),
+                    @FieldResult(name = "lastName", column = "lastName"),
+                    @FieldResult(name = "version", column = "version")
+
+        })
+    ) })
+// @ToString(exclude="addresses")
+public class Person extends AbstractEntity {
 
     private static final long serialVersionUID = -8324897794910579206L;
+    @Column(name="firstName")
     private String firstName = null;
+    @Column(name="lastName")
     private String lastName = null;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Column(name = "id")
-   // @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
-    //@BatchSize(size = 2)
+    // @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
+    // @BatchSize(size = 2)
 
     private List<Address> addresses;
 }

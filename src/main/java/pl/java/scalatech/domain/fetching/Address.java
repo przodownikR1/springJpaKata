@@ -22,6 +22,8 @@ public class Address  extends AbstractEntity{
     @Column(name = "CITY")
     private String city = null;
 
+    private boolean disable;
+
     @ManyToOne
     @JoinColumn(name = "PERSON_ID")
     private Person person = null;

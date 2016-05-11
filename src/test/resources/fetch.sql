@@ -40,4 +40,10 @@
                 insert into Address (id, version,CITY,PERSON_ID) values (27,0,'katowice', 10);
                 insert into Address (id, version,CITY,PERSON_ID) values (28,0,'sopot', 11);
                 insert into Address (id, version,CITY,PERSON_ID) values (29,0,'gdynia', 12);
-                insert into Address (id, version,CITY,PERSON_ID) values (30,0,'poznan', 12)
+                insert into Address (id, version,CITY,PERSON_ID) values (30,0,'poznan', 12);
+                
+                
+               -- create procedure FIND_PERSON()
+              --   begin
+              --       select * from Person;
+              --  end;
