@@ -41,7 +41,7 @@ image:{image-link} [role='img-circle']
 == Hibernate / JPA
 
 
-== Envers
+== http://mvnrepository.com/artifact/org.hibernate/hibernate-envers[Envers]
 
 Pozwala na zarządzanie historią zmian w bazie. Możemy traktować to jako narzędzie podobne do SVN'a czy Git'a
 

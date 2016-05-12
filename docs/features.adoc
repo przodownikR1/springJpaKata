@@ -1,3 +1,23 @@
+= TEST asciiDoc
+:docInfo1
+:numbered:
+:icons: font
+:pagenums:
+:imagesdir: img
+:iconsdir: ./icons
+:stylesdir: ./styles
+:scriptsdir: ./js
+
+:image-link: https://pbs.twimg.com/profile_images/425289501980639233/tUWf7KiC.jpeg
+ifndef::sourcedir[:sourcedir: ./src/main/java/]
+ifndef::resourcedir[:resourcedir: ./src/main/resources/]
+ifndef::imgsdir[:imgsdir: ./../img]
+:source-highlighter: coderay
+
+
+
+TIP: Tip.
+
 IMPORTANT: Don't forget...
 
 WARNING: Watch out for...
@@ -6,6 +26,20 @@ CAUTION: Ensure that...
 
 NOTE: For you info
 
+ link:http://mvnrepository.com/artifact/org.hibernate/hibernate-java8
+ 
+ http://mvnrepository.com/artifact/org.hibernate/hibernate-java8
+
+
+** load()
+
+----
+ Na podstawie danego Id metoda load próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje wyrzucany jest wyjątek **_org.hibernate.ObjectNotFoundExceptionMetoda_**  **load()** zwraca też proxy, oznacza to tyle, że nie nastąpi uderzenie do bazy danych do czasu kiedy faktycznie będziemy potrzebować danego obiektu. Proxy zwraca dummy object zamiast uderzyć do db. Jeśli obiekt jest w first-level cache zwróci obiekt. Jeśli obiektu nie ma w first-level-cache uderzy do bazy.
+----
+[red] #test#
+
+
+http://www.asciidoc.org[AsciiDoc Web Site]
 
 ====
 

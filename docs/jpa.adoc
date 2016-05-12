@@ -443,7 +443,7 @@ SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap( 
 
 
 
-== MetaModel
+== http://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api[MetaModel]
 
 === Generacja
 

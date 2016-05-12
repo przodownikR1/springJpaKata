@@ -143,36 +143,39 @@ source : http://blogs.tedneward.com/post/the-vietnam-of-computer-science/
 
 == Moduły
 [square]
-** **Hibernate Core**
+** **http://mvnrepository.com/artifact/org.hibernate/hibernate-core[Hibernate Core]**
 
 ***  odpowiada za generowanie natywnych kwerent SQL
 ***  dostarcza dialekty 
 ***  dostarcza mechanizmy obsługi i translacji zapytań jak : HQL, Criteria Query czy QBE
 ***  odpowiada za buforowanie i efektywne pobieranie danych - czyli optymalizuje zapytania 
  
-** **Hibernate Annotation**
+** **http://mvnrepository.com/artifact/org.hibernate/hibernate-annotations[Hibernate Annotation]**
 
 ***  dostarcza znacziki metadanych równorzędne do konfiguracji mapować w XML
 
-** **Hibernate EntityManager**
+** **http://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager[Hibernate EntityManager]**
 
 *** jest implementacją interfejsu JPA
  
-** **Hibernate Search**
+** **http://mvnrepository.com/artifact/org.hibernate/hibernate-search-engine[Hibernate Search]**
 
 ***  dostarcza rozwiązań użycia indeksów Lucene
  
-** **Hibernate Validator**
+** **http://mvnrepository.com/artifact/org.hibernate/hibernate-validator[Hibernate Validator]**
 
 ***  obsługa walidacji danych
  
 ** **Hibernate OGM**
 
 ***  rozwiazania NoSql
+
+*** np dla Neo4j : http://mvnrepository.com/artifact/org.hibernate.ogm/hibernate-ogm-neo4j[hibernate-ogm-neo4j]
+*** np dla MongoDB : http://mvnrepository.com/artifact/org.hibernate.ogm/hibernate-ogm-mongodb [hibernate-ogm-mongodb]
  
 ** **DataSourcePool**
  
-*** **hibernate-c3p0** -   Integracja C3P0 z Hibernate  
+*** **http://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0[hibernate-c3p0]** -   Integracja C3P0 z Hibernate  
 
 ** Przykład
 
@@ -195,12 +198,12 @@ source : http://blogs.tedneward.com/post/the-vietnam-of-computer-science/
 ** acquire_increment = liczba nowych połączeń jeśli pula jest wyczerpana
 
 
-*** hibernate-hikaricp  
-*** hibernate-proxool   
+*** http://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp[hibernate-hikaricp]  
+*** http://mvnrepository.com/artifact/proxool/proxool[hibernate-proxool]   
  
 ** Cache
 
-*** hibernate-ehcache  
+*** http://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache[hibernate-ehcache]  
     
 *** hibernate-infinispan 
  
@@ -493,7 +496,7 @@ List<Author> authors = nq.getResultList();
 
 - **Java 8 Date Time API**
 
-Hibernate wspiera date i czas z javy 8 ale musimy podłączyć bibliotekę : **hibernate-java8**
+Hibernate wspiera date i czas z javy 8 ale musimy podłączyć bibliotekę : http://mvnrepository.com/artifact/org.hibernate/hibernate-java8[hibernate-java8]  
 
 
 == Connection pooling
@@ -1640,6 +1643,8 @@ include::springData.adoc[]
 == Envers
 
 include::envers.adoc[]
+
+== http://przewidywalna-java.blogspot.com/2014/09/querydsl-metamodel-generation-spring.html[Alternatywy QueryDSL / blog]
 
 == Ćwiczenia
 
