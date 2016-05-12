@@ -162,6 +162,10 @@ source : http://blogs.tedneward.com/post/the-vietnam-of-computer-science/
 ** **http://mvnrepository.com/artifact/org.hibernate/hibernate-search-engine[Hibernate Search]**
 
 ***  dostarcza rozwiązań użycia indeksów Lucene
+
+- rozwiązania alternatywne : http://lucene.apache.org/solr/[SOLR] , https://www.elastic.co/products/elasticsearch[ElasticSearch]
+
+
  
 ** **http://mvnrepository.com/artifact/org.hibernate/hibernate-validator[Hibernate Validator]**
 

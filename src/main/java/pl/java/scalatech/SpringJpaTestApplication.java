@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.domain.Person;
 import pl.java.scalatech.repository.PersonRepository;
+import pl.java.scalatech.repository.PersonViewRepo;
 
 @SpringBootApplication
 @Slf4j
@@ -17,6 +18,9 @@ public class SpringJpaTestApplication implements CommandLineRunner{
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonViewRepo personViewRepo;
 
 
     public static void main(String[] args) {
@@ -27,5 +31,8 @@ public class SpringJpaTestApplication implements CommandLineRunner{
     public void run(String... args) throws Exception {
       personRepository.save(Person.builder().email("przodownikR1@gmail.com").firstname("slawek").disable(true).birthDay(ZonedDateTime.now()).build());
       log.info("{} ",personRepository.findAll());
+
+
+      log.info("person view : {}",personViewRepo.findAll());
     }
 }

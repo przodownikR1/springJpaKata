@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,6 +26,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@FilterDef(name = "byStatus", parameters = @ParamDef(name = "active", type = "boolean"))
+@Filter(name = "byStatus", condition = "active = :status")
 public class Person implements Serializable{
 
     private static final long serialVersionUID = 5279859664147821207L;
@@ -38,6 +43,8 @@ public class Person implements Serializable{
 
     @Type(type="yes_no")
     private Boolean disable;
+
+    private Boolean active;
 
     @DateTimeFormat(pattern = "dd/MM/yy")
     @NotNull
