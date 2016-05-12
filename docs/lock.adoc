@@ -126,6 +126,7 @@ CAUTION: Nie jest to najlepszy wybór dla wysoce współbieżnej aplikacji. Powo
 ** pomiń oba poziomy buforowania i dokonaj sprawdzenia wersji , aby sprawdzić czy dane w pamięci są takie same jak bazie
 **   Czytaj z bazy niezależnie od zawartości bufora  
 
+
 ===== LockMode.WRITE
 
  ** uzyskiwany automatycznie , gdy zarządca trwałości zapisał dane do wiersza aktualnej transakcji
@@ -135,6 +136,7 @@ CAUTION: Nie jest to najlepszy wybór dla wysoce współbieżnej aplikacji. Powo
 
  ** pomija poziomy buforowania, dokonuje sprawdzenia wersji i uzyskuje blokadę pesymistyczną na poziomie bazy
  ** **LockMode.UPGRADE** może być założony, gdy użytkownik użyje SELECT ... FOR UPDATE w bazie wspierającej tą składnie.
+ ** żaden inna transakcja nie może zmodyfikować rekordu
  
  
 ===== LockMode.UPGRADE_NOWAIT

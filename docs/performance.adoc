@@ -578,5 +578,6 @@ Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.Quer
 
 ** dla dużych wartości kolekcji używaj późnego ładowania
 
+** zastosuj **_@Version** aby uzyskać poziom uniknąć niepowtarzalnych odczytów na domyślnym poziomie izolacji jakim jest odczyt zatwierdzonych (Read Committed) __(scalability issue)__ czyli podnosimy prawie za darmo poziom na powtarzalne odczyty (Repeatable Read)
 
 
