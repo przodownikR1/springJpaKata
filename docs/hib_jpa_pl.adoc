@@ -788,11 +788,11 @@ include::annotation.adoc[]
 === Identyczność obiektów
  
  - Są identyczne jeśli zajmują tą samą referencje w VM. 
-  Sprawdzamy ją za pomocą operatora '=='
+  Sprawdzamy ją za pomocą operatora **'=='**
   
 === Równość obiektów
  
- - Są równe jeśli operacja equals daje wynik pozytywny
+ - Są równe jeśli operacja **_equals_** daje wynik pozytywny
  
 === Tożsamość bazodanowa
 
@@ -820,7 +820,7 @@ NOTE: Interfejs IdentifierGeneretor do generowania własnych strategii kluczy id
 ** klasa klucza głównego spełnia wymagania :
 *** public class
 *** klasa musi posiadać domyślny publiczny konstruktor
-*** musi implementować metody equals i hasCode
+*** musi implementować metody **_equals_** i **_hasCode_**
 *** musi być serializowalna
 *** klucz złożony musi być reprezentowany i mapowany do wielu pól właściwości klasy encji. Musi być też reprezentowany i mapowany jako klasa osadzona.     
    
@@ -829,7 +829,7 @@ NOTE: Interfejs IdentifierGeneretor do generowania własnych strategii kluczy id
 * dwukierunkowa :
 ** obie encje posiadają wzajemnie do siebie relacje 
 ** strona przynależna związku dwukierunkowego musi odnosić się do swojego właściciela za poprzez użycie elementu **mappedBy** , należącego do adnotacji @OneToMany, @ManyToOne , lub @ManyToMany
-** strona wielokrotna dwukierunkowego związku wiele do jednego nie może definiować **mappedBy** - jest zawsze 'posiadającą stroną relacji'
+** strona wielokrotna dwukierunkowego związku wiele do jednego nie może definiować **_mappedBy_** - jest zawsze 'posiadającą stroną relacji'
 ** w relacji jeden do jeden strona posiadająca pokazuje stronie przynależnej odpowiedni klucz obcy.
 ** w relacji wiele do wielu każda ze stron może być posiadająca.
 
@@ -1169,7 +1169,7 @@ Library library;
 == Pobieranie encji
 ** load()
 
-*** Na podstawie danego Id metoda load próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje wyrzucany jest wyjątek **_org.hibernate.ObjectNotFoundExceptionMetoda_**  **load()** zwraca też proxy, oznacza to tyle, że nie nastąpi uderzenie do bazy danych do czasu kiedy faktycznie będziemy potrzebować danego obiektu. Proxy zwraca dummy object zamiast uderzyć do db. Jeśli obiekt jest w first-level cache zwróci obiekt. Jeśli obiektu nie ma w first-level-cache uderzy do bazy.
+*** Na podstawie danego Id metoda **_load_** próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje wyrzucany jest wyjątek **_org.hibernate.ObjectNotFoundExceptionMetoda_**  **load()** zwraca też proxy, oznacza to tyle, że nie nastąpi uderzenie do bazy danych do czasu kiedy faktycznie będziemy potrzebować danego obiektu. Proxy zwraca dummy object zamiast uderzyć do db. Jeśli obiekt jest w first-level cache zwróci obiekt. Jeśli obiektu nie ma w first-level-cache uderzy do bazy.
 
 [source,java]
 ----
@@ -1181,7 +1181,7 @@ public void load(Object object, Serializable id) throws HibernateException
 
 ** get()   
 
-*** Na podstawie danego Id metoda get() próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje zwraca null. Metoda **get()** w przeciwieństwie do metody load() uderza do bazy bezpośrednio.
+*** Na podstawie danego Id metoda **_get()_** próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje zwraca null. Metoda **get()** w przeciwieństwie do metody load() uderza do bazy bezpośrednio.
  
 [source,java]
 ----
@@ -1211,7 +1211,7 @@ NOTE: Hibernate zrobi zapis do bazy danych w dowolnym momencie, tzn operacja sav
 
 
 == MERGE vs UPDATE (stackoverflow)
-
+----
 Merge Does Following
 
 Merge has intelligence. It has lot of pre-checks before it go actual merge(if required)
@@ -1225,7 +1225,7 @@ where as session.update
     if Object is detached, it simply fires UPDATE query irrespective of data changes to object.
 
 session.merge is expensive than update
-
+----
 
 saveOrUpdate() .
 
@@ -1260,8 +1260,8 @@ include::quering.adoc[]
 == Usuwanie obiektów z bazy 
 
 Poprzez wywołanie metody remove lub kaskadowej operacji remove
-Jeśli metoda remove jest wywołana na encji odłączonej zostanie wygenerowany wyjątek IllegalArgumentException lub zatwierdzenie transakcji się nie powiedzie.
-Dane fizycznie zostaną usunięte w momencie zakończenia transakcji lub wykonania metody flush()
+Jeśli metoda remove jest wywołana na encji odłączonej zostanie wygenerowany wyjątek **_IllegalArgumentException_** lub zatwierdzenie transakcji się nie powiedzie.
+Dane fizycznie zostaną usunięte w momencie zakończenia transakcji lub wykonania metody **_flush()_**
 
 
 DELETE FROM employee WHERE id=1;
@@ -1547,7 +1547,7 @@ log4j.logger.org.hibernate.type=trace
 
 == Dobre praktyki
 
-- Ochrona przed SQL Injection
+- Ochrona przed **SQL Injection**
 
 WARNING: Patrz kod poniżej
 
