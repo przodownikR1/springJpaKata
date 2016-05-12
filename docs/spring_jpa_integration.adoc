@@ -1,4 +1,3 @@
-= JPA/Hibernate camp
 :docInfo1
 :numbered:
 :icons: font
@@ -224,11 +223,50 @@ image::supported.gif[]
 
 ===== **Brudny odczyt**
 
+[options="header,footer"]
+|=======================
+|Czas  |Akcja      
+|T1    |T1 się rozpoczęła     
+|T2    |T2 się rozpoczęła     
+|T3    |T1 uaktualania rekord ROW1     
+|T4    |T2 czyta niezakomitowany rekord ROW1
+|T5    |T1 wycofuje transakcje
+|T6    |T2 komituje
+
+|=======================
+
+
 ===== **Niepowtarzalny odczyt**
+
+[options="header,footer"]
+|=======================
+|Czas  |Akcja      
+|T1    |T1 się rozpoczęła     
+|T2    |T1 czyta rekord ROW1     
+|T3    |T2 się rozpoczęła     
+|T4    |T2 uaktualnia rekord ROW1
+|T5    |T2 komituje
+|T6    |T1 czyta rekord ROW1 który teraz jest inny niż ostatnio
+|T7    |T1 komituje
+|=======================
+
 
 ===== **Problem utraty wcześniejszego zapisu**
 
 ===== **Otrzymanie fantomu**
+
+
+[options="header,footer"]
+|=======================
+|Czas  |Akcja      
+|T1    |T1 się rozpoczęła     
+|T2    |T1 czyta zbiór rekordów     
+|T3    |T2 się rozpoczęła     
+|T4    |T2 wstawia nowy rekord
+|T5    |T2 komituje
+|T6    |T1 czyta zbiór rekordów który teraz ma inny rozmiar
+|T7    |T1 komituje
+|=======================
 
 ===== **Odczyt niezatwierdzych (Read uncommited)**
 **    brak izolacji
@@ -277,6 +315,18 @@ return repository.getOrder(orderId);
 ** powtarzalny - eliminacja nadpisywania przez inną transakcję. Zwiększa powtarzalność wyników zapytań.
 ** zatwierdzony + wersjonowanie wydajne się być w większości przypadków najlepszą praktyką.
    
+  
+=== Podsumowanie : który poziom na co pozwala :)
+
+[options="header,footer"]
+|=======================
+|Poziom izolacji          | Brudny odczyt | Niepowtarzalny odczyt | Fantomowy Odczyt      
+|Szeregowalny             |               |                       |
+|Powtarzalny              |               |                       |        zezwolenie     
+|Odczyt zatwierdzonych    |               |        zezwolenie     |        zezwolenie     
+|Odczyt niezatwierdzonych | zezwolenie    |        zezwolenie     |        zezwolenie     
+
+|=======================  
   
 
 === **read only**

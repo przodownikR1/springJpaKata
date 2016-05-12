@@ -429,3 +429,21 @@ Example example = Example.create(book)
 Criteria criteria = session.createCriteria(Book.class)
 
 
+======bulk
+
+Session session = SessionManager.openSession();
+Transaction tx = session.beginTransaction();
+for(int i=0;i<100;i++) {
+Book book = new Book()
+book.setName("Book Name "+(i+1));
+book.setPrice(39);
+book.setPublishDate(new Date());
+session.save(book);
+if(i % 25 == 0) {
+session.flush();
+session.clear();
+System.out.println("get isbn "+book.getIsbn());
+}
+}
+tx.commit();
+session.close();
