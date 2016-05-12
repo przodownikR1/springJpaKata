@@ -92,6 +92,8 @@ person.getPhones().size();
 
 ==== Fetch Join
 
+CAUTION: Cartesian problem : Nie możemy używać join fetch dla wielu kolekcji ponieważ tworzymy kartezjana !! Złączenie będzie zawierało wszystkie możliwe kombinacje.
+
 *** Przykład
 
 [source,java]

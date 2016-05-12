@@ -33,7 +33,7 @@ public class PersonRepositoryTest {
         personRepository.save(Person.builder().email("aga@gmail.com").firstname("aga").birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
         personRepository.save(Person.builder().email("bak@gmail.com").firstname("bak").birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
     //TODO
-      /*  try (Stream<Person> stream = personRepository.streamAllPerson()) {
+       /*try (Stream<Person> stream = personRepository.streamAllPerson()) {
             stream.forEach(test -> log.info("{}", test.getFirstname()));
         }*/
     }

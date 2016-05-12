@@ -1444,6 +1444,14 @@ sessionFactory = new AnnotationConfiguration()
 
 WARNING: JPA to nie zadziała 
 
+=== N+1 problem
+
+==== Redukcja do N/batch_size +1 - query
+==== JOIN FETCH
+==== EntityGraph
+==== Fetch.SubSelect
+
+
 === Jak pokazać parametryzacje zapytań SQL ?
 ==== Log4jdbc
 

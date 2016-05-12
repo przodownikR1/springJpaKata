@@ -48,7 +48,33 @@ image:{image-link} [role='img-circle']
 **  Odpowiednik SQL
 ** zamiast tabel i pól operuje na obiektach i jego właściwościach.
 ** przenośny zależny od dostawcy
-** 
+
+=== Zapytania dynamiczne
+
+* Zalety :
+
+*** nie wiemy jak zapytanie do końca ma wyglądać, w czasie runtime zbierane są dane i tworzone jest zapytanie
+
+
+** Wady : 
+
+*** Koszt związany z tłumaczeniem JPQL na SQL za każdym razem kiedy zapytanie jest wywoływane
+*** Większość providers próbuje cache'ować SQL -> dynamiczne zapytania. Nie zawsze to działanie osiąga sukces
+
+[source,java]
+----
+       String query = "SELECT d.location " + 
+                       "FROM Department d " + 
+                       "WHERE d.name = '" + deptName +  
+                      "' AND d.company.name = '" + companyName + "'"; 
+       return em.createQuery(query, Long.class).getSingleResult(); 
+    } 
+ 
+----
+
+Konkadencji podlegają deptName i companyName. Za każdym razem kiedy zapytanie jest wywoływane nowe query jest na nowo generowane
+
+CAUTION: W przypadku dużej liczby takich zapytań mogą wystąpić problemy z wydajnością. Konkadenowany String to nowy obiekt -> więcej cykli procesora oraz cykli GC.
 
 
 === Możliwe typy wników kwerend: 
@@ -356,9 +382,19 @@ List<Object> entities = session.createSQLQuery(
 
 W celu wygodniejszego używania oraz większej wydajności korzysta się tzw nazwanych zapytań.
 
+**Persistence Provider** bedzię konwertował named query z JPQL do SQL podczas deploymentu i będzie cache'ował 'później'.Konkadenacja będzie miała tylko narzut podczas deploymentu. 
+
 ** prekompilacja
-** powiązanie z encją 
+** powiązanie z encją
+** sprawdzane podczas deployment'u
+** łatwiejsze do przeczytania i utrzymania
+** zysk wydajnościowy 
 (( model programowy
+
+
+CAUTION: Unikalne w ramach  **Persistence Unit** 
+
+
 
 
  *@NamedQuery* : pojedyńcze natywne zapytanie
