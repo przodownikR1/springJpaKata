@@ -8,8 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.BatchSize;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,9 +24,9 @@ public class Person extends AbstractEntity{
     private String firstName = null;
     private String lastName = null;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER) //lazy
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
   //  @Fetch(FetchMode.SELECT)
-    @BatchSize(size=7)
+    //@BatchSize(size=7)
     @JoinColumn(name="PERSON_ID")
     private List<Address> addresses;
 

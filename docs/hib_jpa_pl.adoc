@@ -492,7 +492,8 @@ List<Author> authors = nq.getResultList();
 - **Named Entity Graph**
 
 - **Java 8 Date Time API**
-The Hibernate support for Java 8 Date Time API is provided in a separate module called hibernate-java8
+
+Hibernate wspiera date i czas z javy 8 ale musimy podłączyć bibliotekę : **hibernate-java8**
 
 
 == Connection pooling
@@ -837,6 +838,13 @@ NOTE: Interfejs IdentifierGeneretor do generowania własnych strategii kluczy id
  
 CAUTION: Wiążemy ze sobą obie strony relacji 
 
+CAUTION: Stosujemy jeśli wymaga tego charakterystyka biznesu
+
+NOTE: Złamanie enkapsulacji
+
+NOTE: Często tworzone automatycznie gdy stosujemy inżynierie wsteczną - generatory !
+
+
 przykład kodu : 
 
 NOTE: Stosować tylko gdy są uzasadnione biznesowo -Enkapsulacja. Są tworzone przez generatory JPA. Mogą ułatwiać pisanie zapytań ale nie muszą :)
@@ -1158,7 +1166,7 @@ Library library;
 == Pobieranie encji
 ** load()
 
-*** Na podstawie danego Id metoda load próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje wyrzucany jest wyjątek org.hibernate.ObjectNotFoundExceptionMetoda load() zwraca też proxy, oznacza to tyle, że nie nastąpi uderzenie do bazy danych do czasu kiedy faktycznie będziemy potrzebować danego obiektu. Proxy zwraca dummy object zamiast uderzyć do db. Jeśli obiekt jest w first-level cache zwróci obiekt. Jeśli obiektu nie ma w first-level-cache uderzy do bazy.
+*** Na podstawie danego Id metoda load próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje wyrzucany jest wyjątek **_org.hibernate.ObjectNotFoundExceptionMetoda_**  **load()** zwraca też proxy, oznacza to tyle, że nie nastąpi uderzenie do bazy danych do czasu kiedy faktycznie będziemy potrzebować danego obiektu. Proxy zwraca dummy object zamiast uderzyć do db. Jeśli obiekt jest w first-level cache zwróci obiekt. Jeśli obiektu nie ma w first-level-cache uderzy do bazy.
 
 [source,java]
 ----
@@ -1170,7 +1178,7 @@ public void load(Object object, Serializable id) throws HibernateException
 
 ** get()   
 
-*** Na podstawie danego Id metoda get() próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje zwraca null. Metoda get() w przeciwieństwie do metody load() uderza do bazy bezpośrednio.
+*** Na podstawie danego Id metoda get() próbuje pobrać obiekt z bazy danych. Jeśli obiekt nie istnieje zwraca null. Metoda **get()** w przeciwieństwie do metody load() uderza do bazy bezpośrednio.
  
 [source,java]
 ----
@@ -1390,7 +1398,7 @@ public List<Employee> findEmployees(int offset, int limit) {
 
 == Obsługa wyjątków
 
-** **HibernateException** - generyczny wyjątek Hibernate
+** **HibernateException** / **PersistenceException** - generyczny wyjątek Hibernate
 ** **JDBCException** - wyrzucany przez wewnętrzny sterownik JDBC
 ** **ConstraintViolationException** - naruszenie węzłów referencyjnych
 ** **NoResultException** - wyrzucany przez metodę **getSingleResult** (w kontekscie : TypedQuery,Query) jeśli nie zwróci żadnych wyników
@@ -1398,6 +1406,9 @@ public List<Employee> findEmployees(int offset, int limit) {
 ** **QueryTimeoutException** - wyrzycany przez zapytania w kontekscie TypedQuery i Query jeśli kwerenda trwa za długo
 ** **LockTimeoutException** - wyrzucany w przypadku blokowania pesymistycznego 
 ** **EntityNotFoundException** - wyrzucany przez metodę refresh lub lock jeśli encja po odświeżeniu kontekstu nie istnieje w bazie
+** **OptimisticLockException** - modyfikacja encji chronionej przez **_@Version_**
+** **EntityExistsException** - zapis encji już zarządzanej
+** **LazyInitializationException** - próba dostępu do leniwych danych , gdy skojarzona sesja jest już zamknięta.
 
 
 source :: __www.bhaveshthaker.com__
