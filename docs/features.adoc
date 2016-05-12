@@ -415,4 +415,17 @@ sq.select(cb.count(i)).where(cb.equal(i.get("seller"), u) );
 criteria.select(u);
 criteria.where(cb.greaterThan(sq, 1L));
 
+===Example QBE like
+
+Book book = new Book();
+ 
+book.setName("Book");
+book.setPublisher("Publisher%");
+book.setPrice(30);
+ 
+Example example = Example.create(book)
+.enableLike()
+.excludeProperty("price");
+Criteria criteria = session.createCriteria(Book.class)
+
 

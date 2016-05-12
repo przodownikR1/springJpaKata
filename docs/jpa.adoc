@@ -323,6 +323,8 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/x
 </persistence>
 ----   
 
+
+
 - **RESOURCE_LOCAL transaction** - sama aplikacja zarządza transakcjami .
 
 - **JTA transaction** - transakcjami zarządza kontener na serwerze aplikacyjnym
