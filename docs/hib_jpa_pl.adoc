@@ -614,7 +614,7 @@ image::transient.png[]
 
     EntityManager#persist()
  
---   source:http://myjourneyonjava.blogspot.com/2014/12/explain-about-hibernate-object-life.html
+   source:http://myjourneyonjava.blogspot.com/2014/12/explain-about-hibernate-object-life.html
  
 image::persistence.png[]
  
