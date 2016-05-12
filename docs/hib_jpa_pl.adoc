@@ -1674,7 +1674,7 @@ include::springData.adoc[]
 
 include::envers.adoc[]
 
-== http://przewidywalna-java.blogspot.com/2014/09/querydsl-metamodel-generation-spring.html[Alternatywy QueryDSL / blog]
+**  http://przewidywalna-java.blogspot.com/2014/09/querydsl-metamodel-generation-spring.html[Alternatywy QueryDSL]
 
 == Ćwiczenia
 
