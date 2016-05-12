@@ -535,13 +535,13 @@ W ten sposób Hibernate wyłączy wewnętrzną pulę połączeń i przestawi si�
  Inne rozwiązania to : 
  
  
--   **proxool** http://proxool.sourceforge.net/
+-   http://proxool.sourceforge.net/[proxool]
    
--   **boneCp** http://www.jolbox.com/
+-   http://www.jolbox.com/[boneCp]
    
--   **Apache poll** https://commons.apache.org/proper/commons-dbcp/
+-  https://commons.apache.org/proper/commons-dbcp/[Apache poll]
    
--   **hikarii** https://brettwooldridge.github.io/HikariCP/
+-  https://brettwooldridge.github.io/HikariCP/[hikarii]
 
 -    Spring pool connection
 
