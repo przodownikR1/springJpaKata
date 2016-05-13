@@ -16,7 +16,7 @@ public class JpaTask extends Task{
 
     private String additionalAction;
 
-    public JpaTask(String name, int hoursCost, Person person,String additionalAction) {
+    public JpaTask(String name, int hoursCost, HPerson person,String additionalAction) {
         super(name, hoursCost, person);
         this.additionalAction = additionalAction;
     }

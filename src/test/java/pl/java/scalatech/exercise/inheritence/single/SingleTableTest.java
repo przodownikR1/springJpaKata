@@ -14,7 +14,7 @@ import pl.java.scalatech.config.PropertiesLoader;
 import pl.java.scalatech.domain.inheritence.single.GroovyTask;
 import pl.java.scalatech.domain.inheritence.single.JavaTask;
 import pl.java.scalatech.domain.inheritence.single.JpaTask;
-import pl.java.scalatech.domain.inheritence.single.Person;
+import pl.java.scalatech.domain.inheritence.single.HPerson;
 import pl.java.scalatech.repository.inheritence.single.GroovyTaskRepo;
 import pl.java.scalatech.repository.inheritence.single.JavaTaskRepo;
 import pl.java.scalatech.repository.inheritence.single.JpaTaskRepo;
@@ -43,7 +43,7 @@ public class SingleTableTest {
 
     @Test
     public void shouldWork(){
-        Person person = Person.builder().email("przodownikR1@gmail.com").firstname("slawek").build();
+        HPerson person = HPerson.builder().email("przodownikR1@gmail.com").firstname("slawek").build();
         taskRepo.save(new JavaTask("classWrite",12,person,"extractMethod"));
         taskRepo.save(new GroovyTask("task",34,person,"todo"));
         taskRepo.save(new JpaTask("mapping",1,person,"bidirectional"));

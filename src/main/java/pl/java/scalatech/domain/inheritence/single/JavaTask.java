@@ -19,7 +19,7 @@ public class JavaTask extends Task{
 
     private String refactoringName;
 
-    public JavaTask(String name, int hoursCost, Person person ,String refactoringName) {
+    public JavaTask(String name, int hoursCost, HPerson person ,String refactoringName) {
         super(name, hoursCost, person);
         refactoringName = refactoringName;
     }

@@ -25,10 +25,10 @@ public abstract class Task extends AbstractEntity{
 
     @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name="personId")
-    private Person person;
+    private HPerson person;
 
 
-    public Task(String name, int hoursCost, Person person) {
+    public Task(String name, int hoursCost, HPerson person) {
         super();
         this.name = name;
         this.hoursCost = hoursCost;

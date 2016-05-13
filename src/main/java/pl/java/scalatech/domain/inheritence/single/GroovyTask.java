@@ -17,7 +17,7 @@ public class GroovyTask extends Task{
 
 
 
-    public GroovyTask(String name, int hoursCost, Person person,String writeNewRule) {
+    public GroovyTask(String name, int hoursCost, HPerson person,String writeNewRule) {
         super(name, hoursCost, person);
         this.writeNewRule = writeNewRule;
     }

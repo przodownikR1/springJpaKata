@@ -44,16 +44,15 @@ public class FilterTest {
         Assertions.assertThat(personRepository.count()).isEqualTo(5);
        Session session =  entityManager.unwrap(Session.class);
        log.info("+++++++++++++++++ {}",session);
-       session.enableFilter("byStatus").setParameter("active", true);
+       session.enableFilter("byStatus").setParameter("status", true);
        //TODO
-      // long active = (long) session.createQuery("select count(*) from Person").uniqueResult();
-      // Assertions.assertThat(active).isEqualTo(3);
-/*
+       long active = (long) session.createQuery("select count(*) from Person").uniqueResult();
+       log.info("result : {} ", session.createQuery("from Person").list());
+       Assertions.assertThat(active).isEqualTo(3);
 
-
-        session =  (Session) entityManager.unwrap(Session.class).enableFilter("byStatus").setParameter("status", false);
-       int disActive = session.createQuery("select count(*) from Person").getFirstResult();
-       Assertions.assertThat(disActive).isEqualTo(2);*/
+       session.enableFilter("byStatus").setParameter("status", false);
+       active = (long) session.createQuery("select count(*) from Person").uniqueResult();
+       Assertions.assertThat(active).isEqualTo(2);
 
     }
 

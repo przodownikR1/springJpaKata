@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
@@ -26,8 +25,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@FilterDef(name = "byStatus", parameters = @ParamDef(name = "active", type = "boolean"))
+@FilterDef(name = "byStatus", parameters = @ParamDef(name = "status", type = "boolean"))
 @Filter(name = "byStatus", condition = "active = :status")
+
 public class Person implements Serializable{
 
     private static final long serialVersionUID = 5279859664147821207L;
@@ -47,7 +47,7 @@ public class Person implements Serializable{
     private Boolean active;
 
     @DateTimeFormat(pattern = "dd/MM/yy")
-    @NotNull
+
     //@Past
     private ZonedDateTime birthDay;
     //TODO
