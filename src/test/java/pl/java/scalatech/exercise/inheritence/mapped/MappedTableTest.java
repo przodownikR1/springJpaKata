@@ -22,7 +22,7 @@ import pl.java.scalatech.repository.inheritence.mapped.DebitAccountRepo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PropertiesLoader.class, MappedTableConfig.class })
-@ActiveProfiles(value = "mapped")
+@ActiveProfiles(value = {"mapped","logger"})
 @Transactional
 @Slf4j
 public class MappedTableTest {
@@ -38,12 +38,13 @@ public class MappedTableTest {
 
 
     @Test
+
     public void shouldWork(){
-        creditRepo.save(new CreditAccount("slawek",BigDecimal.valueOf(23),BigDecimal.valueOf(35)));
+    //    creditRepo.save(new CreditAccount("slawek",BigDecimal.valueOf(23),BigDecimal.valueOf(35)));
         creditRepo.save(new CreditAccount("kalina",BigDecimal.valueOf(48),BigDecimal.valueOf(78)));
         debitRepo.save(new DebitAccount("aga",BigDecimal.valueOf(62),BigDecimal.valueOf(95)));
 
-        Assertions.assertThat(creditRepo.count()).isEqualTo(2);
+        Assertions.assertThat(creditRepo.count()).isEqualTo(1);
         Assertions.assertThat(debitRepo.count()).isEqualTo(1);
 
 

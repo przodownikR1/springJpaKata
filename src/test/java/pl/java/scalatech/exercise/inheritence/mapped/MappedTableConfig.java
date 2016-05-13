@@ -10,12 +10,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import pl.java.scalatech.config.JpaLoggerConfig;
+
 
 @EntityScan(basePackages = "pl.java.scalatech.domain.inheritence.mapped")
 @EnableJpaRepositories(basePackages = "pl.java.scalatech.repository.inheritence.mapped")
 @Import({ DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, PersistenceExceptionTranslationAutoConfiguration.class,
-    PropertyPlaceholderAutoConfiguration.class })
-@Profile("mapped")
+    PropertyPlaceholderAutoConfiguration.class,JpaLoggerConfig.class })
+@Profile(value={"mapped"})
 @Configuration
 public class MappedTableConfig {
 

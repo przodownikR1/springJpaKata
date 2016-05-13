@@ -16,6 +16,22 @@
 			<pattern></pattern>
 		</encoder>
 	</appender>
+	
+	<appender name="Sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+        <file>logs/spring_kata_sql.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <maxIndex>10</maxIndex>
+            <fileNamePattern>logs/springJpaKata.log.%i</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>25MB</maxFileSize>
+        </triggeringPolicy>
+    </appender>
+	
 	<logger name="pl.java.scalatech" level="INFO"/>
 	<logger name="org.springframework.aop.interceptor" level="INFO" />
 	<logger name="org.springframework" level="INFO" />
@@ -30,6 +46,49 @@
    <!--  <logger name="org.hibernate.type" level="TRACE"/> -->
 
      
+     
+     
+     <logger name="log4jdbc.debug" additivity="false">
+		<level value="info" />
+		<appender-ref ref="Sql" />
+	</logger>
+	    
+    <logger name="jdbc.sqltiming" additivity="false">
+		<level value="info" />
+		<appender-ref ref="Sql" />
+	</logger>
+	
+	<logger name="jdbc.resultset" additivity="false">
+		<level value="error" />
+		<appender-ref ref="Sql" />
+	</logger>
+	
+	<logger name="jdbc.audit" additivity="false">
+		<level value="error" />
+		<appender-ref ref="Sql" />
+	</logger>
+	
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="error" />
+		<appender-ref ref="Sql" />
+	</logger>
+	
+	<logger name="jdbc.resultsettable" additivity="false">
+		<level value="error" />
+		<appender-ref ref="Sql" />
+	</logger>
+	
+	<logger name="jdbc.connection" additivity="false">
+		<level value="error" />
+		<appender-ref ref="Sql" />
+	</logger>
+	
+	<logger name="jdbc.resultsettable" additivity="false">
+		<level value="error" />
+		<appender-ref ref="Sql" />
+	</logger>
+
+    
 
 	<root level="DEBUG">
 	    <appender-ref ref="console"/>
