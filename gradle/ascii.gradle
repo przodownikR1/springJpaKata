@@ -11,7 +11,7 @@ asciidoctor {
     'endpoint-url': 'https:/my.gitlab',
     'source-highlighter' : 'coderay',
     'coderay-linenums-mode' : 'table',
-    'imagesdir': './images',
+    'imagesdir': './img',
     'toc':'left',
      encoding:'utf-8',
      sectlink:'true',
