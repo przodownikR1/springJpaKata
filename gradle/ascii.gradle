@@ -10,8 +10,13 @@ asciidoctor {
      attributes 'build-gradle': file('build.gradle'),
     'endpoint-url': 'https:/my.gitlab',
     'source-highlighter' : 'coderay',
+    'coderay-linenums-mode' : 'table',
     'imagesdir': './images',
     'toc':'left',
+     encoding:'utf-8',
+     sectlink:'true',
+     numbered:'true',
+     linkattrs: 'true',
     'icons': 'font',
     'setanchors':'true',
     'idprefix':'',
@@ -22,5 +27,5 @@ asciidoctor {
     requires = ['asciidoctor-diagram']
     gemPath = jrubyPrepareGems.outputDir
     sourceDir = file('docs')
-    backends = ['html5']
+    backends = ['html5','pdf']
 }
