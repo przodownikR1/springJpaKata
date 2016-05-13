@@ -336,7 +336,7 @@ Jest skonfigurowany w pliku persistence.xml
 
 source : eclipse.org
 
-image::otlcg_jd_001.gif[]
+image::otlcg_jd_001.png[]
 
 
 === Praca w wieloma jednostkami trwałości 
