@@ -1636,10 +1636,11 @@ image::cqrs.png[]
 
 source: wikipedia
 
+----
 Jest to podejście do tworzenia oprogramowania kładące nacisk na takie definiowanie obiektów i komponentów systemu oraz ich zachowań, aby wiernie odzwierciedlały rzeczywistość. Dopiero po utworzeniu takiego modelu należy rozważyć zagadnienia związane z techniczną realizacją.
 Podejście to umożliwia modelowanie systemów informatycznych przez ekspertów, którzy znają specyfikę problemu lecz nie muszą znać się na projektowaniu architektury systemów informatycznych.
 Domain-Driven Design zaleca stosowanie określonych wzorców projektowych i architektonicznych.
-
+----
 
 source: http://static.olivergierke.de/lectures/ddd-and-spring/
 

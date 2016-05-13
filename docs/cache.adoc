@@ -38,7 +38,7 @@ image:{image-link} [role='img-circle']
  - Spring in Action
  - etc 
 
-== Hibernate / JPA
+== http://przewidywalna-java.blogspot.com/2014/10/quickeasy-cache-added.html[Hibernate / JPA]
 
 **Cache** - zwiększenie wydajności zapytań poprzez eliminacje ponownego zapytania w bazie
 
@@ -441,3 +441,5 @@ IMPORTANT: Konfigurujemy CacheManager współdzielony na wielu instancji Session
     value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
     
 ----
+
+== https://github.com/przodownikR1/jpaKata/tree/cache[Przykład użycia]
