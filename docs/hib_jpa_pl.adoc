@@ -1677,9 +1677,7 @@ include::envers.adoc[]
 
 ==  http://przewidywalna-java.blogspot.com/2014/09/querydsl-metamodel-generation-spring.html[Alternatywy QueryDSL]
 
-== Ćwiczenia
 
-include::exercices.adoc[]
 
 INFO
 == info adoc
