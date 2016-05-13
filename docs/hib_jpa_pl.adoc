@@ -114,7 +114,7 @@ NOTE: Zauważ, że to podejście właściwe dla wzorca template.
 ***	 SybaseDialect 
    
  
-* idealnie nadaje się do protytypowania  
+** idealnie nadaje się do protytypowania  
  
 **Dodatkowo otwiera możliwości :** 
 
