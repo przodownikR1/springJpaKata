@@ -32,8 +32,8 @@ public class PersonRepositoryTest {
     public void shouldStreamRetrieveWork() {
         personRepository.save(Person.builder().km(34d).email("przodownikR1@gmail.com").firstname("przodownik").birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
         personRepository.save(Person.builder().km(35d).email("kalinaR1@gmail.com").firstname("kalina").birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
-        personRepository.save(Person.builder().km(77d).email("aga@gmail.com").firstname("aga").active(true).birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
-        Person person =Person.builder().km(88d).email("bak@gmail.com").firstname("bak").active(true).birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build();
+        personRepository.save(Person.builder().km(77d).email("aga@gmail.com").firstname("agaee").active(true).birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
+        Person person =Person.builder().km(88d).email("bak@gmail.com").firstname("bakee").active(true).birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build();
         personRepository.save(person);
         log.info("overview : {}",personRepository.findOne(1l));
         //log.info("overview : modify {} , effective modify {}",personRepository.findOne(1l).getModify(),personRepository.findOne(1l).getEffectiveModify());
