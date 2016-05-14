@@ -91,20 +91,20 @@ Root<Person> root = criteria.from( Person.class );
 
 == Wyrażenia / Expression
 
-image::UML-expressions.gif[]
+image::UML-expressions.jpg[]
 
 
 == Typy / Types
 
-image::UML-types.gif[]
+image::UML-types.jpg[]
 
 == Kwerendy / guery
 
-image::UML-query.gif[]
+image::UML-query.jpg[]
 
 == Atrybuty / Attributes
 
-image::UML-attrs.gif[]
+image::UML-attrs.jpg[]
 
 == MetaModel
 
