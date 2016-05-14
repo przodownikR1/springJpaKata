@@ -1237,33 +1237,7 @@ public class Offer extends AbstractEntity{
 * Many-To-Many N:M
 
 
-== @MapKey
 
-source : __https://en.wikibooks.org/wiki/Java_Persistence/Relationships#Nested_Collections.2C_Maps_and_Matrices__
-
-
-*** Przykład
-
-[source,java]
-----
-public class Employee {
-  private long id;
-  private Map<String, List<Project>> projects;
-}
-----
-
-[source,java]
-----
-public class Employee {
-  @Id
-  @GeneratedValue
-  private long id;
-  ...
-  @OneToMany(mappedBy="employee")
-  @MapKey(name="type")
-  private Map<String, ProjectType> projects;
-}
-----
 
 [source,java]
 ----
@@ -1304,6 +1278,30 @@ NOTE: Tuning. Potencjalne przyspieszenie dla dużych tabel w szczególności
 @Cache (usage=CacheConcurrencyStrategy.READ_ONLY) 
 @Table(name = "products")
 public class Product extends AbstractEntity {
+
+}
+----
+
+==@SubSelect - view 
+
+[source,java]
+----
+@Entity
+@org.hibernate.annotations.Immutable
+@org.hibernate.annotations.Subselect(
+value = "select i.id as userId, i.firstName as name, " +
+"count(a.id) as addressCount " +
+"from ITEM i left outer join Address a on i.ID = a.id " +
+"group by i.id"
+)
+@org.hibernate.annotations.Synchronize({"Item", "Bid"})
+public class UserAddressStats {
+@Id
+protected Long userId;
+protected String name;
+protected long addressCount;
+public ItemBidSummary() {
+}
 
 }
 ----

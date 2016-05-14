@@ -22,6 +22,4 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query("select p from Person p")
     Stream<Person> streamAllPerson();
 
-    @Transactional(readOnly = true)
-    Stream<Person> findById(long id);
 }

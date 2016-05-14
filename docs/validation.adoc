@@ -75,7 +75,7 @@ image::application-layers2.png[]
 </dependency>
 ----
 
-
+WARNING: Validator nie generuje ograniczeń na bazie !
 
 
 === Validation-mode

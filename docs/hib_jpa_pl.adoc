@@ -44,6 +44,13 @@ image:{image-link} [role='img-circle']
 == Hibernate / JPA
 
 == Co to jest w ogóle jest :) ? 
+
+----
+Deweloperzy korzystają z Hibernate ponieważ czują się niekomfortowo z SQL i RDBS.
+Ale zanim przejdą na Hibernate powinni być biegli w SQL'u i JDBC , ponieważ Hibernate korzysta z JDBC 
+a nie zastępuje go. Koszt mniejszej wydajności to dodatkowa wersja abstrakcji.
+Gavin King (twórca Hibernate ) 
+----
  
  - najpopularniejsza implementacja odwzorowania
  - jedna z implemetacji standardu **JPA**
@@ -1271,7 +1278,7 @@ Technika umożliwiająca automatyczną propagację trwałości na podgrafy ulotn
 Jeśli z obiektu trwałego dostajemy się do innego obiektu poprzez referencje. Działanie jest rekurencyjne.
 Dowolny graf obiektów można odtworzyć w całości wczytując jego korzeń.
 
-NOTE: Pomaga uzyskać trwałość obiektom ulotnym i propagować je do bazy danych bez potrzeby wywołań zarządcy trwałości 
+NOTE: Pomaga uzyskać trwałość obiektom ulotnym i propagować je do bazy danych bez potrzeby wywołań zarządcy trwałości save()
 
 
 == Trwałość kaskadowa

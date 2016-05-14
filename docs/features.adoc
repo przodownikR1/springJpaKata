@@ -5,16 +5,19 @@
 :pagenums:
 :imagesdir: img
 :iconsdir: ./icons
-:stylesdir: ./styles
+:stylesdir: ./styles 
 :scriptsdir: ./js
 
 :image-link: https://pbs.twimg.com/profile_images/425289501980639233/tUWf7KiC.jpeg
 ifndef::sourcedir[:sourcedir: ./src/main/java/]
-ifndef::resourcedir[:resourcedir: ./src/main/resources/]
+ifndef::resourcedir[:resourcedir: ././src/main/resources/]
 ifndef::imgsdir[:imgsdir: ./../img]
 :source-highlighter: coderay
-
-
+[source,java]
+----
+pl.java.scalatech.config
+include::{sourcedir}JpaConfig.java[tags=contains,indent=0]
+----
 
 TIP: Tip.
 
@@ -447,3 +450,42 @@ System.out.println("get isbn "+book.getIsbn());
 }
 tx.commit();
 session.close();
+
+=====
+
+== @MapKey
+
+source : __https://en.wikibooks.org/wiki/Java_Persistence/Relationships#Nested_Collections.2C_Maps_and_Matrices__
+
+
+*** Przykład
+
+[source,java]
+----
+public class Employee {
+  private long id;
+  private Map<String, List<Project>> projects;
+}
+----
+
+[source,java]
+----
+public class Employee {
+  @Id
+  @GeneratedValue
+  private long id;
+  ...
+  @OneToMany(mappedBy="employee")
+  @MapKey(name="type")
+  private Map<String, ProjectType> projects;
+}
+----
+
+
+====Collection
+
+Customer
+
+@ElementCollection(targetClass=Address.class,fetch=FetchType.EAGER)
+@JoinTable (name = "Address", joinColumns = @JoinColumn(name="Customer_ID"))
+private Set<Address> contacts;

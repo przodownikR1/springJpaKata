@@ -1,0 +1,20 @@
+jesli mam 2 lub wiecej formul czy convertColumn 
+to : 
+WARN[0;39m|[32m2016-05-14 10:00:31.888[0;39m|[1;35m[main][0;39m|[33morg.hibernate.engine.jdbc.spi.SqlExceptionHelper:[1;33m129[0;39m[0;39m - SQL Error: 90053, SQLState: 90053
+[31m[0;39m[1;31mERROR[0;39m|[32m2016-05-14 10:00:31.888[0;39m|[1;35m[main][0;39m|[33morg.hibernate.engine.jdbc.spi.SqlExceptionHelper:[1;33m131[0;39m[0;39m - Skalarna pod-kwerenda zawiera więcej niż jeden wiersz
+Scalar subquery contains more than one row; SQL statement:
+
+==========mapowanie ID
+@Fetch(FetchMode.JOIN)
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ORDER_UNIT", insertable = false, updatable = false, referencedColumnName = "ID", nullable = false)
+	@InnerComposite
+	private Unit orderUnit;
+	public final static String ORDER_UNIT = "orderUnit";
+
+	@Basic(fetch=FetchType.EAGER)
+	@Column(name="ORDER_UNIT", nullable = false)
+	private long orderUnitId;
+	public final static String ORDER_UNIT_ID = "orderUnitId";
+	
+	==========
