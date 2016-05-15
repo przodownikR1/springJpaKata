@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,8 +15,10 @@ import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.ParamDef;
@@ -35,7 +38,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @FilterDef(name = "byStatus", parameters = @ParamDef(name = "status", type = "boolean"))
 @Filter(name = "byStatus", condition = "active = :status")
-
+@EntityListeners( SampleListener.class )
 public class Person implements Serializable{
 
     private static final long serialVersionUID = 5279859664147821207L;
@@ -63,13 +66,16 @@ public class Person implements Serializable{
     @Type(type="yes_no")
     private Boolean disable;
 
-  /* @Formula("select concat(p.email, ' : ' ,p.firstname ) From Person p")
-    private String overview;*/
-/*
-    @Formula("select count(*) From Person p WHERE p.active = 'true'")
-    private int allUser;*/
+    //TODO
+  // @Formula("concat(disable, ' : ' ,active )")/// ? filter problem
+    private String overview;
 
-   /* @ColumnTransformer(read="km * 1.6",write= "? / 1.6")*/
+    @Formula("select count(*) From Person p WHERE p.active = 'true'")
+    private int allUser;
+
+
+
+    @ColumnTransformer(read="km * 1.6",write= "? / 1.6")
     private Double km;
 
     private Boolean active;

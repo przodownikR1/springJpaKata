@@ -3,6 +3,8 @@ package pl.java.scalatech.spring;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
+import javax.transaction.Transactional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,8 @@ import pl.java.scalatech.repository.PersonRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestJpaConfig.class })
 @ActiveProfiles("logger")
-public class PersonRepositoryTest {
+@Transactional
+public class PersonRepoTest {
     @Autowired
     private PersonRepository personRepository;
 
@@ -29,7 +32,7 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    public void shouldStreamRetrieveWork() {
+    public void shouldRepoWork() {
         personRepository.save(Person.builder().km(34d).email("przodownikR1@gmail.com").firstname("przodownik").birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
         personRepository.save(Person.builder().km(35d).email("kalinaR1@gmail.com").firstname("kalina").birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
         personRepository.save(Person.builder().km(77d).email("aga@gmail.com").firstname("agaee").active(true).birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());

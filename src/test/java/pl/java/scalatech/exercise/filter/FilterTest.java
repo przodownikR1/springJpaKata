@@ -32,11 +32,11 @@ public class FilterTest {
     private EntityManager entityManager;
     @Before
     public void init(){
-        personRepository.save(Person.builder().email("przodownikR1_1@gmail.com").firstname("slawek1").disable(true).active(true).birthDay(ZonedDateTime.now()).build());
-        personRepository.save(Person.builder().email("przodownikR1_2@gmail.com").firstname("slawek2").disable(true).active(true).birthDay(ZonedDateTime.now()).build());
-        personRepository.save(Person.builder().email("przodownikR1_3@gmail.com").firstname("slawek3").disable(false).active(false).birthDay(ZonedDateTime.now()).build());
-        personRepository.save(Person.builder().email("przodownikR1_4@gmail.com").firstname("slawek4").disable(true).active(true).birthDay(ZonedDateTime.now()).build());
-        personRepository.save(Person.builder().email("przodownikR1_5@gmail.com").firstname("slawek5").disable(false).active(false).birthDay(ZonedDateTime.now()).build());
+        personRepository.save(Person.builder().km(34d).email("przodownikR1_1@gmail.com").firstname("slawek1").disable(true).active(true).birthDay(ZonedDateTime.now()).build());
+        personRepository.save(Person.builder().km(34d).email("przodownikR1_2@gmail.com").firstname("slawek2").disable(true).active(true).birthDay(ZonedDateTime.now()).build());
+        personRepository.save(Person.builder().km(34d).email("przodownikR1_3@gmail.com").firstname("slawek3").disable(false).active(false).birthDay(ZonedDateTime.now()).build());
+        personRepository.save(Person.builder().km(34d).email("przodownikR1_4@gmail.com").firstname("slawek4").disable(true).active(true).birthDay(ZonedDateTime.now()).build());
+        personRepository.save(Person.builder().km(34d).email("przodownikR1_5@gmail.com").firstname("slawek5").disable(false).active(false).birthDay(ZonedDateTime.now()).build());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class FilterTest {
        session.enableFilter("byStatus").setParameter("status", true);
        //TODO
        long active = (long) session.createQuery("select count(*) from Person").uniqueResult();
-       log.info("result : {} ", session.createQuery("from Person").list());
+       log.info("result : {} ", session.createQuery("Select p from Person p ").list());
        Assertions.assertThat(active).isEqualTo(3);
 
        session.enableFilter("byStatus").setParameter("status", false);
