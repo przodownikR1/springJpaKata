@@ -51,6 +51,7 @@ public class JpaFetchTest {
     public void shouldRetrievePerson(){
        List<Person> people = personRepo.findAll();
        log.info("people {}",people);
+       log.info("people size : {}",people.size());
 
     }
 

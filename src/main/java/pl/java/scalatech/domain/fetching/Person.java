@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
 import org.hibernate.annotations.FetchProfile.FetchOverride;
@@ -64,7 +65,7 @@ public class Person extends AbstractEntity {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Column(name = "id")
     // @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
-    // @BatchSize(size = 2)
+     @BatchSize(size = 10)
 
     private List<Address> addresses;
 }

@@ -82,3 +82,4 @@ gc.log
 /mongoDB-springBoot.log
 /file_from_fd_store.png
 springJpa.log
+/text.txt
