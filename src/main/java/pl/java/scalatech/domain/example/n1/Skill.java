@@ -11,6 +11,7 @@ import javax.persistence.NamedEntityGraphs;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.java.scalatech.domain.AbstractEntity;
@@ -27,7 +28,7 @@ attributeNodes = {
 }
 )
 })
-
+@Data
 public class Skill extends AbstractEntity
 {
 

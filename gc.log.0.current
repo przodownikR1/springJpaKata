@@ -1,12 +1,12 @@
 Java HotSpot(TM) 64-Bit Server VM (25.66-b17) for linux-amd64 JRE (1.8.0_66-b17), built on Oct  6 2015 17:28:34 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
-Memory: 4k page, physical 16324072k(1443008k free), swap 16666620k(16655764k free)
+Memory: 4k page, physical 16324072k(6079708k free), swap 16666620k(16666620k free)
 CommandLine flags: -XX:GCLogFileSize=104857600 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/przodownik/logs/dump.hprof -XX:InitialHeapSize=1073741824 -XX:MaxHeapSize=2147483648 -XX:MaxMetaspaceSize=536870912 -XX:NumberOfGCLogFiles=10 -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseGCLogFileRotation -XX:+UseParallelGC 
 Heap
- PSYoungGen      total 305664K, used 115348K [0x00000000d5580000, 0x00000000eaa80000, 0x0000000100000000)
-  eden space 262144K, 44% used [0x00000000d5580000,0x00000000dc625258,0x00000000e5580000)
+ PSYoungGen      total 305664K, used 131080K [0x00000000d5580000, 0x00000000eaa80000, 0x0000000100000000)
+  eden space 262144K, 50% used [0x00000000d5580000,0x00000000dd582258,0x00000000e5580000)
   from space 43520K, 0% used [0x00000000e8000000,0x00000000e8000000,0x00000000eaa80000)
   to   space 43520K, 0% used [0x00000000e5580000,0x00000000e5580000,0x00000000e8000000)
  ParOldGen       total 699392K, used 0K [0x0000000080000000, 0x00000000aab00000, 0x00000000d5580000)
   object space 699392K, 0% used [0x0000000080000000,0x0000000080000000,0x00000000aab00000)
- Metaspace       used 10795K, capacity 11072K, committed 11264K, reserved 1058816K
-  class space    used 1415K, capacity 1490K, committed 1536K, reserved 1048576K
+ Metaspace       used 11795K, capacity 12172K, committed 12416K, reserved 1060864K
+  class space    used 1534K, capacity 1658K, committed 1664K, reserved 1048576K

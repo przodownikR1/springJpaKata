@@ -1,13 +1,13 @@
 package pl.java.scalatech.exercise.n1;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.google.common.collect.Maps.newHashMap;
+
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.PropertiesLoader;
 import pl.java.scalatech.domain.example.n1.Skill;
-import pl.java.scalatech.domain.fetching.Person;
 import pl.java.scalatech.repository.n1.CandidateRepo;
 import pl.java.scalatech.repository.n1.SkillRepo;
 
@@ -67,16 +68,19 @@ public class N1Test {
 
      }
     @Test
-    @Ignore
-    //TODO
-    public void shouldEntityGraphWork(){
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("javax.persistence.loadgraph",
-        em.getEntityGraph(Person.class.getSimpleName())
-        );
 
-        List<Skill> s = em.createQuery("FROM Skill",Skill.class).getResultList();
-        log.info("skills {}", s);
+    public void shouldEntityGraphWork(){
+
+        Map<String, Object> props = newHashMap();
+        EntityGraph<Skill> skillGraph = em.createEntityGraph(Skill.class);
+        skillGraph.addAttributeNodes("candidate");
+        props.put("javax.persistence.loadgraph", skillGraph);
+
+
+        Skill one = em.find(Skill.class, 1l,props);
+        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
+        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getCandidate())).isTrue();
+
     }
 
 
