@@ -67,7 +67,7 @@ public class Person implements Serializable{
     private Boolean disable;
 
     //TODO
-  // @Formula("concat(disable, ' : ' ,active )")/// ? filter problem
+  //@Formula("concat(disable, ' : ' ,active )")/// ? filter problem
     private String overview;
 
     @Formula("select count(*) From Person p WHERE p.active = 'true'")

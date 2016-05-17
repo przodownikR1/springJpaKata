@@ -62,7 +62,7 @@ public class JpqlByExampleTest {
     @Test
     public void shouldUseExample() {
         Company template = Company.builder().name("javatech").address(Address.builder().city("radom").street("koncowa").build()).build();
-        ExampleMatcher matcher = ExampleMatcher.matching().withIgnorePaths("lastname").withIncludeNullValues();
+        ExampleMatcher matcher = ExampleMatcher.matching().withIgnorePaths("depts").withIncludeNullValues();
         Example<Company> example = Example.of(template,matcher);
         companyRepo.findAll(example);
     }

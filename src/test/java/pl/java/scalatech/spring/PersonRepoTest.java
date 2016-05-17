@@ -50,5 +50,10 @@ public class PersonRepoTest {
         personRepository.save(person);
         log.info("{}",personRepository.findByFirstname("kalina"));
     }
+    @Test
+    public void shouldLikeWork(){
+        personRepository.save(Person.builder().km(34d).email("przodownikR1@gmail.com").active(true).firstname("przodownik").birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build());
+        personRepository.findByEmailUseLike("przodownik");
+    }
 
 }
