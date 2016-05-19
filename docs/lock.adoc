@@ -177,4 +177,9 @@ query.setLockMode(LockModeType.PESSIMISTIC_READ);
 List<User> users = query.getResultList();
 ----
  
+== Linki 
+lock hibernate : http://docs.jboss.org/hibernate/orm/5.0/devguide/en-US/html/ch05.html
+
+hibernate-locking-patterns https://dzone.com/articles/hibernate-locking-patterns-%E2%80%93 
+ 
 
