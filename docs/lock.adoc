@@ -65,7 +65,9 @@ image:{image-link} [role='img-circle']
   - podczas zatwierdzania zmian porównywalny jest orginalny numer wersji z bieżącą wartością. W razie różnicy, zatwierdzenie transakcji jest wycofane i wyrzucany jest wyjątek
  **OptimisticLockException**
  
-  - nie chroni przed  **phantom read**
+WARNING: nie chroni przed  **phantom read**
+  
+NOTE: Nie zakłada żadnych blokad na bazie
 
 NOTE: Wydajność 
 
@@ -100,11 +102,50 @@ private String bookName;
 
 ----
 
+SQL : 
+
+[source, sql]
+----
+select
+        book0_.id as id1_0_0_,
+        book0_.version as version2_0_0_,
+        book0_.name as name3_0_0_,
+        book0_.title as title4_0_0_ 
+    from
+        Book book0_ 
+    where
+        book0_.id=?
+       
+       
+       
+         update  Book  set version=?, name=?, title=? 
+          where id=?  and version=?
+----
+
+=== Select For Update
+
+[source,sql]
+----
+ SELECT * FROM Person FOR UPDATE
+----
+** Blokowanie pesymistyczne (od momentu odczytania do momentu zapisu modyfikacji do bazy)
+
+** blokuje dany wiersz i wszystkie z nim powiązane indeksami wiersze
+
+** Rozwiązuje problem napisywania zmian pierwszej transakcji przez drugą. (ostatnia wygrywa zawsze)
+
 
 === Using Pessimistic Concurrency Control / Blokowanie pesymistyczne
 
 - mechanizm umiemożliwiający współbieżny dostęp do konkretnego zasobu.
 - zakładana w momencie odczytu danych aż do zakończenia transakcji
+- zakładana na wiersz w momencie odczytu (Select .... For Update )
+
+
+NOTE:  prostszy kod bez @Version
+
+WARNING: locki na bazie
+ 
 
 CAUTION: Nie jest to najlepszy wybór dla wysoce współbieżnej aplikacji. Powoduje istotny spadek wydajności. Możemy liczyć się z zakleszczeniami (deadlock).
 
@@ -112,7 +153,21 @@ CAUTION: Nie jest to najlepszy wybór dla wysoce współbieżnej aplikacji. Powo
      Zakładany automatycznie gdy Hibernate odczytuje dane przy poziomie izolacji Repeatable Read or Serializable isolation level.
      
     **WRITE** - blokowanie na zapis (ochrona przed dirty reads i  unrepeatable reads)
-     Zakładany automatycznie, gdy Hibernate wstawia lub aktualizuje wiersz 
+     Zakładany automatycznie, gdy Hibernate wstawia lub aktualizuje wiersz
+     
+=== PESSIMISTIC_READ 
+
+** **Blokada do odczytu** -  uniemożliwia innym transakcjom zmienianie odczytywanych danych w przedziale rozpoczęcia transakcji aż do jej końca
+** zapewnia odczyty niepowtarzalne
+** inne transakcje mogą odczytywać dane będące w obrębie blokady ale nie mogą ich modyfikować.
+
+=== PESSIMISTIC_WRITE
+
+** **Blokada do zapisu** - wykorzystywana jest do celów aktualizacji. Uniemożliwia innym transakcjom zmieniania danych w obrębie
+ transakcji, ale umożliwia umożliwia brudne odczyty pozostałym transakcją, które mogą wykorzystywać nasze dane.
+
+ 
+      
 
 ==== LockMode - blokada dla konkretnego elementu
 
@@ -131,6 +186,7 @@ CAUTION: Nie jest to najlepszy wybór dla wysoce współbieżnej aplikacji. Powo
 
  ** uzyskiwany automatycznie , gdy zarządca trwałości zapisał dane do wiersza aktualnej transakcji
  ** **LockMode.WRITE** jest zakładany automatycznie, gdy Hibernate wstawia lub aktualizuje wiersz
+ 
  
 ===== LockMode.UPGRADE
 

@@ -304,6 +304,13 @@ return repository.getOrder(orderId);
  **  ma zapewnioną powtarzalność odczytów
  **  rozwiązuje problemy brudnego i niepowtarzalnego odczytu
  ** mogą wystąpić fantomy
+ ** odczytywane w czasie trwania transakcji dane nie zmieniają się przy kolejnych próbach odczytu
+ 
+
+===== **Odczyt fantomu (phantom read)**
+
+** w czasie trwania transakcji wykrywane są  nowe rekordy dodawane do bazy przez inne transakcje
+   
    
 ===== **Szeregowalność (Serializable)**
   ** transakcja szeregowana. Możemy te sposób izolacji traktować synchroniczne wykonywane krok po kroku zamiast opcji zrównoleglenia.
