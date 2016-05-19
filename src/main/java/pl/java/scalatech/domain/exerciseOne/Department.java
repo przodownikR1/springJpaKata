@@ -15,11 +15,12 @@ import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.AbstractEntity;
 
 @Entity
-@Table(name = "DEPARTMENT")
+@Table(name = "DEPARTMENT_EXERCISE")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class Department extends AbstractEntity{
 
     @Column(name = "NAME")

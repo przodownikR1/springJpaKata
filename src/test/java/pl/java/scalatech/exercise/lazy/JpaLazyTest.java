@@ -23,13 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.google.common.collect.Maps.newHashMap;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.config.JpaLoggerConfig;
 import pl.java.scalatech.config.PropertiesLoader;
 import pl.java.scalatech.domain.lazy.Item;
 import pl.java.scalatech.repository.lazy.ItemRepo;
 import pl.java.scalatech.repository.lazy.OfferRepo;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PropertiesLoader.class, JpaLazyConfig.class })
-@ActiveProfiles(value = "lazy")
+@ContextConfiguration(classes = { PropertiesLoader.class, JpaLazyConfig.class,JpaLoggerConfig.class })
+@ActiveProfiles(value = {"lazy","logger"})
 @Transactional
 @Slf4j
 // @SqlDataAccount
@@ -64,7 +65,7 @@ public class JpaLazyTest {
     public void shouldLazyInitializationSolution1() {
         Item one = em.find(Item.class, 1l);
         Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
-        one.getOffers().size();
+        log.info("{}",one.getOffers().size());
         Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
 
     }
@@ -94,32 +95,32 @@ public class JpaLazyTest {
     }
 
     @Test
-    @Ignore //TODO
     public void shouldLazyInitializationSolution4() {
         Map<String, Object> props = newHashMap();
          em.getEntityGraphs(Item.class).forEach(eg->log.info("{}",eg));
-         props.put("javax.persistence.loadgraph", em.getEntityGraph("itemOffer"));
+         props.put("javax.persistence.loadgraph", em.getEntityGraph("offers"));
         Item one = em.find(Item.class, 1l,props);
-
-
         Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
-
         Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
-
     }
 
     @Test
     public void shouldLazyInitializationSolution5() {
-        Map<String, Object> props = newHashMap();
+        Map<String, Object> hints = newHashMap();
         EntityGraph<Item> itemGraph = em.createEntityGraph(Item.class);
         itemGraph.addAttributeNodes("offers");
-        props.put("javax.persistence.loadgraph", itemGraph);
-
+        hints.put("javax.persistence.loadgraph", itemGraph);
         em.getEntityGraphs(Item.class).forEach(eg->log.info("{}",eg));
-
-        Item one = em.find(Item.class, 1l,props);
+        Item one = em.find(Item.class, 1l,hints);
         Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
         Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
+    }
+    @Test
+    @Ignore //TODO
+    public void shouldDynamicInsertAndUpdate(){
+        Item item = Item.builder().name("slawek").build();
+            itemRepo.save(item);
+            log.info("{}",itemRepo.findAll());
 
     }
 

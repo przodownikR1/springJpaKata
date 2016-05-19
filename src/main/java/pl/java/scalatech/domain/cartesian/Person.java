@@ -1,12 +1,16 @@
 package pl.java.scalatech.domain.cartesian;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +22,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Table(name="CARTESIAN_PERSON")
 public class Person extends AbstractEntity{
 
     private static final long serialVersionUID = -4106601879598237198L;
@@ -25,15 +30,14 @@ public class Person extends AbstractEntity{
     private String lastName = null;
 
     @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-  //  @Fetch(FetchMode.SELECT)
-    //@BatchSize(size=7)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinColumn(name="PERSON_ID")
-    private List<Address> addresses;
+    private Set<Address> addresses;
 
 
     @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-  //  @Fetch(FetchMode.SELECT)
+
     @JoinColumn(name="PERSON_ID")
-    private List<Phone> phones;
+    private Set<Phone> phones;
 
 }

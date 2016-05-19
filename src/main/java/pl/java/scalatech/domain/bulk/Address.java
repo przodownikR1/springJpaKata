@@ -2,6 +2,7 @@ package pl.java.scalatech.domain.bulk;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Table(name="Bulk_Address")
 public class Address  extends AbstractEntity{
 
     private static final long serialVersionUID = -7478171078449579045L;

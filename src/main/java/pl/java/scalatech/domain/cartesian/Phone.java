@@ -1,6 +1,7 @@
 package pl.java.scalatech.domain.cartesian;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-
+@Table(name="CARTESIAN_PHONE")
 public class Phone extends AbstractEntity{
 
 

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.AbstractEntity;
 
 @Entity
-@Table(name = "PROJECT")
+@Table(name = "PROJECT_EXERCISE")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

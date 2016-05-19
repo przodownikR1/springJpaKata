@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.AbstractEntity;
 
 @Entity
-@Table(name = "EMPLOYEE")
+@Table(name = "EMPLOYEE_EXERCISE")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

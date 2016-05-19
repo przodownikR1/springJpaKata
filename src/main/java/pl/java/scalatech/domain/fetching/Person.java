@@ -15,8 +15,10 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
 import org.hibernate.annotations.FetchProfile.FetchOverride;
@@ -38,8 +40,8 @@ import pl.java.scalatech.domain.AbstractEntity;
 @NamedEntityGraphs({ @NamedEntityGraph })
 
 @NamedNativeQueries({
-@NamedNativeQuery(name = "findPersonByfistName", query = "select * from Person where firstname = :firstName", resultClass = Person.class),
-@NamedNativeQuery(name = "queryPerson", query = "Select id, firstName, lastName,version from Person p where p.id = :id ", resultSetMapping = "personResult")
+@NamedNativeQuery(name = "findPersonByfistName", query = "select * from Fetch_Person where firstname = :firstName", resultClass = Person.class),
+@NamedNativeQuery(name = "queryPerson", query = "Select id, firstName, lastName,version from Fetch_Person p where p.id = :id ", resultSetMapping = "personResult")
 })
 
 @SqlResultSetMappings({
@@ -54,6 +56,7 @@ import pl.java.scalatech.domain.AbstractEntity;
         })
     ) })
 // @ToString(exclude="addresses")
+@Table(name="FETCH_PERSON")
 public class Person extends AbstractEntity {
 
     private static final long serialVersionUID = -8324897794910579206L;
@@ -64,7 +67,7 @@ public class Person extends AbstractEntity {
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Column(name = "id")
-    // @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
+    @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
      @BatchSize(size = 10)
 
     private List<Address> addresses;

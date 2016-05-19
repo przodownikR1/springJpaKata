@@ -19,7 +19,8 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude="candidate1")
+@ToString
+//view
 @NamedEntityGraphs({
 @NamedEntityGraph(
 name = "candidate",

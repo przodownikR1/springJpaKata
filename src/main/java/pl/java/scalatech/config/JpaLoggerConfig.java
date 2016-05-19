@@ -31,7 +31,7 @@ public class JpaLoggerConfig {
     @Primary
     public DataSource dataSource() {
         log.info("+++++ dataSource init ....");
-        Log4jdbcProxyDataSource dataSource = new Log4jdbcProxyDataSource(dataSourceOrginal());
+        Log4jdbcProxyDataSource dataSource = new Log4jdbcProxyDataSource(dataSourceOrginal());// magia
         dataSource.setLogFormatter(logFormater());
         return dataSource;
     }

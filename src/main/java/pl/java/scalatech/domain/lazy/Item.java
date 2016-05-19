@@ -6,10 +6,14 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,9 +26,11 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "ITEMS",
-indexes = {@Index(name = "IDX_USERNAME", columnList = "ITEM_NAME")}
-)
+@Table(name = "Lazy_ITEMS")//indexes = {@Index(name = "IDX_USERNAME", columnList = "ITEM_NAME")
+@DynamicInsert
+@NamedEntityGraphs({
+    @NamedEntityGraph(name = "offers", attributeNodes = { @NamedAttributeNode("offers") })
+    })
 public class Item extends AbstractEntity {
 
     private static final long serialVersionUID = 5474170031394030929L;
@@ -35,6 +41,7 @@ public class Item extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
     private List<Offer> offers;
+
 
 
 }

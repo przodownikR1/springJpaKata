@@ -50,7 +50,7 @@ public class JpaNativeTest {
 
     @Test
     public void shouldNativeQueryWork(){
-      Query query = em.createNativeQuery("select * from Person",Person.class);
+      Query query = em.createNativeQuery("select * from Fetch_Person",Person.class);
        List<Person> result = query.getResultList();
        log.info("result {}", result);
        Assertions.assertThat(result).hasSize(12);
@@ -58,7 +58,7 @@ public class JpaNativeTest {
 
     @Test
     public void shouldSqlQueryWork(){
-        org.hibernate.SQLQuery query = em.unwrap(Session.class).createSQLQuery("select * from Person");
+        org.hibernate.SQLQuery query = em.unwrap(Session.class).createSQLQuery("select * from Fetch_Person");
                 query.addEntity(Person.class);
                 List<Person> result = query.list();
                 log.info("result :{} ",result);
@@ -67,7 +67,7 @@ public class JpaNativeTest {
     //TODO
     @Test
     public void shouldSqlQueryMappingWork(){
-        org.hibernate.SQLQuery query = em.unwrap(Session.class).createSQLQuery("select id,firstName,lastName,version from Person");
+        org.hibernate.SQLQuery query = em.unwrap(Session.class).createSQLQuery("select id,firstName,lastName,version from Fetch_Person");
         query.setResultSetMapping("personResult");
         List<Person> result = query.list();
         log.info("result :{} ",result);
@@ -89,13 +89,13 @@ public class JpaNativeTest {
 
     @Test
     public void shouldSqlQueryNativeWork(){
-         Object object = em.createNativeQuery("select id,firstName,lastName,version from Person p where p.id = :id","personResult").setParameter("id", 1l).getSingleResult();
+         Object object = em.createNativeQuery("select id,firstName,lastName,version from Fetch_Person p where p.id = :id","personResult").setParameter("id", 1l).getSingleResult();
                log.info("clazz : {} , value : {} ", object.getClass().getSimpleName(),object.toString());
     }
 
     @Test
     public void shouldMappingNativeQueryToEntityClass(){
-        Person result =  (Person)em.createNativeQuery("select * from Person p where p.id = :id",Person.class).setParameter("id", 1l).getSingleResult();
+        Person result =  (Person)em.createNativeQuery("select * from Fetch_Person p where p.id = :id",Person.class).setParameter("id", 1l).getSingleResult();
         log.info("result :{}",result);
     }
 

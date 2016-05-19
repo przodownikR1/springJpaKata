@@ -46,9 +46,11 @@ public class Person implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @NotNull
     @Size(min=5,max=50)
     private  String firstname;
+
     @Email
     private  String email;
 

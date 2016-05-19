@@ -2,6 +2,7 @@ package pl.java.scalatech.domain.cartesian;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Table(name="CARTESIAN_ADDRESS")
 public class Address  extends AbstractEntity{
 
     private static final long serialVersionUID = -773716531785360542L;

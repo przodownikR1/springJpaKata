@@ -39,6 +39,7 @@ public class PersonRepoTest {
         Person person =Person.builder().km(88d).email("bak@gmail.com").firstname("bakee").active(true).birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build();
         personRepository.save(person);
         log.info("overview : {}",personRepository.findOne(1l));
+        log.info("select : {}",personRepository.all());
         //log.info("overview : modify {} , effective modify {}",personRepository.findOne(1l).getModify(),personRepository.findOne(1l).getEffectiveModify());
     }
     @Test
@@ -49,6 +50,9 @@ public class PersonRepoTest {
         Person person =Person.builder().km(88d).email("bak@gmail.com").firstname("bakee").active(true).birthDay(ZonedDateTime.now()).modify(LocalDate.now()).build();
         personRepository.save(person);
         log.info("{}",personRepository.findByFirstname("kalina"));
+
+
+
     }
     @Test
     public void shouldLikeWork(){

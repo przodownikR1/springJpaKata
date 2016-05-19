@@ -20,7 +20,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @Builder
 @ToString
 @Data
-//@BatchSize(size=15)
+//@BatchSize(size=5)
 @DynamicUpdate(value=true)
 @DynamicInsert(value=true)
 //@Immutable
