@@ -1,4 +1,4 @@
-package pl.java.scalatech.repository;
+package pl.java.scalatech.repository.mainPerson;
 
 import java.util.stream.Stream;
 
@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Optional;
 
-import pl.java.scalatech.domain.Person;
 import pl.java.scalatech.domain.ShallowPerson;
+import pl.java.scalatech.domain.mainPerson.Person;
 
 @Transactional(readOnly = true)
 public interface PersonRepository extends JpaRepository<Person, Long> {

@@ -5,6 +5,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.domain.mainPerson.Person;
 @Slf4j
 public class SampleListener {
     @PreUpdate

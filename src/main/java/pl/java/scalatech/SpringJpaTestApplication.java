@@ -8,9 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import lombok.extern.slf4j.Slf4j;
-import pl.java.scalatech.domain.Person;
-import pl.java.scalatech.repository.PersonRepository;
+import pl.java.scalatech.domain.mainPerson.Person;
 import pl.java.scalatech.repository.PersonViewRepo;
+import pl.java.scalatech.repository.mainPerson.PersonRepository;
 
 @SpringBootApplication
 @Slf4j

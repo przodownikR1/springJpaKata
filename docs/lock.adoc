@@ -161,13 +161,81 @@ CAUTION: Nie jest to najlepszy wybór dla wysoce współbieżnej aplikacji. Powo
 ** zapewnia odczyty niepowtarzalne
 ** inne transakcje mogą odczytywać dane będące w obrębie blokady ale nie mogą ich modyfikować.
 
+
+
+[source,java]
+----
+ @Test
+    public void shouldLockWriteWork(){
+        EntityManager entityManager1 = emf.createEntityManager();
+        entityManager1.getTransaction().begin();
+        entityManager1.persist(Person.builder().email("przodownikR1_1@gmail.com").firstname("slawek1").disable(true).build());
+        
+        log.info("{}",entityManager1.createQuery("FROM Person").getResultList());
+        entityManager1.getTransaction().commit();
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+        Person loaded1 = entityManager.find(Person.class, 1l,LockModeType.PESSIMISTIC_WRITE);
+        log.info("{}",loaded1);
+        entityManager.getTransaction().commit();
+        
+    }
+----
+
+[source,sql]
+----
+select
+        person0_.id as id1_0_0_,
+        person0_.disable as disable2_0_0_,
+        person0_.effectiveModify as effectiv3_0_0_,
+        person0_.email as email4_0_0_,
+        person0_.firstname as firstnam5_0_0_,
+        person0_.modify as modify6_0_0_ 
+    from
+        Person person0_ 
+    where
+        person0_.id=? for update
+----
+
 === PESSIMISTIC_WRITE
 
 ** **Blokada do zapisu** - wykorzystywana jest do celów aktualizacji. Uniemożliwia innym transakcjom zmieniania danych w obrębie
  transakcji, ale umożliwia umożliwia brudne odczyty pozostałym transakcją, które mogą wykorzystywać nasze dane.
 
  
-      
+ 
+[source,java]
+----
+   @Test
+    public void shouldLockReadWork(){
+        EntityManager entityManager1 = emf.createEntityManager();
+        entityManager1.getTransaction().begin();
+        entityManager1.persist(Person.builder().email("przodownikR1_1@gmail.com").firstname("slawek1").disable(true).build());
+        entityManager1.getTransaction().commit();
+        log.info("{}",entityManager1.createQuery("FROM Person").getResultList());
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+        Person loaded1 = entityManager.find(Person.class, 1l,LockModeType.PESSIMISTIC_READ);
+        log.info("{}",loaded1);
+        entityManager.getTransaction().commit();
+        
+    }
+---- 
+ 
+[source,sql]
+----
+select
+        person0_.id as id1_0_0_,
+        person0_.disable as disable2_0_0_,
+        person0_.effectiveModify as effectiv3_0_0_,
+        person0_.email as email4_0_0_,
+        person0_.firstname as firstnam5_0_0_,
+        person0_.modify as modify6_0_0_ 
+    from
+        Person person0_ 
+    where
+        person0_.id=? for update
+----      
 
 ==== LockMode - blokada dla konkretnego elementu
 

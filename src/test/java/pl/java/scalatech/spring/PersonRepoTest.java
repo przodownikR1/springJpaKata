@@ -13,9 +13,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lombok.extern.slf4j.Slf4j;
-import pl.java.scalatech.config.TestJpaConfig;
-import pl.java.scalatech.domain.Person;
-import pl.java.scalatech.repository.PersonRepository;
+import pl.java.scalatech.domain.mainPerson.Person;
+import pl.java.scalatech.repository.mainPerson.PersonRepository;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)

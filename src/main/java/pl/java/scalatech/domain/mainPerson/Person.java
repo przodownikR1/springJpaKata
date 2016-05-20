@@ -1,4 +1,4 @@
-package pl.java.scalatech.domain;
+package pl.java.scalatech.domain.mainPerson;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -30,6 +30,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.java.scalatech.domain.SampleListener;
 
 @Entity
 @Data

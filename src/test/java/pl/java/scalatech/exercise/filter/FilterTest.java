@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.PropertiesLoader;
-import pl.java.scalatech.domain.Person;
-import pl.java.scalatech.repository.PersonRepository;
+import pl.java.scalatech.domain.mainPerson.Person;
+import pl.java.scalatech.repository.mainPerson.PersonRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PropertiesLoader.class, JpaFilterConfig.class })
 @Transactional
