@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.LockModeType;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,27 +22,28 @@ import pl.java.scalatech.domain.person.Person;
 //@Transactional
 @ActiveProfiles(value={"save","logger"})
 @Slf4j
+@Ignore //TODO
 public class SaveTest {
 
     @Autowired
     private EntityManagerFactory emf;
-  
+
 
     @Test
     public void shouldFilterWork(){
-        
+
         EntityManager entityManager1 = emf.createEntityManager();
         entityManager1.getTransaction().begin();
         entityManager1.persist(Person.builder().email("przodownikR1_1@gmail.com").firstname("slawek1").disable(true).build());
         entityManager1.getTransaction().commit();
         log.info("{}",entityManager1.createQuery("FROM Person").getResultList());
-        EntityManager entityManager = emf.createEntityManager();        
+        EntityManager entityManager = emf.createEntityManager();
         Person loaded = entityManager.createQuery("from Person", Person.class).getSingleResult();
         loaded.setDisable(false);
         entityManager = emf.createEntityManager();
         Person loaded1 = entityManager.find(Person.class, 1l);
         log.info("{}",loaded1);
-        
+
     }
     @Test
     public void shouldLockReadWork(){
@@ -55,14 +57,14 @@ public class SaveTest {
         Person loaded1 = entityManager.find(Person.class, 1l,LockModeType.PESSIMISTIC_READ);
         log.info("{}",loaded1);
         entityManager.getTransaction().commit();
-        
+
     }
     @Test
     public void shouldLockWriteWork(){
         EntityManager entityManager1 = emf.createEntityManager();
         entityManager1.getTransaction().begin();
         entityManager1.persist(Person.builder().email("przodownikR1_1@gmail.com").firstname("slawek1").disable(true).build());
-        
+
         log.info("{}",entityManager1.createQuery("FROM Person").getResultList());
         entityManager1.getTransaction().commit();
         EntityManager entityManager = emf.createEntityManager();
@@ -70,7 +72,7 @@ public class SaveTest {
         Person loaded1 = entityManager.find(Person.class, 1l,LockModeType.PESSIMISTIC_WRITE);
         log.info("{}",loaded1);
         entityManager.getTransaction().commit();
-        
+
     }
 
 }

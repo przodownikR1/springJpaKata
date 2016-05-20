@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -89,5 +90,6 @@ public class Person implements Serializable{
     private ZonedDateTime birthDay;
     //TODO
     //private MonetaryAmount basePrice;
-
+    @Version
+    private long version;
 }
