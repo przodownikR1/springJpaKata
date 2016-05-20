@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import pl.java.scalatech.repository.mainPerson.PersonRepository;
 
-@EntityScan(basePackages = "pl.java.scalatech.domain")
+@EntityScan(basePackages = "pl.java.scalatech.domain.mainPerson")
 @EnableJpaRepositories(basePackageClasses=PersonRepository.class)
 @Import({ DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, PersistenceExceptionTranslationAutoConfiguration.class,
     PropertyPlaceholderAutoConfiguration.class })
