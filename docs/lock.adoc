@@ -76,7 +76,7 @@ NOTE: Wydajność
 ===== OPTIMISTIC – w czasie zatwierdzania wykonywane jest zapytanie SELECT ….. FOR UPDATE. 
      Tylko jedna transakcja ma chwilowy dostęp do zasobu. Jeśli druga transakcja chciałby zmodyfikować obiekt zostanie wyrzucony wyjątek
 
-=====  OPTIMISTIC_FORCE_INCREMENT – to samo co wyżej. Działa nawet dla nie zmienionej wersji.
+=====  OPTIMISTIC_FORCE_INCREMENT 
 
 *** Przykład
 
