@@ -328,15 +328,15 @@ return repository.getOrder(orderId);
 
 [options="header,footer"]
 |=======================
-|Poziom izolacji          | Brudny odczyt | Niepowtarzalny odczyt | Fantomowy Odczyt      
-|Szeregowalny             |               |                       |
-|Powtarzalny              |               |                       |        zezwolenie     
-|Odczyt zatwierdzonych    |               |        zezwolenie     |        zezwolenie     
-|Odczyt niezatwierdzonych | zezwolenie    |        zezwolenie     |        zezwolenie     
+|Poziom izolacji          | Brudny odczyt | Niepowtarzalny odczyt | Fantomowy Odczyt    | Spójność | Zrównoleglanie   
+|Szeregowalny             |               |                       |						|	 4	   |      1
+|Powtarzalny              |               |                       |        zezwolenie   |	 3	   |      2
+|Odczyt zatwierdzonych    |               |        zezwolenie     |        zezwolenie   |	 2	   |	  3
+|Odczyt niezatwierdzonych | zezwolenie    |        zezwolenie     |        zezwolenie   | 	 1 	   |	  4
 
 |=======================  
   
-
+s
 === **read only**
 
 *** Przykład

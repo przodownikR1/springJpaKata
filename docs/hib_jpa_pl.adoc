@@ -827,6 +827,32 @@ include::annotation.adoc[]
 
  - Są identyczne z poziomu DB , tzn jeśli dotyczą tego samego wiersza w tabeli i mają ten sam klucz główny
  
+== Nadawanie identyczności (czas, problem, rozwiązania)
+
+NOTE: Patrz podrozdział annotation
+
+
+**  **assigned** - pozwala aplikacji nadać identyfikator zanim obiekt zostanie zapisany. (persist, save)
+
+** Pośrednie rozwiązanie :
+
+***   **UUID** - generuje Stringi (unikalny w sieci adres ip + znacznik czasu). Jest to  kosztowne rozwiązanie.
+
+**Zalety** :
+ 
+-- Tańszy niż w przypadku odpytywania bazy
+
+-- Gwarantowana unikalność nawet w przypadku różnych VM i nodów
+ 
+
+
+
+***  **Sekwencja** - jeśli baza danych nie wspiera lub nie obsługuje wydajnie kluczy wygenerowanych przez UUID
+
+*** **Własne** - w przypadku zorientowania na ekstremalną wydajność, **rozwiązanie własne**, aby nie odpytywać się bazy danych o następny numer sekwencji.
+
+ 
+ 
 ==== Klucz główny musi spełniać następujące warunki
 
 - jego wartość nigdy nie może być równa null
