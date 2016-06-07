@@ -134,6 +134,10 @@ public Long id;
  
 **   **UUID** - generuje Stringi (unikalny w sieci adres ip + znacznik czasu). Jest to  kosztowne rozwiązanie.
 
+*** Baza danych :  UUID type -> Binary(16) -> char(32)
+
+*** Oracle RAW(16)
+
 **  **assigned** - pozwala aplikacji nadać identyfikator zanim obiekt zostanie zapisany.(persist, save)
 
 

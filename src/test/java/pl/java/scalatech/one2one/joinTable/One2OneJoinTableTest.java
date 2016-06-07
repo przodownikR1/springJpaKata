@@ -21,32 +21,22 @@ import pl.java.scalatech.domain.oneToOne.joinTable.User;
 public class One2OneJoinTableTest extends ORMStandaloneClassTestCase{
     @Test
     public void should_A_SAVE() {
-        Session session = sf.openSession();
-        try {
+        try(Session session = sf.openSession()){
             Transaction tx = session.beginTransaction();
             Address address = Address.builder().street("aleje").build();
             User user = User.builder().address(address).login("przodownik").build();
             session.save(user);
 
             tx.commit();
-        } catch (Exception e) {
-            log.error("{}", e);
-        } finally {
-            session.close();
-        }
+        } 
     }
 
     @Test
     public void should_B_LOAD() {
-        Session session = sf.openSession();
-        try {
+        try(Session session = sf.openSession()){
             List<User> result =  session.createQuery("FROM "+User.class.getSimpleName()).list();
             log.info("{}",result);
 
-        } catch (Exception e) {
-            log.error("{}", e);
-        } finally {
-            session.close();
-        }
+        } 
     }
 }

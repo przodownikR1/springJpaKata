@@ -598,6 +598,15 @@ Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.Quer
 
 ** testuj zapytania natywne po stronie bazy
 
+** jdbc fetch size : np dla Oracle = 10
+
+*** <property name='hibernate.jdbc.fetch_size' value=100 />
+
+*** redukcja 'database roundtrip', szczególnie dla wierszy z wieloma kolumnami
+
+*** ustawienie per aplikacja , oraz per zapytanie : HINT
+
+
 ** OutOfMemory - batch insert/update
 
 [source,java]

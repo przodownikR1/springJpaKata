@@ -42,8 +42,7 @@ public class ManyToManyTest extends ORMStandaloneTestCase {
 
     @Test
     public void should_B_RETRIEVE_TANK() {
-        Session session = sf.openSession();
-        try {
+        try(Session session = sf.openSession()){
             Transaction tx = session.beginTransaction();
 
             List<Tank> tanks = session.createQuery("FROM Tank").list();
@@ -51,11 +50,7 @@ public class ManyToManyTest extends ORMStandaloneTestCase {
             log.info("{}",tanks);
             log.info("{}",crews);
             tx.commit();
-        } catch (Exception e) {
-            log.error("{}", e);
-        } finally {
-            session.close();
-        }
+        } 
     }
 
     @Override

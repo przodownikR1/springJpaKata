@@ -27,18 +27,13 @@ public class FilterTest extends ORMStandaloneTestCase{
     }
     @Test
     public void shouldRetrieveDataInNormalWay(){
-        Session session = sf.openSession();
-        try {
+        try(Session session = sf.openSession()){
             Transaction tx = session.beginTransaction();
             Criteria criteria = session.createCriteria(Pupil.class).addOrder(Order.asc("name"));
 
             log.info("{}",criteria.list());
 
             tx.commit();
-        } catch (Exception e) {
-            log.error("{}", e);
-        } finally {
-            session.close();
         }
     }
 

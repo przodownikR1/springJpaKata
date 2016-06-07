@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Optional;
@@ -26,7 +27,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     ShallowPerson findByFirstname(String firstName);
 
     @Query("SELECT p from Person p where p.email like :name||'%'")
-    Person findByEmailUseLike(String name);
+    Person findByEmailUseLike(@Param("name") String name);
     
     
     Person findByEmailLike(String name);
