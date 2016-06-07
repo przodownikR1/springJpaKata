@@ -1444,6 +1444,50 @@ private List<Category> child;
 }
 
 ----
+
+=== Wzorce 
+
+WARNING:  Naive Trees (naiwne drzewa)
+
+-- odnośnik tylko do swojego rodzica
+
+-- **Path Enumeration** . Wprowadzenie ścieżki przejścia 'path'
+
+[source,sql]
+----
+SELECT *
+FROM Comments AS c
+WHERE '1/4/5/11/' LIKE c.path || '%' ;
+
+SELECT *
+FROM Comments AS c
+WHERE c.path LIKE '1/4/' || '%' ;
+----
+
+NOTE: Stosuj zapytania rekurencyje (Recursive Queries) WITH | CONNECT BY PRIOR
+
+
+[source,sql]
+----
+CREATE TABLE employee (
+      employee_id INTEGER,
+      manager_id INTEGER,
+      first_name VARCHAR2(10) NOT NULL,
+      last_name VARCHAR2(10) NOT NULL
+      -- ...      
+    );
+
+ SELECT employee_id, manager_id, first_name, last_name  FROM employee  START WITH employee_id = 1  CONNECT BY PRIOR employee_id = manager_id;
+----
+
+
+
+
+
+
+
+
+
 include::inheritence.adoc[]
 
 

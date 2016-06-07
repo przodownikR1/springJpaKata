@@ -55,8 +55,8 @@ public class HikariCPConfiguration {
         dataSource.addDataSourceProperty("dataSource.prepStmtCacheSize", "250");
         dataSource.addDataSourceProperty("dataSource.prepStmtCacheSqlLimit", "2048");
         dataSource.addDataSourceProperty("dataSource.useServerPrepStmts", "true");
-        dataSource.setMaximumPoolSize(60);
-        dataSource.setConnectionTimeout(4000);
+        dataSource.setMaximumPoolSize(80);
+        dataSource.setConnectionTimeout(2000);
         dataSource.setMinimumIdle(30);
         dataSource.setMetricRegistry(metricRegistry);
         dataSource.setConnectionTestQuery("SELECT 1;");
