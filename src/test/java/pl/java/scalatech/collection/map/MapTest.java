@@ -24,7 +24,7 @@ import pl.java.scalatech.repository.mapping.MapRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PropertiesLoader.class, JpaMapConfig.class ,JpaLoggerConfig.class})
-@ActiveProfiles(value = {"map","logger"})
+@ActiveProfiles(value = {"map","logger","dev"})
 @Transactional
 @Slf4j
 public class MapTest {

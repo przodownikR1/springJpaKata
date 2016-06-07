@@ -30,7 +30,7 @@ import pl.java.scalatech.repository.lazy.ItemRepo;
 import pl.java.scalatech.repository.lazy.OfferRepo;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PropertiesLoader.class, JpaLazyConfig.class,JpaLoggerConfig.class })
-@ActiveProfiles(value = {"lazy","logger"})
+@ActiveProfiles(value = {"lazy","logger","dev"})
 @Transactional
 @Slf4j
 // @SqlDataAccount

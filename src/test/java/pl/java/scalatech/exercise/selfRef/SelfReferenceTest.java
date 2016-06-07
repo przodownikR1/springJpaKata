@@ -20,7 +20,7 @@ import pl.java.scalatech.repository.selfReference.EmployeeRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={TestSelectorConfig.class,JpaLoggerConfig.class})
 @FixMethodOrder(NAME_ASCENDING)
-@ActiveProfiles(profiles={"logger","test"})
+@ActiveProfiles(profiles={"logger","test","dev"})
 @Transactional
 @Slf4j
 public class SelfReferenceTest {

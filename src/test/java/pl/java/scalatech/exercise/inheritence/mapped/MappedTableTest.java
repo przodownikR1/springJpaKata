@@ -22,7 +22,7 @@ import pl.java.scalatech.repository.inheritence.mapped.DebitAccountRepo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PropertiesLoader.class, MappedTableConfig.class })
-@ActiveProfiles(value = {"mapped","logger"})
+@ActiveProfiles(value = {"mapped","logger","dev"})
 @Transactional
 @Slf4j
 public class MappedTableTest {

@@ -26,7 +26,7 @@ import pl.java.scalatech.repository.fetch.PersonRepo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {  PropertiesLoader.class,JpaNativeConfig.class })
-@ActiveProfiles(value = "native")
+@ActiveProfiles(value = {"native","dev"})
 @Transactional
 @Slf4j
 //@SqlDataAccount

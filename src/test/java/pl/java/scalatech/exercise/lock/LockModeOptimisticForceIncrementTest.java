@@ -14,7 +14,7 @@ import pl.java.scalatech.config.PropertiesLoader;
 import pl.java.scalatech.exercise.n1.SqlDataN1;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {  PropertiesLoader.class,LockConfig.class,JpaLoggerConfig.class })
-@ActiveProfiles(value = {"lock","logger"})
+@ActiveProfiles(value = {"lock","logger","dev"})
 @Transactional
 @SqlDataN1
 @Slf4j
