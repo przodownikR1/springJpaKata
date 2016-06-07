@@ -22,7 +22,7 @@ import pl.java.scalatech.repository.mainPerson.PersonRepository;
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestJpaConfig.class })
-@ActiveProfiles("logger")
+@ActiveProfiles(value={"logger","dev"})
 @Transactional
 public class PersonListenerTest {
     @Autowired

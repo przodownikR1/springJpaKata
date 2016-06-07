@@ -14,11 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.JpaLoggerConfig;
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
 import pl.java.scalatech.domain.selfReference.Employee;
 import pl.java.scalatech.repository.selfReference.EmployeeRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={TestSelectorConfig.class,JpaLoggerConfig.class})
+@ContextConfiguration(classes={TestSelectorConfig.class,JpaLoggerConfig.class,HikariCPConfiguration.class})
 @FixMethodOrder(NAME_ASCENDING)
 @ActiveProfiles(profiles={"logger","test","dev"})
 @Transactional

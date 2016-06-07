@@ -10,12 +10,15 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import pl.java.scalatech.config.JpaLoggerConfig;
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
+
 
 @EntityScan(basePackages = "pl.java.scalatech.domain.fetching")
 @EnableJpaRepositories(basePackages = "pl.java.scalatech.repository.fetch")
 @Import({ DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, PersistenceExceptionTranslationAutoConfiguration.class,
-    PropertyPlaceholderAutoConfiguration.class })
-@Profile("native")
+    PropertyPlaceholderAutoConfiguration.class,HikariCPConfiguration.class,JpaLoggerConfig.class })
+@Profile(value={"native","dev","logger"})
 @Configuration
 
 public class JpaNativeConfig {

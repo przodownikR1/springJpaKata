@@ -11,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import pl.java.scalatech.config.JpaLoggerConfig;
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
 
 @Configuration
 @ComponentScan(basePackages = { "pl.java.scalatech.repository" })
@@ -18,7 +19,7 @@ import pl.java.scalatech.config.JpaLoggerConfig;
 @EntityScan(basePackages = "pl.java.scalatech.domain.mainPerson")
 @PropertySource(value = "classpath:application-test-fast.properties")
 @Import({ DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, PersistenceExceptionTranslationAutoConfiguration.class,
-        PropertyPlaceholderAutoConfiguration.class ,JpaLoggerConfig.class})
+        PropertyPlaceholderAutoConfiguration.class ,JpaLoggerConfig.class,HikariCPConfiguration.class})
 public class TestJpaConfig {
 
 }

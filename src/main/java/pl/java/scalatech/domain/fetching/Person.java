@@ -41,7 +41,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 
 @NamedNativeQueries({
 @NamedNativeQuery(name = "findPersonByfistName", query = "select * from Fetch_Person where firstname = :firstName", resultClass = Person.class),
-@NamedNativeQuery(name = "queryPerson", query = "Select id, firstName, lastName,version from Fetch_Person p where p.id = :id ", resultSetMapping = "personResult")
+@NamedNativeQuery(name = "queryPerson", query = "Select id, firstName, lastName,email,version from Fetch_Person p where p.id = :id ", resultSetMapping = "personResult")
 })
 
 @SqlResultSetMappings({
@@ -51,6 +51,7 @@ import pl.java.scalatech.domain.AbstractEntity;
                     @FieldResult(name = "id", column = "id"),
                     @FieldResult(name = "firstName", column = "firstName"),
                     @FieldResult(name = "lastName", column = "lastName"),
+                    @FieldResult(name = "email", column = "email"),
                     @FieldResult(name = "version", column = "version")
 
         })

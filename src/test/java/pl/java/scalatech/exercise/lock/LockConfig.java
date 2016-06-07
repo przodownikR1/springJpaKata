@@ -10,12 +10,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
+
 
 @EntityScan(basePackages = "pl.java.scalatech.domain.lock")
 @EnableJpaRepositories(basePackages = "pl.java.scalatech.repository.lock")
 @Import({ DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, PersistenceExceptionTranslationAutoConfiguration.class,
-    PropertyPlaceholderAutoConfiguration.class })
-@Profile("logger")
+    PropertyPlaceholderAutoConfiguration.class,HikariCPConfiguration.class })
+@Profile(value={"logger","dev"})
 @Configuration
 public class LockConfig {
 

@@ -11,13 +11,14 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import pl.java.scalatech.config.JpaLoggerConfig;
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
 
 
 @EntityScan(basePackages = "pl.java.scalatech.domain.inheritence.mapped")
 @EnableJpaRepositories(basePackages = "pl.java.scalatech.repository.inheritence.mapped")
 @Import({ DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, PersistenceExceptionTranslationAutoConfiguration.class,
-    PropertyPlaceholderAutoConfiguration.class,JpaLoggerConfig.class })
-@Profile(value={"mapped"})
+    PropertyPlaceholderAutoConfiguration.class,HikariCPConfiguration.class,JpaLoggerConfig.class })
+@Profile(value={"mapped","dev"})
 @Configuration
 public class MappedTableConfig {
 

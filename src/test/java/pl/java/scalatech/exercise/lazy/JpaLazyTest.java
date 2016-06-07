@@ -1,5 +1,7 @@
 package pl.java.scalatech.exercise.lazy;
 
+import static com.google.common.collect.Maps.newHashMap;
+
 import java.util.Map;
 
 import javax.persistence.EntityGraph;
@@ -19,8 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.google.common.collect.Maps.newHashMap;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.JpaLoggerConfig;

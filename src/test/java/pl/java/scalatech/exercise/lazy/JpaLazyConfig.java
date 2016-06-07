@@ -10,12 +10,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
+
 
 @EntityScan(basePackages = "pl.java.scalatech.domain.lazy")
 @EnableJpaRepositories(basePackages = "pl.java.scalatech.repository.lazy")
 @Import({ DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, PersistenceExceptionTranslationAutoConfiguration.class,
-    PropertyPlaceholderAutoConfiguration.class })
-@Profile("lazy")
+    PropertyPlaceholderAutoConfiguration.class,HikariCPConfiguration.class })
+@Profile(value={"lazy","dev"})
 @Configuration
 
 public class JpaLazyConfig {

@@ -11,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.JpaLoggerConfig;
 import pl.java.scalatech.config.PropertiesLoader;
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
 import pl.java.scalatech.exercise.n1.SqlDataN1;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {  PropertiesLoader.class,LockConfig.class,JpaLoggerConfig.class })
+@ContextConfiguration(classes = {  PropertiesLoader.class,LockConfig.class,JpaLoggerConfig.class,HikariCPConfiguration.class })
 @ActiveProfiles(value = {"lock","logger","dev"})
 @Transactional
 @SqlDataN1

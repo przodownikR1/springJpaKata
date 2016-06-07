@@ -26,7 +26,7 @@ import pl.java.scalatech.repository.fetch.PersonRepo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {  PropertiesLoader.class,JpaNativeConfig.class })
-@ActiveProfiles(value = {"native","dev"})
+@ActiveProfiles(value = {"native","dev","logger"})
 @Transactional
 @Slf4j
 //@SqlDataAccount
@@ -67,7 +67,7 @@ public class JpaNativeTest {
     //TODO
     @Test
     public void shouldSqlQueryMappingWork(){
-        org.hibernate.SQLQuery query = em.unwrap(Session.class).createSQLQuery("select id,firstName,lastName,version from Fetch_Person");
+        org.hibernate.SQLQuery query = em.unwrap(Session.class).createSQLQuery("select id,firstName,lastName,email,version from Fetch_Person");
         query.setResultSetMapping("personResult");
         List<Person> result = query.list();
         log.info("result :{} ",result);
@@ -89,7 +89,7 @@ public class JpaNativeTest {
 
     @Test
     public void shouldSqlQueryNativeWork(){
-         Object object = em.createNativeQuery("select id,firstName,lastName,version from Fetch_Person p where p.id = :id","personResult").setParameter("id", 1l).getSingleResult();
+         Object object = em.createNativeQuery("select id,firstName,lastName,email,version from Fetch_Person p where p.id = :id","personResult").setParameter("id", 1l).getSingleResult();
                log.info("clazz : {} , value : {} ", object.getClass().getSimpleName(),object.toString());
     }
 
