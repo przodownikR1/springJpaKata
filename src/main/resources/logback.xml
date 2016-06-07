@@ -5,7 +5,7 @@
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>springJpa.log</file>
 		<encoder>
-			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
+			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36}  %msg%n</pattern>
 		</encoder>
 	</appender>
 	
@@ -56,6 +56,7 @@
 	  <appender-ref ref="Sql"/>
 	</logger> -->
 	<logger name="org.springframework.aop.interceptor" level="trace" />
+	<logger name="com.zaxxer.hikari.pool" level="INFO"/>
 	 <logger name="org.springframework.data" level="INFO" additivity="false"/>
     <logger name="org.hibernate" level="INFO"/>
     <logger name="org.hibernate.stat" level="DEBUG"/>

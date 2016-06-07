@@ -7,6 +7,10 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.junit.Before;
 
 import pl.java.scalatech.domain.Item;
+import pl.java.scalatech.domain.manyToMany.Crew;
+import pl.java.scalatech.domain.manyToMany.CrewBi;
+import pl.java.scalatech.domain.manyToMany.Tank;
+import pl.java.scalatech.domain.manyToMany.TankBi;
 
 public abstract class ORMStandaloneTestCase {
 
@@ -32,6 +36,10 @@ public abstract class ORMStandaloneTestCase {
 		}else{
 		    metadata= new MetadataSources( srb.build() )
 		            .addAnnotatedClass(Item.class)
+		            .addAnnotatedClass(Tank.class)
+		            .addAnnotatedClass(Crew.class)
+		            .addAnnotatedClass(TankBi.class)
+		            .addAnnotatedClass(CrewBi.class)
 		            .addPackage(packageBase()).buildMetadata();
 		}
 

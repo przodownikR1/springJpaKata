@@ -25,8 +25,13 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     ShallowPerson findByFirstname(String firstName);
 
-    @Query("SELECT p from Person p where p.email like %?1")
+    @Query("SELECT p from Person p where p.email like :name||'%'")
     Person findByEmailUseLike(String name);
+    
+    
+    Person findByEmailLike(String name);
+    
+    Person findByEmailIsLike(String name);
 
 
 }

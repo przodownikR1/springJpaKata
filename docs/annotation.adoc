@@ -119,16 +119,33 @@ public Long id;
 ----
 
 **   **Database sequence** - wykorzystuje sekwencje. Wsparcie dla baz DB2, PostgreSQL, Oracle, SAP DB.
+
+*** Eliminacja **'roundtrip database'** : hi/lo, pooled etc 
+
 **   **Native generator** - wybiera jedną ze strategii generowania identyfikatorów : identity, sequence, hilo w zależności od możliwości bazy
-*** wsparcie dla kolumn identity w bazach DB2, MySQL, MS SQL Server, Sybase, HypersonicSQL. 
+
+*** wsparcie dla kolumn identity w bazach DB2, MySQL, MS SQL Server, Sybase, HypersonicSQL.
+ 
 **   **Increment generator** (Identity)
-**   **Hilo generator** - identyfikatory są unikalne w ramach całej bazy. 
+
+***  **Identity**  uniemożliwia jdbc batch insert
+
+**   **Hilo generator** - identyfikatory są unikalne w ramach całej bazy.
+ 
 **   **UUID** - generuje Stringi (unikalny w sieci adres ip + znacznik czasu). Jest to  kosztowne rozwiązanie.
+
 **  **assigned** - pozwala aplikacji nadać identyfikator zanim obiekt zostanie zapisany.(persist, save)
 
 
 
 ==== @TableGenerator
+
+** używa blokad na wierszach
+
+** używa osobnej transakcji na połączenie
+
+
+
 
 *** Przykład
 

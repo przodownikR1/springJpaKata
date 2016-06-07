@@ -18,7 +18,7 @@ import pl.java.scalatech.repository.mainPerson.PersonRepository;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TestJpaConfig.class })
+@ContextConfiguration(classes = { TestJpaPersonConfig.class })
 @ActiveProfiles(value={"logger","dev"})
 @Transactional
 public class PersonRepoTest {
