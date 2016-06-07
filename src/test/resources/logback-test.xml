@@ -19,7 +19,7 @@
 	
 	<appender name="Sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
-        <file>logs/spring_kata_sql.log</file>
+        <file>logs/sql.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%msg%n</pattern>
         </encoder>

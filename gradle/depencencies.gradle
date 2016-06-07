@@ -143,7 +143,7 @@ configurations {
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'org.springframework') {
-            details.useVersion '4.2.4.RELEASE'
+            details.useVersion '4.2.6.RELEASE'
         }
         
         if (details.requested.group == 'ch.qos.logback') {
@@ -160,18 +160,12 @@ configurations.all {
         if (details.requested.name == 'spring-data-jpa') {
             details.useVersion '1.10.1.RELEASE'
         }
-        
         if (details.requested.name == 'spring-data-commons') {
             details.useVersion '1.12.1.RELEASE'
         }
-      
         if (details.requested.group == 'hibernate-entitymanager') {
             details.useVersion '5.1.0.Final'
         }
-        
-        
-        
-        
         
         if (details.requested.group == 'hibernate-core') {
             details.useVersion '5.1.0.Final'

@@ -19,7 +19,22 @@
 	
 	 <appender name="Sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
-        <file>logs/spring_kata_sql.log</file>
+        <file>logs/sql.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <maxIndex>10</maxIndex>
+            <fileNamePattern>logs/springJpaKata.log.%i</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>25MB</maxFileSize>
+        </triggeringPolicy>
+    </appender>
+    
+     <appender name="Metrics" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+        <file>logs/metrics.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%msg%n</pattern>
         </encoder>
@@ -33,6 +48,9 @@
     </appender>
 	
 	<logger name="pl.java.scalatech" level="INFO"/>
+	<logger name="metrics" level="INFO" additivity="false">
+	  <appender-ref ref="Metrics"/>
+	</logger>
 	<logger name="org.springframework.aop.interceptor" level="trace" />
 	 <logger name="org.springframework.data" level="INFO" additivity="false"/>
     <logger name="org.hibernate" level="INFO"/>

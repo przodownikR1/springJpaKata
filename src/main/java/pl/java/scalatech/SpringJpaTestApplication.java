@@ -29,7 +29,9 @@ public class SpringJpaTestApplication implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-      personRepository.save(Person.builder().email("przodownikR1@gmail.com").firstname("slawek").disable(true).birthDay(ZonedDateTime.now()).build());
+        for(int i = 0;i<100;i++){
+      personRepository.save(Person.builder().email("przodownikR1"+i+"@gmail.com").firstname("slawek_"+i).disable(true).birthDay(ZonedDateTime.now()).build());
+        }
       log.info("{} ",personRepository.findAll());
 
 
