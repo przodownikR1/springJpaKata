@@ -661,5 +661,38 @@ include::{sourceTestdir}pl/java/scalatech/exercise/filter/FilterTest.java[tags=c
 
 
 
+== Architektura
+
+
+
+** Read-only transaction routing -> Master-Slave replication
+
+   Jeśli sterownik bazy danych nie wspiera Master-Slave routingu wtedy można użyć wielu instancji DataSource.
+
+
+source: http://highscalability.com/blog/2016/5/11/performance-and-scaling-in-enterprise-systems.html
+   
+
+** Master-Slave
+   
+image::master-slave.jpg[]
+
+
+** Multi-Master
+
+image:multi-master.jpg[]
+
+
+** Sharding
+
+image:sharding.jpg[]   
+   
+   
+   
+   
+** CQRS  source : http://martinfowler.com/bliki/CQRS.html
+
+image:cqrs.png[]
+   
 
 
