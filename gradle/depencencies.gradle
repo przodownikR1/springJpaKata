@@ -14,10 +14,11 @@ buildscript {
     dependencies {  
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE")
+        classpath 'org.hibernate:hibernate-gradle-plugin:5.1.0.Final'
     }
 }    
   
-
+//apply plugin: 'enhance'
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -43,7 +44,6 @@ ext {
     javaVersion = "1.8"
  
 }
-
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -77,6 +77,7 @@ dependencies {
     compile 'javax.validation:validation-api:1+'
     compile 'org.hibernate:hibernate-validator:5+'
     compile 'org.hibernate:hibernate-core:5.1.0.Final'
+   
     compile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
     compile 'org.lazyluke:log4jdbc-remix:0.2.7' //driver proxy
     compile 'com.h2database:h2'
@@ -93,7 +94,7 @@ dependencies {
     compile group: 'io.dropwizard.metrics', name: 'metrics-servlets', version: '3.1.2'
     
     
-
+    compile 'org.hibernate:hibernate-gradle-plugin:5.1.0.Final'
     compile 'com.codahale.metrics:metrics-logback:3.0.1'
     compile 'com.codahale.metrics:metrics-httpclient:3.0.1'
     compile 'com.codahale.metrics:metrics-jvm:3.0.1'
@@ -172,3 +173,5 @@ configurations.all {
         }
     }
 }
+
+
