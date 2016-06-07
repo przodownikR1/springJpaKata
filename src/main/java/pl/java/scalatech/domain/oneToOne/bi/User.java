@@ -17,7 +17,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "USERS")
+@Table(name = "USERS_o2o_BI")
 @ToString(exclude="address")
 public class User extends AbstractEntity {
 

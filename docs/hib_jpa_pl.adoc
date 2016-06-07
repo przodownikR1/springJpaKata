@@ -26,6 +26,7 @@ ifndef::imgsdir[:imgsdir: ./../img]
 image:{image-link} [role='img-circle']
 
 == Źródła wiedzy 
+ - High Perfomance Java Persistence
  - Designing_Data_Intensive_Applications
  - Java EE 7 Performance Tuning and Optimization 
  - Hibernate in Action
@@ -561,6 +562,16 @@ W ten sposób Hibernate wyłączy wewnętrzną pulę połączeń i przestawi si�
    
    
 image::HikariCP-bench-2.4.0.png[]   
+
+=== Zalety 
+
+-- unikanie niepotrzebnych połączeń (bazy i sterownika) po stosie TCP
+
+-- zapobieganie usuwania tymczasowego bufora pamięci skojarzonego z danym połączeniem bazodanowym
+
+-- redukcja cykli GC
+
+source: High Performance Java Persistence 
    
 === Przykład zestawienia puli połączeń dla Springa
    
@@ -1164,6 +1175,36 @@ public class ProjectAssociationId implements Serializable {
 
 }
 ----
+
+=== Wzorce
+
+WARNING: **Jaywalking** (przechodzenie na czerwonym świetle)
+
+[source,sql]
+----
+CREATE TABLE Book (
+product_id SERIAL PRIMARY KEY,
+product_name VARCHAR(1000),
+bookstore_id VARCHAR(100)
+);
+----
+
+==== Problemy: 
+
+-- Walidacja Id's
+
+-- Separator
+
+-- Długość pola przetrzymującego id's
+
+
+NOTE: Denormalizacja
+
+NOTE: Tabela łącząca wzorzec @ManyToMany
+
+NOTE: Powiązane z Keyless-Entry
+
+
    
 == Kaskadowość 
 

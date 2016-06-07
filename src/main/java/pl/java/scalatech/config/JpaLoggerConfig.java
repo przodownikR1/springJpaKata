@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.log4jdbc.Log4jdbcProxyDataSource;
@@ -19,19 +17,21 @@ import net.sf.log4jdbc.tools.LoggingType;
 @Profile("logger")
 public class JpaLoggerConfig {
 
+
+
     public JpaLoggerConfig() {
      log.info("++++ JpaLoggerConfig....");
     }
-
+/*
     private DataSource dataSourceOrginal() {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
-    }
+    }*/
 
-    @Bean
+    @Bean(destroyMethod="close")
     @Primary
-    public DataSource dataSource() {
+    public DataSource dataSource(DataSource hikariDataSource) {
         log.info("+++++ dataSource init ....");
-        Log4jdbcProxyDataSource dataSource = new Log4jdbcProxyDataSource(dataSourceOrginal());// magia
+        Log4jdbcProxyDataSource dataSource = new Log4jdbcProxyDataSource(hikariDataSource);// magia
         dataSource.setLogFormatter(logFormater());
         return dataSource;
     }

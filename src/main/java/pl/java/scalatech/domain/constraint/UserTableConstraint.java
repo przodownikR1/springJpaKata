@@ -14,7 +14,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 
 @Entity
 @Table(
-        name = "USERS",
+        name = "USERS_CONSTRAINTS",
         uniqueConstraints =
             @UniqueConstraint(
                 name = "UNQ_USERNAME_EMAIL",
@@ -36,7 +36,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @NoArgsConstructor
 @Data
 @Builder
-public class UserTableConststaint extends AbstractEntity {
+public class UserTableConstraint extends AbstractEntity {
 
     private static final long serialVersionUID = -3345276438359496780L;
 

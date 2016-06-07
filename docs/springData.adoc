@@ -83,6 +83,15 @@ source: __http://luxosuseadicto.blogspot.com__
 
 image::dataaccess_jpa_basic_flow.png[]
 
+
+=== Narzędzia 
+
+-- http://start.spring.io/
+
+-- Spring boot console : spring init -dweb,data-jpa,h2,thymeleaf --build gradle simpleApp --force
+
+-- STS
+
 ==== Przykład całej minimalnej konfiguracji 
 
 *** Przykład

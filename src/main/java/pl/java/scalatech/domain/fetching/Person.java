@@ -65,6 +65,8 @@ public class Person extends AbstractEntity {
     @Column(name="lastName")
     private String lastName = null;
 
+    private String email;
+
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Column(name = "id")
     @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)

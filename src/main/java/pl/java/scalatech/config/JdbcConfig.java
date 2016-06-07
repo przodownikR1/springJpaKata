@@ -21,7 +21,7 @@ public class JdbcConfig {
     }
 
     @Bean
-    @Profile(value = { "dev", "test" })
+    @Profile(value = { "dev1", "test" })
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
     }
