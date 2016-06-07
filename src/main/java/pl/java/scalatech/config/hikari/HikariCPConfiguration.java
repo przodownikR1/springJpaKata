@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 import com.codahale.metrics.MetricRegistry;
@@ -15,6 +14,8 @@ import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 import com.zaxxer.hikari.HikariDataSource;
 
 import lombok.extern.slf4j.Slf4j;
+import net.ttddyy.dsproxy.listener.DefaultQueryLogEntryCreator;
+import net.ttddyy.dsproxy.listener.SLF4JQueryLoggingListener;
 
 @Profile( "dev" )
 @Configuration
@@ -41,8 +42,10 @@ public class HikariCPConfiguration {
     @Value( "${spring.datasource.driver-class-name}" )
     public String driverClassName;
 
+
+
+
     @Bean(name="hikariDataSource",destroyMethod="close")
-    @Primary
     public DataSource hikariDataSource() {
         log.info( "configure hikariCP config" );
         HikariDataSource dataSource = new HikariDataSource();
@@ -60,6 +63,13 @@ public class HikariCPConfiguration {
         dataSource.setMinimumIdle(30);
         dataSource.setMetricRegistry(metricRegistry);
         dataSource.setConnectionTestQuery("SELECT 1;");
+        SLF4JQueryLoggingListener loggingListener = new SLF4JQueryLoggingListener();
+        loggingListener.setQueryLogEntryCreator(new DefaultQueryLogEntryCreator());
+      /*  return ProxyDataSourceBuilder
+        .create(dataSource)
+        .name("slawek")
+        .listener(loggingListener)
+        .build();*/
         return dataSource;
     }
 

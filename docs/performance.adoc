@@ -588,6 +588,8 @@ Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.Quer
 
 ** Pobieranie zbyt wielu kolumn na ogromny impakt wydajność (CPU, Memory, I/O, Networking) 
 
+** Atrybut transakcji  **read-only** (Spring) - optymalizacja **flush**  Entity Manager'a
+
 ** OutOfMemory - batch insert/update
 
 [source,java]

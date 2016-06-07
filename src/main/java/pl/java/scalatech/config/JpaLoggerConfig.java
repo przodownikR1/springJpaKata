@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
@@ -27,8 +28,10 @@ public class JpaLoggerConfig {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
     }*/
 
-    @Bean(destroyMethod="close")
+    @Bean
     @Primary
+    @Profile("logger")
+    @DependsOn("hikariDataSource")
     public DataSource dataSource(DataSource hikariDataSource) {
         log.info("+++++ dataSource init ....");
         Log4jdbcProxyDataSource dataSource = new Log4jdbcProxyDataSource(hikariDataSource);// magia

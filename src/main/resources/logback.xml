@@ -51,6 +51,10 @@
 	<logger name="metrics" level="INFO" additivity="false">
 	  <appender-ref ref="Metrics"/>
 	</logger>
+	
+<!-- 	<logger name="slawek" level="INFO" additivity="false">
+	  <appender-ref ref="Sql"/>
+	</logger> -->
 	<logger name="org.springframework.aop.interceptor" level="trace" />
 	 <logger name="org.springframework.data" level="INFO" additivity="false"/>
     <logger name="org.hibernate" level="INFO"/>
