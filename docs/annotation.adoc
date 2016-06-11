@@ -407,7 +407,12 @@ public class Item extends AbstractEntity {
 == **@Column**
 ** analogiczne zachowanie do adnotacji @Table
 
-** insertable/updatable - określa czy dana kolumna będzie brała udział w operacjach insert/update 
+** **_insertable/updatable_** - określa czy dana kolumna będzie brała udział w operacjach insert/update 
+** **_unique_** - określa czy dana kolumna ma być traktowana jako klucz unikalny
+** **_nullable_** - czy kolumna może lub nie pozwalać na wartości null
+** **_length_** - długość kolumny dla String'a
+** **_precision_** - precyzja dla wartości BigDecimal
+
 
 *** Przykład
 

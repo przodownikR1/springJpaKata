@@ -213,6 +213,20 @@ image::supported.gif[]
 
 ** jeśli istnieje transakcja metoda działa w jej ramach , w przeciwnym razie metoda jest wykonywana poza kontekstem transakcyjnym
 
+==== Podsumowanie
+
+[options="header,footer"]
+|=======================
+|Rodzaj      			|Właściwość      
+|REQUIRED    			|Dołącza do już istniejącej transakcji. Nie rozpoczyna nowej     
+|REQUIRES_NEW           |Zawiesza bieżącą transakcje i startuje nową. Powodzenie lub niepowodzenie nowo rozpoczętej transakcji nie ma wpływu na zawieszoną     
+|SUPPORTS          	    |Dołącza do już istniejącej transakcji. Jeśli bieżąca transakcja nie istnieje nie tworzy nowej  
+|MANDATORY          	|Dołącza do już istniejącej transakcji. Jeśli bieżąca transakcja nie istnieje to wyrzuca **EJBTransactionRequiredException**
+|NOT_SUPPORTED          |Zawiesza bieżącą transakcje i nie tworzy nowej.
+|NEVER                  |Jeśli bieżąca transakcja  istnieje wyrzuca **EJBException** . Jeśli bieżąca transakcja nie istnieje nie tworzy nowej.
+|NESTED                 |Podobnie do REQUIRES_NEW ale tworzone są SAVEPOINT'Y. Stosować do przetwarzania wsadowego.
+|=======================
+
 ==== **izolacja**
    Stopień uniezależnienia od siebie poszczególnych transackcji
    Wyższy poziom zapewnia lepszą separację - kosztem wydajności
