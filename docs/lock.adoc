@@ -142,6 +142,7 @@ select
 - zakładana na wiersz w momencie odczytu (Select .... For Update )
 
 
+
 NOTE:  prostszy kod bez @Version
 
 WARNING: locki na bazie
@@ -202,7 +203,15 @@ select
 ** **Blokada do zapisu** - wykorzystywana jest do celów aktualizacji. Uniemożliwia innym transakcjom zmieniania danych w obrębie
  transakcji, ale umożliwia umożliwia brudne odczyty pozostałym transakcją, które mogą wykorzystywać nasze dane.
 
- 
+[source,java]
+----
+Book book= em.find(Book.class, 1, LockModeType.PESSIMISTIC_WRITE);
+
+//the same as 
+
+em.lock(book, LockModeType.PESSIMISTIC_WRITE);
+
+---- 
  
 [source,java]
 ----

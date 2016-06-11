@@ -123,6 +123,12 @@ public class Employee {
 **    USE: dane pochodzą z cache
 
 
+[source,java]
+----
+Query query = em.createQuery("SELECT s FROM Book b");
+query.setHint("javax.persistence.cache.storeMode",CacheStoreMode.BYPASS);
+----
+
 ** Opcjonalny
 ** Cache na poziomie sessionFactory
 
