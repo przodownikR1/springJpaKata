@@ -9,6 +9,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @Entity
 @Data
 @AttributeOverride(column=@Column(name = "jobId", nullable = false), name = "id")
+
 public class Job extends AbstractEntity{
 
     private String name;

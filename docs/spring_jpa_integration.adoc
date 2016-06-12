@@ -539,6 +539,30 @@ public abstract class JpaConfig {
 
 ----
 
+=== Przykład konfiguracja jpaProperties dla Springa : 
+
+[source,xml]
+----
+<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.default_schema">${db.schema}</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.batch_size">25</prop>
+				<prop key="use_streams_for_binary">true</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory
+				</prop>
+				<prop key="hibernate.show_sql">${hibernate.dev}</prop>
+				<prop key="hibernate.format_sql">${hibernate.dev}</prop>
+				<prop key="hibernate.generate_statistics">${hibernate.dev}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="javax.persistence.validation.mode">none</prop>
+			</props>
+		</property>
+----
+
 === Strategia dla bazy wbudowanej : 
 
 *** Przykład

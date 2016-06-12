@@ -64,6 +64,8 @@ image:{image-link} [role='img-circle']
 
 *** możliwy dla relacji *-to-Many
 
+*** Tylko dla kolekcji
+
 === BATCH
 
 ** Tworzone dodatkowe polecenia SELECT w obrębie w celu przyspieszenia dociągania części kolekcji
@@ -574,6 +576,8 @@ Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.Quer
   
 ** dla małych woluminów danych Eager loading zawsze sens.
 
+** dla wstępnej optymalizacji i częściowej eliminacji problemu n+1 stosuj globalnie parametr : hibernate.default_batch_fetch_size
+
 ** opcja **hibernate.max_fetch_depth** - dostosowuje ilość możliwych złączeń w systemie. (optymalna wartość to 1-5)
 
 ** tam gdzie to możliwe wybieraj implementację Set zamiast List (cartesian problem)
@@ -582,7 +586,7 @@ Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.Quer
 
 ** zastosuj **_@Version** aby uzyskać poziom uniknąć niepowtarzalnych odczytów na domyślnym poziomie izolacji jakim jest odczyt zatwierdzonych (Read Committed) __(scalability issue)__ czyli podnosimy prawie za darmo poziom na powtarzalne odczyty (Repeatable Read)
 
-** Praca z wielkimi kolekcjami - stosuj @BatchSize w celu poprawy wydajności , @LazyCollection = Extra lazy
+** praca z wielkimi kolekcjami - stosuj @BatchSize w celu poprawy wydajności , @LazyCollection = Extra lazy
 
 ** wolny insert lub update (wiersz po wierszu-> narzut na tworzenie kwerendy, przepustowość sieci) : stosuj przetwarzania wsadowe , jako półśrodek hibernate.jdbc.batch_size=100
 
@@ -598,6 +602,36 @@ Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.Quer
 
 ** testuj zapytania natywne po stronie bazy
 
+** dla przetwarzań wsadowych możliwe rozwiązania to :
+ 
+***  **StatelessSession**
+ 
+**** brak integracji z second cache i query cache
+
+**** brak dirty checking
+
+**** zwraca wszystkie encje w stanie **detached**
+
+**** pomija wszystkie event listener'y 
+
+**** bliżej JDBC niż inne rozwiązania Hibernate
+
+*** clear and flush session
+
+[source,java]
+----
+foreach(){
+
+if(i%100 ==0 ){
+ em.flush();
+ em.clear();
+ 
+}
+// the same as JDBC batch size
+----
+
+  
+
 ** jdbc fetch size : np dla Oracle = 10
 
 *** <property name='hibernate.jdbc.fetch_size' value=100 />
@@ -605,6 +639,7 @@ Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.Quer
 *** redukcja 'database roundtrip', szczególnie dla wierszy z wieloma kolumnami
 
 *** ustawienie per aplikacja , oraz per zapytanie : HINT
+
 
 
 ** OutOfMemory - batch insert/update

@@ -21,7 +21,7 @@ import pl.java.scalatech.repository.customer.CustomerRepo;
 @Transactional
 @Slf4j
 @SqlDataCustomer
-public class JpaPerformance1Test {
+public class JpaPerformanceN1Test2 {
 
     @Autowired
     private CustomerRepo customerRepo;
@@ -34,15 +34,9 @@ public class JpaPerformance1Test {
         Assertions.assertThat(customerRepo.count()).isEqualTo(6);
     }
     @Test
-    public void shouldSelectAll() {
-        customerRepo.findAll().stream().forEach(c->log.info("{}",c));
+    public void shouldN1Explain() {
+        customerRepo.findAll().stream().forEach(c-> log.info(" c : {} -has size job : {}",c,c.getJobs().size()));
     }
-
-    @Test
-    public void shouldRetrieveOneCustomer() {
-        log.info("customer : {}",customerRepo.findOne(1l));
-    }
-
 
 
 }

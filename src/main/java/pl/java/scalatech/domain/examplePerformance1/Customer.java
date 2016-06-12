@@ -23,6 +23,8 @@ public class Customer extends AbstractEntity{
 
     @OneToMany
     @JoinColumn(name="customerId")
+    //@Fetch(FetchMode.SUBSELECT)
+   // @BatchSize(size=4)
     private List<Job> jobs;
 
     @OneToOne//(fetch=FetchType.LAZY)

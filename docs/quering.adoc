@@ -102,7 +102,7 @@ TypedQuery<Person> typedQuery = entityManager.createQuery(
 
 ----
 
-** Tablice objektów
+** **Tablice obiektów**
 
 *** Przykład
 
@@ -118,6 +118,65 @@ Object[] values = (Object[]) i.next();
 
 }
 ----
+
+** **Transformacje**
+
+***  **Lista list** 
+
+**** Przykład
+
+[source,java]
+----
+query.setResultTransformer(ToListResultTransformer.INSTANCE);
+List<List> result = query.list();
+----
+
+
+***  **Lista map**
+
+**** Przykład
+
+[source,java]
+----
+query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+List<Map> result = query.list();
+----
+
+
+***  **Alias na Bean**
+
+**** Przykład
+
+[source,java]
+----
+query.setResultTransformer(new AliasToBeanResultTransformer(CustomerSummary.class));
+List<CustomerSummary> result = query.list();
+----
+
+
+***  Własny **ResultTransformer**
+
+**** Przykład
+
+[source,java]
+----
+query.setResultTransformer( new ResultTransformer() {
+@Override
+public Object transformTuple(Object[] tuple, String[] aliases) {
+Long customerId = (Long) tuple[0];
+String name = (String) tuple[1];
+Long jobCount = (Long) tuple[2];
+return CustomerSummaryFactory.newCustomerSummary(customerId, name, jobCount));
+}
+
+@Override
+public List transformList(List collection) {
+  return Collections.unmodifiableList(collection);
+ }
+}
+);
+----
+
 
 ** Tuple
 
