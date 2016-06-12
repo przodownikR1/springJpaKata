@@ -630,6 +630,20 @@ if(i%100 ==0 ){
 // the same as JDBC batch size
 ----
 
+
+
+*** rozważ użycie **Spring Batch**
+
+*** dobierz dobrze strategie tworzenia klucz głównego aby zredukować uderzenia do bazy
+
+** jeśli tylko można ominąć **dirty checking** z powodów wydajnościowych zrób to :
+
+*** z poziomu Spring'a  @Transactional(readOnly=true)
+
+***  **StatelessSession** 
+
+
+
   
 
 ** jdbc fetch size : np dla Oracle = 10
