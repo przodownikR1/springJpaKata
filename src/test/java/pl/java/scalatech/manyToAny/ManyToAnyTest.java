@@ -30,6 +30,10 @@ public class ManyToAnyTest {
     public void testManyToAnyWithMap() throws Exception {
 
         Session s = HibernateUtils.getSessionFactory().openSession();
+        s.doWork(connection -> {
+
+
+        });
         Transaction t = s.beginTransaction();
 
         PropertyMap map = new PropertyMap( "sample" );

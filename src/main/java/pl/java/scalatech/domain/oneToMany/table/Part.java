@@ -15,4 +15,6 @@ public class Part extends AbstractEntity{
 
     private static final long serialVersionUID = -9045679133539211381L;
 private String name;
+
+private Boolean active;
 }

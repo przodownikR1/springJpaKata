@@ -32,6 +32,7 @@ public class Product extends AbstractEntity{
             joinColumns = @JoinColumn( name="PRODUCT_ID"),
             inverseJoinColumns = @JoinColumn( name="PART_ID")
     )
+    @org.hibernate.annotations.Where(clause = "ACTIVE = 'true'")
     private Set<Part> parts = new HashSet<>();
 
 
