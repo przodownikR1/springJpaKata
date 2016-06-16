@@ -864,6 +864,15 @@ public class Product {
 }
 ----
 
+NOTE: Partycjonowanie : 'Vertical Partitioning' np z użyciem @OneToOne  
+
+CAUTION: Wydajność
+
+NOTE: Użyj systemu plików
+
+NOTE: Niezależna tabela
+
+
 == **Date & time**
 
 === DATE  

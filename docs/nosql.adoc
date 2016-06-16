@@ -1,0 +1,93 @@
+= JPA/Hibernate camp
+:numbered:
+:icons: font
+:pagenums:
+:imagesdir: img
+:iconsdir: ./icons
+:stylesdir: ./styles
+:scriptsdir: ./js
+
+:image-link: https://pbs.twimg.com/profile_images/425289501980639233/tUWf7KiC.jpeg
+ifndef::sourcedir[:sourcedir: ./src/main/java/]
+ifndef::resourcedir[:resourcedir: ./src/main/resources/]
+ifndef::imgsdir[:imgsdir: ./../img]
+:source-highlighter: coderay
+
+
+== O mnie
+* Architect Solution - RiscoSoftware 
+* JavaTech trener : Spring ekosystem, JPA , EIP Camel 
+* Sages trener : JPA , EIP - Apache Camel 
+* blog link:http://przewidywalna-java.blogspot.com[]
+* twitter przodownikR1
+
+image:{image-link} [role='img-circle']
+
+== Źródła wiedzy 
+ - High Perfomance Java Persistence
+ - Designing_Data_Intensive_Applications
+ - Java EE 7 Performance Tuning and Optimization 
+ - Hibernate in Action
+ - Java Persistence with Hibernate
+ - Java JEE 6
+ - Pro JPA 2
+ - Pro JPA 2: Mastering the Java(TM) Persistence API (Expert's Voice in Java Technology)
+ - Hibernate from Novice to Professional 
+ - Spring Data Modern Data Access for Enterprise Java
+ - Spring Data
+ - Spring Boot
+ - Spring Essentials
+ - Spring in Action
+ - etc 
+
+== NoSql / JPA
+
+** Potrzeba wysokiej skalowalności 
+
+*** duża przepustowość zapisu
+
+*** wielkie woluminy danych
+
+** Zwiększanie wydajności przy użyciu rozwiązań 'otwartych' zamiast drogich rozwiązań komercyjnych
+
+** Zwiększenie elastyczność schematu
+
+** Dynamiczny model danych
+
+** Eliminacja wielokrotnych złączeń w ramach struktury dokumentu np : JSON i MongoDB
+
+
+
+== MapReduce
+
+
+----
+Model programistyczny polegający na przetwarzaniu wielkich zbiorów danych poprzez rozdzielenie tych danych na wiele fizycznych maszyn.
+----
+
+
+== Replikacja
+
+---- 
+Trzymanie kopii danych na różnych węzłach, potencjalnie w różnych lokacjach.
+Zapewnienie redundancji, ale również dzięki temu zwiększenie odporności na awarie (failover)
+Pozwala na zwiększenie wydajności jako całości rozwiązania.
+----
+
+** trzymanie danych w lokacjach geograficznych bliskich końcowemu użytnikowi
+
+** możliwa ciągła praca systemu pomimo awarii pojedyńczego węzła (failover)
+
+** skalowanie poprzez odczytywanie na wielu węzłach (zwiększanie przepustowości odczytu)
+
+=== Synchroniczna
+
+=== Asynchroniczna
+
+== Patrycjonowanie
+
+
+----
+Podzielenie dużego zbioru danych na mniejsze kawałki. Możliwe jest przypisanie do odrębnych węzłów - wówczas otrzymujemy sharding.
+
+----

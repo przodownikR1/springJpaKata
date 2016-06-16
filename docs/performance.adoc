@@ -655,6 +655,21 @@ if(i%100 ==0 ){
 *** ustawienie per aplikacja , oraz per zapytanie : HINT
 
 
+** rozważ użycie 'Horizontal Partitioning'
+
+[source,sql]
+----
+CREATE TABLE Books (
+book_id SERIAL PRIMARY KEY,
+-- other columns
+date_published DATE
+) PARTITION BY HASH ( YEAR(date_published) )
+PARTITIONS 10;
+----
+
+** rozważ użycie rozwiązania 'kontekst per silnik' dla niektórych rozwiązań bazodanowych.
+
+
 
 ** OutOfMemory - batch insert/update
 

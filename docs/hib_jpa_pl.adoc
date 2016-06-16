@@ -221,7 +221,9 @@ source : http://blogs.tedneward.com/post/the-vietnam-of-computer-science/
 *** hibernate-infinispan 
  
  
- 
+== Podejścia alternatywne a stos Hibernate
+
+image::standard_jpa_architecture.jpg[] 
 
 
 == Minimalna konfiguracja projektu :
