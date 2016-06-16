@@ -1289,6 +1289,11 @@ public class ProjectType {
 }
 ----
 
+
+* @ManyToAny
+
+
+
 == @Dynamic
 
 === @DynamicInsert (false/true)
