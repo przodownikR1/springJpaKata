@@ -669,6 +669,7 @@ PARTITIONS 10;
 
 ** rozważ użycie rozwiązania 'kontekst per silnik' dla niektórych rozwiązań bazodanowych.
 
+** jeśli tylko można stosuj @Immutable
 
 
 ** OutOfMemory - batch insert/update

@@ -1346,6 +1346,9 @@ public ItemBidSummary() {
 }
 ----
 
+
+NOTE: @Synchronize, upewnij się, że encje Item i Bid są 'flushed' przed wykonaniem operacji na ItemBidSummary
+
 == Callbacks
 
 === @PrePersist
