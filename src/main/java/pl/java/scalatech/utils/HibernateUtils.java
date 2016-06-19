@@ -17,6 +17,7 @@ public final class HibernateUtils {
         cfg.setProperty("hibernate.connection.url","jdbc:h2:mem:testdb");
         cfg.setProperty("hibernate.connection.username","sa");
         cfg.setProperty("hibernate.generate_statistics","true");
+        cfg.setProperty("hibernate.generate_statistics","true");
         cfg.addPackage("pl.java.scalatech.domain").addAnnotatedClass(Item.class);
 
 		buildSessionFactory = cfg.buildSessionFactory();

@@ -100,6 +100,35 @@ public class Simple {
 
 === Prosty
 
+=== Biznesowe
+
+** @NaturalId
+
+*** Rekomendowany zamiast klucza techniczego
+
+*** Unikalny w ramach tabeli 
+
+*** JPA 
+
+**** @Table(uniqueConstraints = @UniqueConstraint(columnNames={column_1, ..., column_n})) ,  nullable = false
+
+**** @EmbeddedId, @IdClass
+
+[source,java]
+----
+public class Book {
+   @Id
+   @GeneratedValue
+   private Long id;
+   
+   private String name;
+   ....
+   @NaturalId
+   private String isbn;
+   ...
+}
+----
+ 
 
 === Ustawianie wartości
 
@@ -148,7 +177,7 @@ public Long id;
 
 ** używa osobnej transakcji na połączenie
 
-
+** klucze główne trzymane są w specjalnej tabeli
 
 
 *** Przykład
@@ -1381,6 +1410,10 @@ public class Product extends AbstractEntity {
 
 }
 ----
+
+NOTE: @Immutable oznacza , że żadna modyfikacja na 'immutable entity' nie może się udać bez generacji wyjątku. 
+NOTE: Może być stosowana dla kolekcji 
+NOTE: Wyrzucany wyjątek to:  HibernateException 
 
 ==@SubSelect - view 
 
