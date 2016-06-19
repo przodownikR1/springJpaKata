@@ -403,6 +403,66 @@ public class Item extends AbstractEntity {
      create index IDX_USERNAME on ITEMS (ITEM_NAME)
 ----
 
+WARNING: Index Shotgun
+
+** Stosowanie indeksu bez żadnego planu
+
+*** całkowity brak lub zbyt mało indeksów
+
+*** zbyt dużo indeksów, które niczego nie wnoszą
+
+*** wykonywanie zapytań, które nie bazują na indeksach
+
+*** nadmiarowe indeksy złożone
+
+*** indeksy pokrywające - wynik zapytania pochodzi tylko z indeksu , bez odczytywania wierszy z tabeli
+
+WARNING: indeksowanie długich łańuchów typów
+
+NOTE : Zasada MENTOR 
+
+** MEASURE (mierzenie) - wykrycie, które zapytania zajmują najwięcej czasu, monitoriwanie i wykrywanie wąskich gardeł 
+
+*** TKProf
+
+*** SQL Trace
+
+*** Dziennik zdarzeń
+
+*** pgFouine
+
+NOTE: Wszechobecny monitoring
+
+** Explain (wyjaśnianie) - plan wykonania QEP
+
+*** Polecenie Explain
+
+** Nominate (Wskazywanie) - gdzie zapytanie dostaje dane bez użycia indeksu
+
+*** MySql Enterprise Query Analyzer
+
+*** Oracle Automatic SQL Tuning Advisor
+
+** Test (Testowanie) - po optymalizacji powtarzamy pierwsze kroki (Measure, Explain, ewentualnie Nominate )
+
+** Optimize (Optymalizacja)
+
+*** pamięć podręczna vs I/O
+
+*** Mysql : LOAD INDEX INTO CACHE 
+
+** Rebuild (Przebudowa) 
+ 
+*** zrównoważenie.  optymalny/niezrównoważony (jak defragmentacja systemu plików)   
+
+*** konserwacja indeksów
+
+*** Mysql : Analyze Table , Optimize Table
+
+*** Oracle : Alter Index .... Rebuild
+
+*** PostgreSQl : Vacuum , Analyze
+
 
 == **@Column**
 ** analogiczne zachowanie do adnotacji @Table

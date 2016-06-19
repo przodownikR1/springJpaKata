@@ -681,6 +681,72 @@ SessionFactory factory = new AnnotationConfiguration().configure().buildSessionF
 
 ----
 
+=== Wykorzystanie sessionBuilder'a
+[source,java]
+----
+StandardServiceRegistryBuilder srb = new StandardServiceRegistryBuilder()
+            .applySetting( "hibernate.show_sql", "true" )
+            .applySetting( "hibernate.format_sql", "true" )
+            .applySetting( "hibernate.hbm2ddl.auto", "update" )
+            .applySetting( "hibernate.dialect", "org.hibernate.dialect.H2Dialect" )
+            .applySetting( "hibernate.connection.driver_class", "org.h2.Driver" )
+            .applySetting( "hibernate.connection.url", "jdbc:h2:mem:testdbHibernate" )
+            .applySetting( "hibernate.connection.username", "sa" )
+            .applySetting( "hibernate.connection.password", "" )
+            .applySetting( "hibernate.use_sql_comment", "true" )
+            ;
+        Metadata metadata= new MetadataSources( srb.build() )
+                    .addAnnotatedClass(Item.class)
+                    //..
+                    .addPackage(packageBase()).buildMetadata();
+        }
+
+        sf = metadata.buildSessionFactory();
+    }
+----
+
+==== Przykład gotowego narzędzia do wytwarzania SessionFactory
+
+[source,java]
+----
+public class HibernateUtil
+{
+   private static SessionFactory sessionFactory = buildSessionFactory();
+ 
+   private static SessionFactory buildSessionFactory()
+   {
+      try
+      {
+         if (sessionFactory == null)
+         {
+            Configuration configuration = new Configuration().configure(HibernateUtil.class.getResource("/hibernate.cfg.xml"));
+            StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
+            serviceRegistryBuilder.applySettings(configuration.getProperties());
+            configuration.addPackage("pl.java.scalatech.domain.simple")
+            .addAnnotatedClass(Person.class);
+            ServiceRegistry serviceRegistry = serviceRegistryBuilder.build();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+         }
+         return sessionFactory;
+      } catch (Throwable ex)
+      {
+         log.info("Initial SessionFactory creation failed. {}" , ex);
+         throw new ExceptionInInitializerError(ex);
+      }
+   }
+ 
+   public static SessionFactory getSessionFactory()
+   {
+      return sessionFactory;
+   }
+ 
+   public static void shutdown()
+   {
+      getSessionFactory().close();
+   }
+}
+----
+
 
 [source,xml]
 ----
@@ -1715,7 +1781,7 @@ Query query = em.createQuery(
  - load vs get
   Lepiej na początku jest sprawdzić czy obiekt jest null czy nie jeśli chcemy użyć metody get(). (NullPointerException problem)
 
- -unikaj relacji dwukierunkowych
+  -unikaj relacji dwukierunkowych
  - tight coupling
  - cykliczność
  - utrzymanie spójności (musimy pamiętać aby obsłużyć dwie strony relacji)
@@ -1725,6 +1791,8 @@ Query query = em.createQuery(
  - unikaj obiektów odłączonych
  - pobieranie zbyt dużych ilości danych powoduje marnowanie pamięci w warstwie aplikacji
  - identyczność obiektów a ich tożsamość w bazie
+ - antipattern : czytelne hasła (Readable Passwords)
+ - antipattern : SQL Injection
   
 
 === Top down (dobre dla już istniejącego kodu)

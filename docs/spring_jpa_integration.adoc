@@ -873,6 +873,17 @@ public Book merge(Book book ) {}
 
 == Dodatek 
 
+** Active Record 
+
+*** Anemic Domain Model
+
+*** proste operacje CRUD
+
+*** tworzenie prototypów
+
+
+
+
 === Wsparcie JDBC
 
 - JdbcTemplate
