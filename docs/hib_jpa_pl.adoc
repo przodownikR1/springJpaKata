@@ -540,12 +540,25 @@ Przykład zewnętrznej puli połączeń c3p0:
 </dependencies>
 ----
 
+
 Aby użyć powyższą konfigurację c3p0 wszystko co musimy zrobić to dodać wpis do konfiguracji hibernate: 
 [source,xml]
 ----
 <property name="c3p0.timeout">10</property>
 ----
 W ten sposób Hibernate wyłączy wewnętrzną pulę połączeń i przestawi się na zewnętrzną.
+
+=== Przykład 
+
+[source,xml]
+----
+<property name="hibernate.c3p0.min_size">10</property>
+<property name="hibernate.c3p0.max_size">20</property>
+<property name="hibernate.c3p0.acquire_increment">1</property>
+<property name="hibernate.c3p0.idle_test_period">3000</property>
+<property name="hibernate.c3p0.max_statements">50</property>
+<property name="hibernate.c3p0.timeout">1800</property>
+----
 
  Inne rozwiązania to : 
  
@@ -894,6 +907,12 @@ session.close();
 ** odświeża stan encji z bazy nadpisuje dane wprowadzone do encji
 ** anuluje zmiany dokonane na instancji w pamięci
 
+[source,java]
+----
+public void refresh(Object object) throws HibernateException
+public void refresh(Object object, LockMode lockMode) throws HibernateException
+----
+
 WARNING: Anti-pattern
 
 == Opróżnianie sesji
@@ -973,9 +992,11 @@ NOTE: Patrz podrozdział annotation
 
 *** **Własne** - w przypadku zorientowania na ekstremalną wydajność, **rozwiązanie własne**, aby nie odpytywać się bazy danych o następny numer sekwencji.
 
- 
+NOTE: Interfejs IdentifierGeneretor do generowania własnych strategii kluczy identyfikujących
  
 ==== Klucz główny musi spełniać następujące warunki
+
+
 
 - jego wartość nigdy nie może być równa null
 - każdy wiersz posiada inną wartość
@@ -985,11 +1006,6 @@ NOTE: Patrz podrozdział annotation
 
 - ma znaczenie biznesowe
 - odpowiedni dobór kandydatów / stały w ciągu całego życia 
-
-NOTE: Interfejs IdentifierGeneretor do generowania własnych strategii kluczy identyfikujących
-  
-
-
 
 
 
@@ -1495,6 +1511,7 @@ UPDATE book SET title='jpa book' WHERE id=2;
 
 ** Merge jest odwrotną operacją do operacji refresh()
 ** Nadpisuje encje w bazie danych wartościami encji odłączonych.
+** Zmienia stan z odłączonego na zarządzany
 
 *** Object merge(Object object)
 *** Object merge(String entityName, Object object)
