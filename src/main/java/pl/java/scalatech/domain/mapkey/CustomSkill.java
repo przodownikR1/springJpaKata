@@ -3,7 +3,6 @@ package pl.java.scalatech.domain.mapkey;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 
@@ -12,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.AbstractEntity;
 
-@Entity
+//@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
