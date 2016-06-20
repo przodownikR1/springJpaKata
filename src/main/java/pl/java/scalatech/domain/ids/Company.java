@@ -3,7 +3,6 @@ package pl.java.scalatech.domain.ids;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.NaturalIdCache;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +12,7 @@ import lombok.ToString;
 import pl.java.scalatech.domain.AbstractEntity;
 
 @Entity
-@NaturalIdCache
+//@NaturalIdCache //Work only if second cache is enabled
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper=true)
@@ -25,26 +24,31 @@ public class Company extends AbstractEntity{
     private String nip;
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!super.equals(obj))
+        }
+        if (!super.equals(obj)) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Company other = (Company) obj;
         if (nip == null) {
-            if (other.nip != null)
+            if (other.nip != null) {
                 return false;
-        } else if (!nip.equals(other.nip))
+            }
+        } else if (!nip.equals(other.nip)) {
             return false;
+        }
         return true;
     }
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((nip == null) ? 0 : nip.hashCode());
+        result = prime * result + (nip == null ? 0 : nip.hashCode());
         return result;
     }
-    
+
 }
