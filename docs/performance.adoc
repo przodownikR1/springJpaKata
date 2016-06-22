@@ -568,6 +568,68 @@ em.flush(); // no update
 Query query = em.createQuery(queryString).setHint(org.hibernate.annotations.QueryHints.READ_ONLY,true );
 ----
 
+
+== Batch processing
+
+[source,java]
+----
+//bad code :)
+
+Session session = SessionManager.openSession();
+Transaction tx = session.beginTransaction();
+ 
+for(int i=0;i<1_000_000;i++) {
+Book book = new Book();
+book.setName("MyBook "+i);
+book.setPrice(i);
+session.save(book);
+}
+ 
+tx.commit();
+session.close();
+
+----
+
+** zapis do bazy danych rekordów jeden po drugim. 
+
+*** zwiększenie obciążenia bazy
+*** obciążenie aplikacji
+*** pasma sieci
+
+
+** możliwy  OutOfMemoryException
+
+
+=== Możliwe rozwiązania problemu : 
+
+** Możliwość pierwsza
+
+[source,xml]
+----
+ <property name="hibernate.jdbc.batch_size">50</property>  
+ <property name="hibernate.cache.use_second_level_cache">false</property> 
+---- 
+
+** Możliwość druga
+
+[source,java]
+----
+Session session = sessionFactory.openSession();
+Transaction transaction = session.beginTransaction();
+for(int i=0;i<1_000_000;i++) {
+Book book = new Book();
+book.setName("MyBook "+i);
+book.setPrice(i);
+ if (i % 50 == 0) {
+       session.flush(); 
+       session.clear();
+   }
+ }
+transaction.commit();
+session.close();
+----
+
+
 == Inne możliwe problemy i wskazówki:
 
 ** aktualizowanie encji jedna-po-drugiej zamiast zrobienie tego w pojedyńczym kwerendzie

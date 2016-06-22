@@ -17,7 +17,7 @@ ifndef::imgsdir[:imgsdir: ./../img]
 
 == O mnie
 * Architect Solution - RiscoSoftware 
-* JavaTech trener : Spring ekosystem, JPA , EIP Camel 
+* VavaTech trener : Spring ekosystem, JPA , EIP Camel 
 * Sages trener : JPA , EIP - Apache Camel 
 * blog link:http://przewidywalna-java.blogspot.com[]
 * twitter przodownikR1
@@ -1195,6 +1195,22 @@ SUZUKI, STAR, FERRARI,JAGUAR;
 == **@OrderBy**
  - kolekcja może zostać uporządkowana według określonych kryteriów
  - w przypadku kolekcji uporządkowanej wykorzystać należy typ **List**
+ - wykonywany przez wyrażenie SQL SELECT 
+ 
+[source,java]
+----
+@Entity
+public class Book {
+@ElementCollection
+@CollectionTable(name = "Chapters")
+@Column(name = "shortDest")
+@org.hibernate.annotations.OrderBy(clause = "shortDesc desc")
+protected Set<String> chapters = new LinkedHashSet<String>();
+
+}
+---- 
+ 
+NOTE: @SortNatural i @SortComparator
  
  *** Przykład
  
@@ -1381,6 +1397,95 @@ public class ProjectType {
 
 * @ManyToAny
 
+//TODO
+
+
+* Map 
+
+** @MapKeyJoinColumn - jeśli klucz mapy będzie encją
+
+*** napisuje JOIN_COLUMN
+
+
+
+** @MapKey 
+
+*** Dla relacji **one-to-many** i  **many-to-many** gdzie klucz jest jednym z atrybutów
+
+
+[source,java]
+----
+public class Department extends AbstractEntity {
+    private static final long serialVersionUID = -7670935289254672108L;
+    private String name;
+    private Long ids;
+    @OneToMany(cascade = CascadeType.ALL)
+    @MapKey
+    Map<UUID, Phone> phones;
+    }
+----
+
+** @MapKeyColumn
+
+[source,java]
+----
+public class Department extends AbstractEntity {    
+    private String name;
+    
+    @ElementCollection
+    @CollectionTable(name = "subDept")
+    @MapKeyColumn(name = "subDeptName")
+    @Column(name = "subDeptShortName")
+    protected Map<String, String> subDepts = new HashMap<>();
+    }
+----
+
+//TODO
+
+== @SortComparator
+
+** Sortowanie w pamięci Map i Set
+
+[source,java]
+----
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="bookId")
+    @SortComparator(BookNameComparator.class)
+    private SortedSet<Book> books;
+    
+    ...
+    
+    public class BookNameComparator implements Comparator<Book> {
+    @Override
+    public int compare(Book b1, Book b2) {
+      return b1.getBookName().compareTo(b2.getBookName());
+    }
+} 
+----
+
+== @SortNatural 
+
+** Sortowanie w pamięci Map i Set
+
+[source,java]
+----
+   @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="book_id")
+    @SortNatural
+    private SortedSet books;
+    ...
+    
+    public class Book implements Comparable<Book> {
+    @Column(name = "writer")    
+    private String writer;
+    @Override
+    public int compareTo(Book o) {
+        return writer.compareTo(o.getWriter());
+    }
+    }
+----
+
+WARNING: W przypadku dużych kolekcji użyć : **@OrderBy** lub bezpośrednio order by w kwerendzie SQL. 
 
 
 == @Dynamic
