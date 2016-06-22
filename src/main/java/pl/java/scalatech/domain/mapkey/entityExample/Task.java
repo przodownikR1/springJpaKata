@@ -1,5 +1,7 @@
 package pl.java.scalatech.domain.mapkey.entityExample;
 
+
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -14,10 +16,10 @@ import pl.java.scalatech.domain.AbstractEntity;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="MAP_PHONE")
-public class Phone extends AbstractEntity{
+@Table(name="MAP_TASK")
+public class Task extends AbstractEntity{
+
+    private static final long serialVersionUID = -3106957440335217749L;
+    private String name;
     
-    private static final long serialVersionUID = 5941765769329870761L;
-    private String phoneNumber;
-   
 }

@@ -52,4 +52,9 @@ public class Department extends AbstractEntity {
     @MapKeyColumn(name = "subDeptName")
     @Column(name = "subDeptShortName")
     protected Map<String, String> subDepts = new HashMap<>();
+    
+    
+    @ElementCollection
+    @CollectionTable(name = "MAP_TASKS")
+    protected Map<Responsibility, Task> tasks = new HashMap<>();
 }

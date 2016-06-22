@@ -29,8 +29,7 @@ public class Offer extends AbstractEntity{
 
     private static final long serialVersionUID = 5395878288169119106L;
     @ManyToOne(fetch = FetchType.LAZY) // Defaults to EAGER
-    @JoinColumn(name = "ITEM_ID", nullable = false,
-    foreignKey = @ForeignKey(name = "FK_ITEM_ID") )
+    @JoinColumn(name = "ITEM_ID", nullable = false,foreignKey = @ForeignKey(name = "FK_ITEM_ID") )
     private Item item;
 
     @Column(name="offer_value")

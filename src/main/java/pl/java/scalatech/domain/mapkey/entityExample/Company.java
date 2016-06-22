@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.MapKeyJoinColumn;
@@ -24,10 +25,12 @@ import pl.java.scalatech.domain.AbstractEntity;
 @Table(name="MAP_COMPANY")
 public class Company extends AbstractEntity{
 
-	@OneToMany
+    private static final long serialVersionUID = -9143975818074812878L;
+
+    @OneToMany
 	@JoinTable(name = "DEPT_EMP_RESP", joinColumns = @JoinColumn(name = "COMP_ID"), inverseJoinColumns = @JoinColumn(name = "EMP_ID"))
-	@MapKeyJoinColumn(name = "DEPT_ID", nullable = true)
-	private Map<Department, Person> departmentResponsibles = new HashMap<Department, Person>();
+	@MapKeyJoinColumn(name = "DEPT_ID", nullable = true,foreignKey=@ForeignKey(name = "FK_DEPT_PERSON"))	
+	private Map<Department, Person> departmentResponsibles = new HashMap<>();
 
 	private String name;
 }
