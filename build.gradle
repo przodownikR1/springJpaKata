@@ -31,6 +31,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.sonarqube" version "2.0.1"
+}
+
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'groovy'
