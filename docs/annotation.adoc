@@ -1402,9 +1402,9 @@ public class ProjectType {
 
 * Map 
 
-** @MapKeyColumn - jeśli klucz będzie typem bazowym
+** @MapKeyColumn - jeśli kluczem będzie typem bazowym
 
-** @MapKeyEnumerated - jeśli klucz będzie enum
+** @MapKeyEnumerated - jeśli kluczem będzie enum
 
 [source,java]
 ----
@@ -1418,7 +1418,7 @@ public class Owner  extends AbstractEntity{
 
 ----
 
-** @MapKeyTemporal -jeśli klucz będzie typu Data/Calenadar
+** @MapKeyTemporal -jeśli kluczem będzie typu Data/Calenadar
 
 [source,java]
 ----
@@ -1433,7 +1433,7 @@ public class Owner extends AbstractEntity{
 
 
 
-** @MapKeyJoinColumn - jeśli klucz mapy będzie encją
+** @MapKeyJoinColumn - jeśli kluczem mapy będzie encją
 
 *** napisuje JOIN_COLUMN
 
