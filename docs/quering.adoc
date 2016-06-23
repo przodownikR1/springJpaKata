@@ -325,8 +325,6 @@ NOTE: Pełne przeszukiwanie tekstu : Full-text search - LUCENE
 
 *** Alter Table Book ADD FULLTEXT INDEX idn_desc (description,foreword)
 
-
-
 == Zwiększanie wydajności poprzez agregacje po stronie bazy
 
 == Natywna kwerenda SQL

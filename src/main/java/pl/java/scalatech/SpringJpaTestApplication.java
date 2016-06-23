@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.domain.keys.Travel;
 import pl.java.scalatech.domain.keys.Trip;
 import pl.java.scalatech.domain.mainPerson.Person;
+import pl.java.scalatech.domain.mapkey.basic_mapKey.Country;
+import pl.java.scalatech.domain.mapkey.basic_mapKey.State;
 import pl.java.scalatech.domain.mapkey.entityExample.Company;
 import pl.java.scalatech.domain.mapkey.entityExample.Department;
 import pl.java.scalatech.domain.mapkey.entityExample.Phone;
@@ -28,6 +30,7 @@ import pl.java.scalatech.repository.PersonViewRepo;
 import pl.java.scalatech.repository.keys.TravelRepo;
 import pl.java.scalatech.repository.keys.TripRepo;
 import pl.java.scalatech.repository.mainPerson.PersonRepository;
+import pl.java.scalatech.repository.map.basic.CountryRepo;
 import pl.java.scalatech.repository.map.entityExample.DepartmentRepo;
 import pl.java.scalatech.repository.map.entityExample.PersonDeptRepo;
 import pl.java.scalatech.repository.map.simple.BookRepo;
@@ -47,6 +50,9 @@ public class SpringJpaTestApplication implements CommandLineRunner{
     private TripRepo tripRepo;
     @Autowired
     private BookRepo bookRepo;
+    
+    @Autowired
+    private CountryRepo countryRepo;
 
 
     public static void main(String[] args) {
@@ -85,6 +91,19 @@ public class SpringJpaTestApplication implements CommandLineRunner{
       Book book = Book.builder().title("jpa in action").indexMap(index)/*.reviews(reviews)*/.build();      
       bookRepo.save(book);
    
+      
+      Map<Integer,State> states = newHashMap();
+      states.put(1, State.builder().name("mazowieckie").build());
+      states.put(2, State.builder().name("slaskie").build());
+      states.put(3, State.builder().name("malopolskie").build());
+      Country country = Country.builder().name("Poland").states(states).build();
+      countryRepo.save(country);
+      states = newHashMap();
+      states.put(1, State.builder().name("schlewst").build());
+      states.put(2, State.builder().name("bawaria").build());
+      country = Country.builder().name("German").states(states).build();
+      countryRepo.save(country);
+      
 
     }
 

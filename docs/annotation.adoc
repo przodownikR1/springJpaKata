@@ -1402,17 +1402,78 @@ public class ProjectType {
 
 * Map 
 
+** @MapKeyColumn - jeśli klucz będzie typem bazowym
+
+** @MapKeyEnumerated - jeśli klucz będzie enum
+
+[source,java]
+----
+@Entity
+public class Owner  extends AbstractEntity{
+
+    @OneToMany
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<BookType, Book> bookMap;
+}
+
+----
+
+** @MapKeyTemporal -jeśli klucz będzie typu Data/Calenadar
+
+[source,java]
+----
+@Entity
+public class Owner extends AbstractEntity{
+ 
+    @OneToMany(mappedBy="owner")
+    @MapKeyTemporal(TemporalType.TIMESTAMP)
+    private Map<Date, Book> bookMap;
+}
+----
+
+
+
 ** @MapKeyJoinColumn - jeśli klucz mapy będzie encją
 
 *** napisuje JOIN_COLUMN
+
+[source,java]
+----
+@Entity
+public class Owner {
+    @Id
+    private long id;
+
+    
+    @MapKeyJoinColumn(name="book publisher_id")
+    private Map<Publisher, Book> bookMap;
+}
+----
 
 
 
 ** @MapKey 
 
+chcemy zdecydować co będzie kluczem w naszej mapie.
+
 *** Dla relacji **one-to-many** i  **many-to-many** gdzie klucz jest jednym z atrybutów
 
+=== Przykład 1
+[source,java]
+----
+@Entity
+public class Country extends AbstractEntity{
+    
+    @Column(name="name")
+    private String name;
+   
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="country_id")
+    @MapKey(name="id")
+    private Map<Integer,State> states;
+----
 
+=== Przykład 2
 [source,java]
 ----
 public class Department extends AbstractEntity {
