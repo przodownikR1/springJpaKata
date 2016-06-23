@@ -8,8 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.AbstractEntity;
@@ -18,14 +20,15 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
+@Table(name="MAP_USER_MAP")
 public class UserMap extends AbstractEntity{
 
     @ElementCollection
-
-    @CollectionTable(name = "PHONES")
-
-    @MapKeyColumn(name = "PHONE_NUM")
+    @CollectionTable(name = "MAP_PHONES")
+    @MapKeyColumn(name = "PHONE_OWNER")
     @Column(name = "NUM")
-    private Map<String, String> phones = new HashMap<String, String>();
+    private Map<String, String> phones = new HashMap<>();
+    private String name;
 
 }

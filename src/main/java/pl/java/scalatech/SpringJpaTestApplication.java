@@ -3,9 +3,7 @@ package pl.java.scalatech;
 import static com.google.common.collect.Maps.newHashMap;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,24 +13,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.google.common.collect.Maps;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.domain.bags.UserMap;
 import pl.java.scalatech.domain.keys.Travel;
 import pl.java.scalatech.domain.keys.Trip;
 import pl.java.scalatech.domain.mainPerson.Person;
+import pl.java.scalatech.domain.mapkey.basic_collection.BookStore;
 import pl.java.scalatech.domain.mapkey.basic_mapKey.Country;
 import pl.java.scalatech.domain.mapkey.basic_mapKey.State;
-import pl.java.scalatech.domain.mapkey.entityExample.Company;
-import pl.java.scalatech.domain.mapkey.entityExample.Department;
-import pl.java.scalatech.domain.mapkey.entityExample.Phone;
-import pl.java.scalatech.domain.mapkey.entityExample.Responsibility;
-import pl.java.scalatech.domain.mapkey.entityExample.Task;
 import pl.java.scalatech.domain.mapkey.simple.Book;
 import pl.java.scalatech.repository.PersonViewRepo;
 import pl.java.scalatech.repository.keys.TravelRepo;
 import pl.java.scalatech.repository.keys.TripRepo;
 import pl.java.scalatech.repository.mainPerson.PersonRepository;
 import pl.java.scalatech.repository.map.basic.CountryRepo;
-import pl.java.scalatech.repository.map.entityExample.DepartmentRepo;
-import pl.java.scalatech.repository.map.entityExample.PersonDeptRepo;
+import pl.java.scalatech.repository.map.collection.BookStoreRepo;
+import pl.java.scalatech.repository.map.mapColumn.UserMapRepo;
 import pl.java.scalatech.repository.map.simple.BookRepo;
 
 @SpringBootApplication
@@ -53,6 +48,10 @@ public class SpringJpaTestApplication implements CommandLineRunner{
     
     @Autowired
     private CountryRepo countryRepo;
+    @Autowired
+    private BookStoreRepo bookStoreRepo;
+    @Autowired
+    private UserMapRepo userMapRepo;
 
 
     public static void main(String[] args) {
@@ -92,19 +91,45 @@ public class SpringJpaTestApplication implements CommandLineRunner{
       bookRepo.save(book);
    
       
-      Map<Integer,State> states = newHashMap();
-      states.put(1, State.builder().name("mazowieckie").build());
-      states.put(2, State.builder().name("slaskie").build());
-      states.put(3, State.builder().name("malopolskie").build());
-      Country country = Country.builder().name("Poland").states(states).build();
-      countryRepo.save(country);
-      states = newHashMap();
-      states.put(1, State.builder().name("schlewst").build());
-      states.put(2, State.builder().name("bawaria").build());
-      country = Country.builder().name("German").states(states).build();
-      countryRepo.save(country);
+      countryTest();
       
+     // bookStoreTest();
+      
+      userMapTest();
+    }
 
+    private void userMapTest() {
+        Map<String,String> phones = Maps.newHashMap();
+          phones.put("slawek", "232323");
+          phones.put("tomek", "27773");
+          UserMap um = UserMap.builder().name("przodownik").phones(phones).build();
+          userMapRepo.save(um);
+          
+          
+          
+          
+    }
+
+    private void countryTest() {
+        Map<Integer,State> states = newHashMap();
+          states.put(1, State.builder().name("mazowieckie").build());
+          states.put(2, State.builder().name("slaskie").build());
+          states.put(3, State.builder().name("malopolskie").build());
+          Country country = Country.builder().name("Poland").states(states).build();
+          countryRepo.save(country);
+          states = newHashMap();
+          states.put(1, State.builder().name("schlewst").build());
+          states.put(2, State.builder().name("bawaria").build());
+          country = Country.builder().name("German").states(states).build();
+          countryRepo.save(country);
+    }
+
+    private void bookStoreTest() {
+        Map<pl.java.scalatech.domain.mapkey.basic_collection.Book,Long> invertory = Maps.newHashMap();
+          invertory.put(pl.java.scalatech.domain.mapkey.basic_collection.Book.builder().name("quo vadis").isbn("232f").build(), 1l);
+          invertory.put(pl.java.scalatech.domain.mapkey.basic_collection.Book.builder().name("lalka").isbn("23244f").build(), 2l);
+          BookStore bs = BookStore.builder().address("poznan,pulawska 20").invertory(invertory).build();
+          bookStoreRepo.save(bs);
     }
 
   
