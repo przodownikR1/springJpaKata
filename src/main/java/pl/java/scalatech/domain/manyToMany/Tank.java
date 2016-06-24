@@ -38,6 +38,7 @@ public class  Tank extends AbstractEntity{
     name="Tank_Crew",
     joinColumns = {@JoinColumn(name="Tank_ID")},
     inverseJoinColumns={@JoinColumn(name="CREW_ID")}
-    )
+    ,foreignKey = @ForeignKey(name = "TANK_CREW_FK")
+    ,uniqueConstraints = @UniqueConstraint(columnNames={"CREW_ID", "Tank_ID"}))
     private Set<Crew> crews = new HashSet<>();
 }
