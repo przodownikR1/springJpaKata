@@ -17,35 +17,36 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.PropertiesLoader;
 import pl.java.scalatech.domain.example.n1.JobCandidate;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {  PropertiesLoader.class,JpaJN1Config.class })
+@ContextConfiguration(classes = { PropertiesLoader.class, JpaJN1Config.class })
 @ActiveProfiles(value = "n1")
 @Transactional
 @Slf4j
 @FixMethodOrder(NAME_ASCENDING)
 public class SaveEmTest {
-    
+
     @Autowired
     private EntityManager em;
-    
+
+    // tag::main[]
     @Test
-    public void shouldCreateAndSaveProperty(){
+    public void shouldCreateAndSaveProperty() {
         log.info("first");
-        JobCandidate user = new JobCandidate(23l,"krolewski");
-        em.persist(user);
-        
-        JobCandidate loaded = em.createQuery("FROM JobCandidate c  WHERE c.fullName ='krolewski'",JobCandidate.class).getSingleResult();       
+        JobCandidate user = new JobCandidate(23l, "krolewski");
+        em.persist(user);  
+
+        JobCandidate loaded = em.createQuery("FROM JobCandidate c  WHERE c.fullName ='krolewski'", JobCandidate.class).getSingleResult();
         assertThat(loaded).isNotNull();
         assertThat(loaded.getAge()).isNull();
         assertThat(loaded.getFullName()).isNotNull().isEqualTo("krolewski");
-                
-        loaded.setAge(123);               
-        loaded = em.createQuery("FROM JobCandidate c  WHERE c.fullName ='krolewski'",JobCandidate.class).getSingleResult();
-        assertThat(loaded.getAge()).isNotNull().isEqualTo(123);
-        log.info("++++  {}",loaded);
-        
 
-       
+        loaded.setAge(123); //<1>
+        loaded = em.createQuery("FROM JobCandidate c  WHERE c.fullName ='krolewski'", JobCandidate.class).getSingleResult();
+        assertThat(loaded.getAge()).isNotNull().isEqualTo(123);
+        log.info("++++  {}", loaded);
+
     }
-    
+    // end::main[]
+
 }

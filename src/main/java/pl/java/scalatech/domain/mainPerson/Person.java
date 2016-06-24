@@ -38,8 +38,9 @@ import pl.java.scalatech.domain.SampleListener;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@FilterDef(name = "byStatus", parameters = @ParamDef(name = "status", type = "boolean"))
-@Filter(name = "byStatus", condition = "active = :status")
+//tag::main[]
+@FilterDef(name = "byStatus", parameters = @ParamDef(name = "status", type = "boolean"))//<1>
+@Filter(name = "byStatus", condition = "active = :status")//<2>
 @EntityListeners( SampleListener.class )
 public class Person implements Serializable{
 
@@ -67,19 +68,19 @@ public class Person implements Serializable{
     @Generated(GenerationTime.INSERT)
     private LocalDate effectiveModify;
 
-    @Type(type="yes_no")
+    @Type(type="yes_no") //<3>
     private Boolean disable;
 
     //TODO
   //@Formula("concat(disable, ' : ' ,active )")/// ? filter problem
     private String overview;
 
-    @Formula("select count(*) From Person p WHERE p.active = 'true'")
+    @Formula("select count(*) From Person p WHERE p.active = 'true'") //<4>
     private int allUser;
 
 
 
-    @ColumnTransformer(read="km * 1.6",write= "? / 1.6")
+    @ColumnTransformer(read="km * 1.6",write= "? / 1.6") //<5>
     private Double km;
 
     private Boolean active;
@@ -93,3 +94,4 @@ public class Person implements Serializable{
     @Version
     private long version;
 }
+// end::main[]

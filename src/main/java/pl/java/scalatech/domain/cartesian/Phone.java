@@ -14,9 +14,9 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+//tag::main[]
 @Table(name="CARTESIAN_PHONE")
 public class Phone extends AbstractEntity{
-
-
     private String phoneNumber;
 }
+// end::main[]

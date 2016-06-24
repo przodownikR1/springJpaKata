@@ -12,8 +12,9 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+// tag::main[]
 @Entity(name = "AccountJoin")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED) // <1>
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -29,3 +30,4 @@ public class AccountJoin {
 
     private BigDecimal interestRate;
 }
+// end::main[]

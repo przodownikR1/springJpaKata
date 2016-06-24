@@ -324,6 +324,158 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/x
 ----   
 
 
+** Przykład 2
+
+[source,xml]
+----
+<persistence version="2.1"
+    xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence_2_1.xsd">
+
+    <persistence-unit name="PU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>pl.java.scalatech.domain*</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+            <!-- 
+            none
+            create  
+            drop-and-create
+            drop
+             -->
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.use_sql_comments" value="true" />
+            <property name="hibernate.id.new_generator_mappings" value="true"/>
+            
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+            <property name="javax.persistence.schema-generation.create-source" value="script" />
+            <property name="javax.persistence.schema-generation.drop-source" value="script" />
+            <!-- 
+            metadata  
+            script
+            metadata-then-script
+            script-then-metadata
+             -->
+            <property name="javax.persistence.schema-generation.create-script-source" value="META-INF/create.sql" />
+            <property name="javax.persistence.schema-generation.drop-script-source" value="META-INF/drop.sql" />
+            <property name="javax.persistence.sql-load-script-source" value="META-INF/load.sql" />
+
+        </properties>
+    </persistence-unit>
+</persistence>
+----
+
+** javax.persistence.schema-generation.database.action - jak persistence provider powinnien przygotować bazę
+
+*** none
+ 
+*** create
+
+*** drop-and-create
+
+*** drop
+
+** javax.persistence.schema-generation.scripts.action - skrypty powinny być wykonane , jeśli tak to w jaki sposób
+
+*** none
+ 
+*** create,
+
+*** drop-and-create
+
+*** drop
+
+
+** javax.persistence.schema-generation.create-source = określa jak schema ma zostać stworzony
+
+
+
+*** metadata
+
+***  script
+
+*** metadata-then-script
+
+*** script-then-metadata
+
+NOTE: Domyślnie tworzenie z metadanych
+
+
+** javax.persistence.schema-generation.drop-source = określa jak schemat ma zostać usunięty
+
+*** metadata
+
+***  script
+
+*** metadata-then-script
+
+*** script-then-metadata
+
+
+** javax.persistence.schema-generation.create-database-schemas = określa czy dostawca powinnien stworzyć schemat czy tylko wykreować obiekty jak tabele,sekwencje...
+
+
+** javax.persistence.schema-generation.scripts.create-target = określa lokacje skryptu do tworzenia 
+
+***  URL
+
+*** java.IO.Writer
+
+
+** javax.persistence.schema-generation.scripts.drop-target = określa lokacje skryptu do usuwania 
+
+***  URL
+
+*** java.IO.Writer
+
+
+** javax.persistence.database-product-name =  zwraca nazwę bazy dzięki getDatabaseProductName JDBC
+
+NOTE: Wymagane jeśli dostawca chce stworzyć skrypt bez łączenia się z bazą
+
+
+** javax.persistence.database-major-version = zwracany przez getDatabaseMajorVersion JDBC
+
+
+** javax.persistence.database-minor-version= zwracany przez getDatabaseMinorVersion JDBC
+
+** javax.persistence.schema-generation.create-script-source = lokacja dla skryptu tworzącego
+
+
+***  URL
+
+*** java.IO.Writer
+
+** javax.persistence.schema-generation.drop-script-source = lokacja dla skryptu dropującego
+
+***  URL
+
+*** java.IO.Writer
+
+** javax.persistence.sql-load-script-source = lokacja dla skrypty z danymi, które powinny być załadowane do bazy 
+
+***  URL
+
+*** java.IO.Writer
+
+
+** Przykład :  min konfiguracja 
+
+[source,xml]
+----
+ <property name="javax.persistence.schema-generation.database.action" value="create"/>
+----
+
+** Przykład : typowa konfiguracja testowa 
+
+ 
+[source,xml]
+----
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="javax.persistence.sql-load-script-source" value="META-INF/init.sql"/>
+---- 
+
 
 - **RESOURCE_LOCAL transaction** - sama aplikacja zarządza transakcjami .
 

@@ -8,9 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+//tag::main[]
 @Entity
-@DiscriminatorValue("java")
+@DiscriminatorValue("java") //<1>
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,3 +25,4 @@ public class JavaTask extends Task{
     }
 
 }
+// end::main[]

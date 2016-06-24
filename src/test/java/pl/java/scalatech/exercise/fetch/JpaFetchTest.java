@@ -29,6 +29,7 @@ import pl.java.scalatech.repository.fetch.PersonRepo;
 @Transactional
 @Slf4j
 //@SqlDataAccount
+//tag::main[]
 @Sql(scripts="classpath:fetch.sql")
 public class JpaFetchTest {
 
@@ -58,18 +59,18 @@ public class JpaFetchTest {
     @Test
    // @Repeat(10)
     public void shouldRetrievePersonEM(){
-       em.createQuery("FROM Person",Person.class).getResultList().forEach(p -> log.info("person : {}",p));
-       log.info("{}",Persistence.getPersistenceUtil().isLoaded(em.createQuery("FROM Person",Person.class).getResultList().get(0).getAddresses()));
+       em.createQuery("FROM Person",Person.class).getResultList().forEach(p -> log.info("person : {}",p)); //<1>
+       log.info("{}",Persistence.getPersistenceUtil().isLoaded(em.createQuery("FROM Person",Person.class).getResultList().get(0).getAddresses())); //<2>
     }
 
     @Test
-    // @Repeat(10)
      public void shouldFetchJoinProfile(){
-        em.unwrap(Session.class).enableFetchProfile("fetchJoinProfile");
-        Person p = em.find(Person.class, 1l);
+        em.unwrap(Session.class).enableFetchProfile("fetchJoinProfile"); //<3>
+        Person p = em.find(Person.class, 1l); //<4>
         log.info("person {}",p);
       //  p.getAddresses().forEach(address->log.info("address : {},",address));
 
 
      }
 }
+// end::main[]

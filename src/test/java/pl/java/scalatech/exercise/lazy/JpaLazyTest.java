@@ -1,6 +1,7 @@
 package pl.java.scalatech.exercise.lazy;
 
 import static com.google.common.collect.Maps.newHashMap;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
 
@@ -52,30 +53,27 @@ public class JpaLazyTest {
         Assertions.assertThat(itemRepo.count()).isEqualTo(3);
 
     }
-
+//tag::main[]
     @Test
     public void shouldLazyProxy() {
         Item one = em.find(Item.class, 1l);
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isFalse();
-
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue(); //<1>
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isFalse();//<2>
     }
 
     @Test
     public void shouldLazyInitializationSolution1() {
         Item one = em.find(Item.class, 1l);
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();//<3>
         log.info("{}",one.getOffers().size());
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
-
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();//<4>
     }
 
     @Test
     public void shouldLazyInitializationSolution2() {
-        Item one = em.createQuery("SELECT i FROM Item i join fetch i.offers WHERE i.id = :id", Item.class).setParameter("id", 1l).getSingleResult();
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
-
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
+        Item one = em.createQuery("SELECT i FROM Item i join fetch i.offers WHERE i.id = :id", Item.class).setParameter("id", 1l).getSingleResult(); //<5>
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue(); //<6>
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue(); //<7>
 
     }
 
@@ -84,44 +82,42 @@ public class JpaLazyTest {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Item> criteria = cb.createQuery(Item.class);
         Root<Item> i = criteria.from(Item.class);
-        i.fetch("offers");
+        i.fetch("offers"); //<8>
         criteria.select(i).where(cb.equal(i.get("id"), 1l));
         Item one = em.createQuery(criteria).getSingleResult();
-
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
-
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue(); //<9>
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue(); //<10>
 
     }
 
     @Test
     public void shouldLazyInitializationSolution4() {
         Map<String, Object> props = newHashMap();
-         em.getEntityGraphs(Item.class).forEach(eg->log.info("{}",eg));
-         props.put("javax.persistence.loadgraph", em.getEntityGraph("offers"));
+         em.getEntityGraphs(Item.class).forEach(eg->log.info("{}",eg)); //<11>
+         props.put("javax.persistence.loadgraph", em.getEntityGraph("offers")); //<12>
         Item one = em.find(Item.class, 1l,props);
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue(); 
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
     }
 
     @Test
     public void shouldLazyInitializationSolution5() {
         Map<String, Object> hints = newHashMap();
-        EntityGraph<Item> itemGraph = em.createEntityGraph(Item.class);
-        itemGraph.addAttributeNodes("offers");
-        hints.put("javax.persistence.loadgraph", itemGraph);
+        EntityGraph<Item> itemGraph = em.createEntityGraph(Item.class); //<13>
+        itemGraph.addAttributeNodes("offers"); //<14>
+        hints.put("javax.persistence.loadgraph", itemGraph); //<15>
         em.getEntityGraphs(Item.class).forEach(eg->log.info("{}",eg));
         Item one = em.find(Item.class, 1l,hints);
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
-        Assertions.assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();
     }
+// end::main[]
     @Test
     @Ignore //TODO
     public void shouldDynamicInsertAndUpdate(){
         Item item = Item.builder().name("slawek").build();
             itemRepo.save(item);
             log.info("{}",itemRepo.findAll());
-
     }
 
 }

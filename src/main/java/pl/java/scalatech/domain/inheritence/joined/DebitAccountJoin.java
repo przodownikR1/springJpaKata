@@ -12,14 +12,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public  class DebitAccountJoin extends AccountJoin {
+// tag::main[]
+public class DebitAccountJoin extends AccountJoin {
 
     private BigDecimal overdraftFee;
 
-    public DebitAccountJoin(Long id, String owner, BigDecimal balance, BigDecimal interestRate,BigDecimal overdraftFee) {
+    public DebitAccountJoin(Long id, String owner, BigDecimal balance, BigDecimal interestRate, BigDecimal overdraftFee) {
         super(id, owner, balance, interestRate);
         this.overdraftFee = overdraftFee;
     }
 
-
 }
+// end::main[]

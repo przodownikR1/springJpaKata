@@ -47,13 +47,14 @@ public class JpqlTest {
          Assertions.assertThat(employeeRepo.count()).isEqualTo(16);
     }
 
+    //tag::main[]
     @Test
     public void shouldProgrammaticallyNamedQueries(){
-        Query findCompanyQuery = em.createQuery("select c from Company c");
-        em.getEntityManagerFactory().addNamedQuery(
-        "companyQuery", findCompanyQuery);
-        TypedQuery<Company> query = em.createNamedQuery("companyQuery",Company.class);
+        Query findCompanyQuery = em.createQuery("select c from Company c"); 
+        em.getEntityManagerFactory().addNamedQuery("companyQuery", findCompanyQuery); //<1>
+        TypedQuery<Company> query = em.createNamedQuery("companyQuery",Company.class); //<2>
         log.info("{}",query.getResultList());
     }
+    // end::main[]
 
 }

@@ -20,15 +20,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.AbstractEntity;
-
+//tag::main[]
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Table(name = "Lazy_ITEMS")//indexes = {@Index(name = "IDX_USERNAME", columnList = "ITEM_NAME")
-@DynamicInsert
-@NamedEntityGraphs({
+@DynamicInsert //<1>
+@NamedEntityGraphs({ //<2>
     @NamedEntityGraph(name = "offers", attributeNodes = { @NamedAttributeNode("offers") })
     })
 public class Item extends AbstractEntity {
@@ -38,10 +38,9 @@ public class Item extends AbstractEntity {
     private String name;
     private BigDecimal price;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY) //<3>
     @JoinColumn(name = "ITEM_ID")
     private List<Offer> offers;
 
-
-
 }
+// end::main[]

@@ -36,17 +36,17 @@ public class JoinedTableTest {
     private DebitJoinRepo debitRepo;
 
 
-
+//tag::main[]
     @Test
     public void shouldWork(){
         repo.save(new CreditAccountJoin(1l,"slawek",BigDecimal.valueOf(12),BigDecimal.valueOf(23),BigDecimal.valueOf(35)));
         repo.save(new CreditAccountJoin(2l,"kalina",BigDecimal.valueOf(48),BigDecimal.valueOf(78),BigDecimal.valueOf(45)));
         repo.save(new DebitAccountJoin(3l,"aga",BigDecimal.valueOf(62),BigDecimal.valueOf(83),BigDecimal.valueOf(95)));
 
-        Assertions.assertThat(creditRepo.count()).isEqualTo(2);
-        Assertions.assertThat(debitRepo.count()).isEqualTo(1);
-        Assertions.assertThat(repo.count()).isEqualTo(3);
-
+        Assertions.assertThat(creditRepo.count()).isEqualTo(2); //<1>
+        Assertions.assertThat(debitRepo.count()).isEqualTo(1); //<2>
+        Assertions.assertThat(repo.count()).isEqualTo(3); //<3>
 
     }
+    // end::main[]
 }

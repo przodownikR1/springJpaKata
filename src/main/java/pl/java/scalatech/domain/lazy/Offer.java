@@ -17,13 +17,13 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="Lazy_OFFER")
-public class Offer extends AbstractEntity{
+@Table(name = "Lazy_OFFER")
+// tag::main[]
+public class Offer extends AbstractEntity {
 
     private static final long serialVersionUID = 4367131894333818343L;
-    @Column(name="offer_value")
+    @Column(name = "offer_value")
     private BigDecimal value;
 
-
-
 }
+// end::main[]

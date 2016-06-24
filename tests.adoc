@@ -548,4 +548,235 @@ public class TodoDTO {
 ----
 
 
+== Bulk
+
+** Domain code : 
+
+----
+include::{sourcedir}domain/bulk/Address.java[tag=main, indent=0]
+----
+
+
+** Test code :
+----
+include::{sourceTest}exercise/bulk/JpaBulkTest.java[tag=main, indent=0]
+----
+
+== Cartesian
+
+
+** Domain code :
+
+----
+include::{sourcedir}domain/cartesian/Address.java[tag=main, indent=0]
+
+include::{sourcedir}domain/cartesian/Person.java[tag=main, indent=0]
+
+include::{sourcedir}domain/cartesian/Phone.java[tag=main, indent=0]
+----
+
+** Test code:
+
+----
+include::{sourceTest}exercise/cartesian/JpaCartasianTest.java[tag=main, indent=0]
+----
+
+
+== Fetch
+
+** Domain code:
+
+----
+include::{sourcedir}domain/fetching/Person.java[tag=main, indent=0]
+include::{sourcedir}domain/fetching/Address.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/fetch/JpaFetchTest.java[tag=main, indent=0]
+----
+
+== Filter 
+
+
+
+** Domain code:
+
+----
+include::{sourcedir}domain/mainPerson/Person.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/filter/FilterTest.java[tag=main, indent=0]
+----
+
+
+== Inheritence 
+
+=== Joined
+
+** Domain code:
+
+----
+include::{sourcedir}domain/inheritence/joined/AccountJoin.java[tag=main, indent=0]
+include::{sourcedir}domain/inheritence/joined/CreditAccountJoin.java[tag=main, indent=0]
+include::{sourcedir}domain/inheritence/joined/DebitAccountJoin.java[tag=main, indent=0]
+
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/inheritence/joined/JoinedTableTest.java[tag=main, indent=0]
+----
+
+=== Per Class
+
+** Domain code:
+
+----
+include::{sourcedir}domain/inheritence/per_class/Product.java[tag=main, indent=0]
+include::{sourcedir}domain/inheritence/per_class/DetailProduct.java[tag=main, indent=0]
+include::{sourcedir}domain/inheritence/per_class/StockProduct.java[tag=main, indent=0]
+
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/inheritence/per_class/PerClassTableTest.java[tag=main, indent=0]
+----
+
+
+=== Single 
+
+** Domain code:
+
+----
+include::{sourcedir}domain/inheritence/single/Task.java[tag=main, indent=0]
+include::{sourcedir}domain/inheritence/single/GroovyTask.java[tag=main, indent=0]
+include::{sourcedir}domain/inheritence/single/JavaTask.java[tag=main, indent=0]
+include::{sourcedir}domain/inheritence/single/JpaTask.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+
+----
+include::{sourceTest}exercise/inheritence/single/SingleTableTest.java[tag=main, indent=0]
+----
+
+=== Mapped
+
+** Domain code:
+----
+include::{sourcedir}domain/inheritence/mapped/CreditAccount.java[tag=main, indent=0]
+include::{sourcedir}domain/inheritence/mapped/DebitAccount.java[tag=main, indent=0]
+
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/inheritence/mapped/MappedTableTest.java[tag=main, indent=0]
+----
+
+== By Example
+
+** Domain code:
+
+----
+include::{sourcedir}domain/jpql/Company.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/jpql/JpqlByExampleTest.java[tag=main, indent=0]
+----
+
+== addNamedQuery Test
+
+** Domain code:
+
+----
+include::{sourcedir}domain/jpql/Company.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/jpql/JpqlTest.java[tag=main, indent=0]
+----
+
+== Lazy test
+
+** Domain code:
+
+
+----
+include::{sourcedir}domain/lazy/Offer.java[tag=main, indent=0]
+include::{sourcedir}domain/lazy/Item.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/lazy/JpaLazyTest.java[tag=main, indent=0]
+----
+
+== N1 Problem test
+
+** Domain code:
+
+
+----
+include::{sourcedir}domain/example/n1/Skill.java[tag=main, indent=0]
+include::{sourcedir}domain/example/n1/JobCandidate.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/n1/N1Test.java[tag=main, indent=0]
+----
+
+== Dirty context save property
+
+----
+include::{sourcedir}domain/example/n1/JobCandidate.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/n1/SaveEmTest.java[tag=main, indent=0]
+----
+
+== Native query test
+
+----
+include::{sourcedir}domain/fetching/Person.java[tag=main, indent=0]
+----
+
+
+** Test code:
+
+----
+include::{sourceTest}exercise/nativeQuery/JpaNativeTest.java[tag=main, indent=0]
+----
 

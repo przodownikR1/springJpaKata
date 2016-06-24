@@ -47,13 +47,13 @@ public class JpaNativeTest {
       assertThat(addressRepo.count()).isEqualTo(30);
       assertThat(personRepo.count()).isEqualTo(12);
     }
-
+//tag::main[]
     @Test
     public void shouldNativeQueryWork(){
       Query query = em.createNativeQuery("select * from Fetch_Person",Person.class);
        List<Person> result = query.getResultList();
        log.info("result {}", result);
-       Assertions.assertThat(result).hasSize(12);
+       assertThat(result).hasSize(12);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class JpaNativeTest {
                 query.addEntity(Person.class);
                 List<Person> result = query.list();
                 log.info("result :{} ",result);
-                Assertions.assertThat(result).hasSize(12);
+                assertThat(result).hasSize(12);
     }
     //TODO
     @Test
@@ -71,20 +71,20 @@ public class JpaNativeTest {
         query.setResultSetMapping("personResult");
         List<Person> result = query.list();
         log.info("result :{} ",result);
-         Assertions.assertThat(result).hasSize(12);
+         assertThat(result).hasSize(12);
     }
 
 
     @Test
     public void shouldSqlQueryNativeNamedWork(){
          Person loaded = (Person) em.createNamedQuery("queryPerson").setParameter("id", 1l).getSingleResult();
-         Assertions.assertThat(loaded.getFirstName()).isNotNull().isEqualTo("slawek1");
+         assertThat(loaded.getFirstName()).isNotNull().isEqualTo("slawek1");
     }
 
     @Test
     public void shouldSqlQueryNativeNamedByFirstNameWork(){
          Person loaded = (Person) em.createNamedQuery("findPersonByfistName").setParameter("firstName", "slawek6").getSingleResult();
-         Assertions.assertThat(loaded.getFirstName()).isNotNull().isEqualTo("slawek6");
+         assertThat(loaded.getFirstName()).isNotNull().isEqualTo("slawek6");
     }
 
     @Test
@@ -98,5 +98,5 @@ public class JpaNativeTest {
         Person result =  (Person)em.createNativeQuery("select * from Fetch_Person p where p.id = :id",Person.class).setParameter("id", 1l).getSingleResult();
         log.info("result :{}",result);
     }
-
+// end::main[]
 }

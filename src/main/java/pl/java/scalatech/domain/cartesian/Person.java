@@ -22,6 +22,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+//tag::main[]
 @Table(name="CARTESIAN_PERSON")
 public class Person extends AbstractEntity{
 
@@ -29,15 +30,14 @@ public class Person extends AbstractEntity{
     private String firstName = null;
     private String lastName = null;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER) //<1>
+    @Fetch(FetchMode.SUBSELECT) ////<2>
     @JoinColumn(name="PERSON_ID")
     private Set<Address> addresses;
 
-
-    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)//<3>
     @JoinColumn(name="PERSON_ID")
     private Set<Phone> phones;
 
 }
+// end::main[]

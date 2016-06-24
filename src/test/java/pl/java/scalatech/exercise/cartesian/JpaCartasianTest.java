@@ -26,6 +26,7 @@ import pl.java.scalatech.repository.cartesian.PhoneRepo;
 @Transactional
 @Slf4j
 //@SqlDataAccount
+//tag::main[]
 @Sql(scripts="classpath:cartasian.sql")
 public class JpaCartasianTest {
 
@@ -43,16 +44,17 @@ public class JpaCartasianTest {
 
     @Test
     public void shouldBootstrap(){
-      assertThat(addressRepo.count()).isEqualTo(30);
-      assertThat(personRepo.count()).isEqualTo(12);
-      assertThat(phoneRepo.count()).isEqualTo(8);
+      assertThat(addressRepo.count()).isEqualTo(30);//<1>
+      assertThat(personRepo.count()).isEqualTo(12);//<2>
+      assertThat(phoneRepo.count()).isEqualTo(8);//<3>
     }
 
     @Test
     public void shouldFindPersonById(){
       Person person = personRepo.findOne(1l);
       log.info("person : {} , address size : {} , phone size {} ",person, person.getAddresses().size(),person.getPhones().size());
+      //<4>
     }
-
+// end::main[]
 
 }

@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.PropertiesLoader;
 import pl.java.scalatech.domain.inheritence.single.GroovyTask;
+import pl.java.scalatech.domain.inheritence.single.HPerson;
 import pl.java.scalatech.domain.inheritence.single.JavaTask;
 import pl.java.scalatech.domain.inheritence.single.JpaTask;
-import pl.java.scalatech.domain.inheritence.single.HPerson;
 import pl.java.scalatech.repository.inheritence.single.GroovyTaskRepo;
 import pl.java.scalatech.repository.inheritence.single.JavaTaskRepo;
 import pl.java.scalatech.repository.inheritence.single.JpaTaskRepo;
@@ -38,24 +38,19 @@ public class SingleTableTest {
 
     @Autowired
     private JpaTaskRepo jpaTaskRepo;
-
-
-
+//tag::main[]
     @Test
-    public void shouldWork(){
+    public void shouldWork() {
         HPerson person = HPerson.builder().email("przodownikR1@gmail.com").firstname("slawek").build();
-        taskRepo.save(new JavaTask("classWrite",12,person,"extractMethod"));
-        taskRepo.save(new GroovyTask("task",34,person,"todo"));
-        taskRepo.save(new JpaTask("mapping",1,person,"bidirectional"));
+        taskRepo.save(new JavaTask("classWrite", 12, person, "extractMethod"));
+        taskRepo.save(new GroovyTask("task", 34, person, "todo"));
+        taskRepo.save(new JpaTask("mapping", 1, person, "bidirectional"));
 
-
-
-
-        Assertions.assertThat(javaTaskRepo.count()).isEqualTo(1);
-        Assertions.assertThat(groovyTaskRepo.count()).isEqualTo(1);
-        Assertions.assertThat(jpaTaskRepo.count()).isEqualTo(1);
-        Assertions.assertThat(taskRepo.count()).isEqualTo(3);
-
+        Assertions.assertThat(javaTaskRepo.count()).isEqualTo(1); //<1>
+        Assertions.assertThat(groovyTaskRepo.count()).isEqualTo(1); //<2>
+        Assertions.assertThat(jpaTaskRepo.count()).isEqualTo(1); //<3>
+        Assertions.assertThat(taskRepo.count()).isEqualTo(3); //<4>
 
     }
+    // end::main[]
 }

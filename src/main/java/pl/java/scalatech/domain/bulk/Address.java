@@ -15,18 +15,15 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+//tag::main[]
 @Table(name="Bulk_Address")
 public class Address  extends AbstractEntity{
 
     private static final long serialVersionUID = -7478171078449579045L;
-
     @Column(name = "CITY")
     private String city = null;
-
     private Boolean disable;
 
-
-
-
-
 }
+
+// end::main[]

@@ -12,14 +12,16 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+// tag::main[]
 public class CreditAccountJoin extends AccountJoin {
 
     private BigDecimal creditLimit;
 
-    public CreditAccountJoin(Long id, String owner, BigDecimal balance, BigDecimal interestRate,BigDecimal creditLimit) {
+    public CreditAccountJoin(Long id, String owner, BigDecimal balance, BigDecimal interestRate, BigDecimal creditLimit) {
         super(id, owner, balance, interestRate);
         this.creditLimit = creditLimit;
 
     }
 
 }
+// end::main[]

@@ -14,16 +14,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.java.scalatech.domain.AbstractEntity;
+//tag::main[]
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
 @Data
-//@BatchSize(size=5)
-@DynamicUpdate(value=true)
-@DynamicInsert(value=true)
-//@Immutable
+//@BatchSize(size=5) //<1>
+@DynamicUpdate(value=true) //<2>
+@DynamicInsert(value=true) //<3>
+//@Immutable //<4>
 public class JobCandidate extends AbstractEntity{
 
     private static final long serialVersionUID = -7860714163822149386L;
@@ -41,3 +42,5 @@ public class JobCandidate extends AbstractEntity{
     }
 
 }
+
+// end::main[]

@@ -34,19 +34,20 @@ import pl.java.scalatech.domain.AbstractEntity;
 @Data
 @AllArgsConstructor
 @Builder
+//tag::main[]
 @NoArgsConstructor
-@FetchProfiles({ @FetchProfile(name = "fetchJoinProfile", fetchOverrides = { @FetchOverride(entity = Person.class, association = "addresses", mode = FetchMode.JOIN) }) })
+@FetchProfiles({ @FetchProfile(name = "fetchJoinProfile", fetchOverrides = { @FetchOverride(entity = Person.class, association = "addresses", mode = FetchMode.JOIN) }) })//<1>
 
-@NamedEntityGraphs({ @NamedEntityGraph })
+@NamedEntityGraphs({ @NamedEntityGraph })//<2>
 
 @NamedNativeQueries({
-@NamedNativeQuery(name = "findPersonByfistName", query = "select * from Fetch_Person where firstname = :firstName", resultClass = Person.class),
-@NamedNativeQuery(name = "queryPerson", query = "Select id, firstName, lastName,email,version from Fetch_Person p where p.id = :id ", resultSetMapping = "personResult")
+@NamedNativeQuery(name = "findPersonByfistName", query = "select * from Fetch_Person where firstname = :firstName", resultClass = Person.class),//<3>
+@NamedNativeQuery(name = "queryPerson", query = "Select id, firstName, lastName,email,version from Fetch_Person p where p.id = :id ", resultSetMapping = "personResult")//<4>
 })
 
-@SqlResultSetMappings({
+@SqlResultSetMappings({ //<5>
     @SqlResultSetMapping(name = "personResult",
-            entities = @EntityResult(entityClass = Person.class,
+            entities = @EntityResult(entityClass = Person.class, //<6>
             fields = {
                     @FieldResult(name = "id", column = "id"),
                     @FieldResult(name = "firstName", column = "firstName"),
@@ -70,8 +71,8 @@ public class Person extends AbstractEntity {
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Column(name = "id")
-    @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
-     @BatchSize(size = 10)
-
+    @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT) //<7>
+    @BatchSize(size = 10) //<8>
     private List<Address> addresses;
 }
+// end::main[]

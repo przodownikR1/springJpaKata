@@ -23,6 +23,7 @@ import pl.java.scalatech.repository.mainPerson.PersonRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PropertiesLoader.class, JpaFilterConfig.class })
 @Transactional
+//tag::main[]
 @ActiveProfiles("filter")
 @Slf4j
 public class FilterTest {
@@ -43,18 +44,19 @@ public class FilterTest {
     @Test
     public void shouldFilterWork(){
         Assertions.assertThat(personRepository.count()).isEqualTo(5);
-       Session session =  entityManager.unwrap(Session.class);
+       Session session =  entityManager.unwrap(Session.class);//<1>
        log.info("+++++++++++++++++ {}",session);
-       session.enableFilter("byStatus").setParameter("status", true);
+       session.enableFilter("byStatus").setParameter("status", true);//<2>
        //TODO
        long active = (long) session.createQuery("select count(*) from Person").uniqueResult();
        log.info("result : {} ", session.createQuery("Select p from Person p ").list());
-       Assertions.assertThat(active).isEqualTo(3);
+       Assertions.assertThat(active).isEqualTo(3); //<3>
 
-       session.enableFilter("byStatus").setParameter("status", false);
+       session.enableFilter("byStatus").setParameter("status", false);//<4>
        active = (long) session.createQuery("select count(*) from Person").uniqueResult();
-       Assertions.assertThat(active).isEqualTo(2);
+       Assertions.assertThat(active).isEqualTo(2); //<5>
 
     }
 
 }
+// end::main[]

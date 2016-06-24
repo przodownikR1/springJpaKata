@@ -11,23 +11,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// tag::main[]
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // <1>
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Product {
-private static final long serialVersionUID = -802306391915956578L;
-@Id @GeneratedValue(strategy=GenerationType.TABLE)
-private Long id;
+    private static final long serialVersionUID = -802306391915956578L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
 
-private String code;
-private String name;
-public Product(String code, String name) {
-    super();
-    this.code = code;
-    this.name = name;
+    private String code;
+    private String name;
+
+    public Product(String code, String name) {
+        super();
+        this.code = code;
+        this.name = name;
+    }
+
 }
-
-
-}
+// end::main[]

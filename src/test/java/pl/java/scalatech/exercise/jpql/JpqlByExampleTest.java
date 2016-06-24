@@ -22,6 +22,7 @@ import pl.java.scalatech.domain.jpql.Address;
 import pl.java.scalatech.domain.jpql.Company;
 import pl.java.scalatech.repository.jpql.CompanyRepo;
 
+//tag::main[]
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PropertiesLoader.class, JpaJpqlConfig.class })
 @ActiveProfiles(value = "jpql")
@@ -38,10 +39,10 @@ public class JpqlByExampleTest {
     @Test
     public void shouldCriteriaByExampleWork() {
         Company template = Company.builder().name("javatech").address(Address.builder().city("radom").street("koncowa").build()).build();
-        org.hibernate.criterion.Example example = org.hibernate.criterion.Example.create(template);
-        example.ignoreCase();
+        org.hibernate.criterion.Example example = org.hibernate.criterion.Example.create(template); //<1>
+        example.ignoreCase(); //<2>
         // example.enableLike(MatchMode.START);
-        example.excludeProperty("depts");
+        example.excludeProperty("depts"); //<2>
         @SuppressWarnings("unchecked")
         List<Company> company = em.unwrap(Session.class).createCriteria(Company.class).add(example).list();
         Assertions.assertThat(company).hasSize(1);
@@ -50,8 +51,8 @@ public class JpqlByExampleTest {
     @Test
     public void shouldCriteriaByExampleFailed() {
         Company template = Company.builder().name("javatech").address(Address.builder().city("radom").street("polna").build()).build();
-        org.hibernate.criterion.Example example = org.hibernate.criterion.Example.create(template);
-        example.ignoreCase();
+        org.hibernate.criterion.Example example = org.hibernate.criterion.Example.create(template); 
+        example.ignoreCase(); 
         // example.enableLike(MatchMode.START);
         example.excludeProperty("depts");
         @SuppressWarnings("unchecked")
@@ -62,8 +63,9 @@ public class JpqlByExampleTest {
     @Test
     public void shouldUseExample() {
         Company template = Company.builder().name("javatech").address(Address.builder().city("radom").street("koncowa").build()).build();
-        ExampleMatcher matcher = ExampleMatcher.matching().withIgnorePaths("depts").withIncludeNullValues();
+        ExampleMatcher matcher = ExampleMatcher.matching().withIgnorePaths("depts").withIncludeNullValues(); //<2>
         Example<Company> example = Example.of(template,matcher);
         companyRepo.findAll(example);
     }
 }
+// end::main[]

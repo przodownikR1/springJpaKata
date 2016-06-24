@@ -10,20 +10,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.converter.MoneyConverter;
 
+// tag::main[]
 @Entity
-@Table(name="details")
-
+@Table(name = "details")
 @Data
 @NoArgsConstructor
-public class DetailProduct extends Product{
+public class DetailProduct extends Product { // <1>
 
-    @Convert(converter = MoneyConverter.class)
+    @Convert(converter = MoneyConverter.class) //<2>
     private Money price;
 
     public DetailProduct(String code, String name, Money price) {
-        super( code, name);
-        this.price  = price;
+        super(code, name);
+        this.price = price;
     }
-
-
 }
+// end::main[]

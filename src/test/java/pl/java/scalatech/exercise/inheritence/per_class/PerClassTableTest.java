@@ -33,22 +33,15 @@ public class PerClassTableTest {
 
     @Autowired
     private StockProductRepo stockProductRepo;
-
-
-
-
+   //tag::main[]
     @Test
     public void shouldWork(){
-
         detailProductRepo.save(new DetailProduct("pl", "knife", Money.of(23, "PLN")));
         detailProductRepo.save(new DetailProduct("pl", "knife", Money.of(23, "PLN")));
         stockProductRepo.save(new StockProduct("discount","fork","USD"));
-
-
-        Assertions.assertThat(detailProductRepo.count()).isEqualTo(2);
-        Assertions.assertThat(stockProductRepo.count()).isEqualTo(1);
-        Assertions.assertThat(productRepo.count()).isEqualTo(3);
-
-
+        Assertions.assertThat(detailProductRepo.count()).isEqualTo(2);//<1>
+        Assertions.assertThat(stockProductRepo.count()).isEqualTo(1);//<2>
+        Assertions.assertThat(productRepo.count()).isEqualTo(3);//<3>
     }
+    // end::main[]
 }

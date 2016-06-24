@@ -9,20 +9,20 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+// tag::main[]
 @Entity(name = "CreditAccount")
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name="MCreditAccount")
+@Table(name = "MCreditAccount")
 public class CreditAccount extends Account {
 
     private static final long serialVersionUID = -3038015441274321410L;
     private BigDecimal creditLimit;
+
     public CreditAccount(String owner, BigDecimal balance, BigDecimal interestRate) {
         super(owner, balance, interestRate);
         creditLimit = creditLimit;
     }
 
-
-
-}
+}// end::main[]

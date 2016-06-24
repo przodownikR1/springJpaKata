@@ -15,32 +15,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.java.scalatech.domain.AbstractEntity;
+//tag::main[]
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-//view
-@NamedEntityGraphs({
-@NamedEntityGraph(
-name = "candidate",
-attributeNodes = {
-@NamedAttributeNode("candidate")
-}
-)
-})
+// view
+@NamedEntityGraphs({ @NamedEntityGraph(name = "candidate", attributeNodes = { @NamedAttributeNode("candidate") }) })
 @Data
-public class Skill extends AbstractEntity
-{
+public class Skill extends AbstractEntity {
 
     private static final long serialVersionUID = 3076731294612256956L;
     private String name;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="candidateId")
+    @ManyToOne(fetch = FetchType.LAZY) //<1>
+    @JoinColumn(name = "candidateId")
     JobCandidate candidate;
 
     @Column(name = "candidateId", insertable = false, updatable = false)
-    private Integer candidateId ;
+    private Integer candidateId;
 
 }
+// end::main[]

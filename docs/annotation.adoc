@@ -497,6 +497,11 @@ NOTE: Wszechobecny monitoring
 ** analogiczne zachowanie do adnotacji @Table
 
 ** **_insertable/updatable_** - określa czy dana kolumna będzie brała udział w operacjach insert/update 
+
+*** zapewnienie o read-only
+*** zapewnia, że dostawca nie będzie brał udziału w aktualizacja lub dodaniu danych
+*** @Column, @JoinColumn(name="BookStoreId", insertable=false, updatable=false)
+
 ** **_unique_** - określa czy dana kolumna ma być traktowana jako klucz unikalny
 ** **_nullable_** - czy kolumna może lub nie pozwalać na wartości null
 ** **_length_** - długość kolumny dla String'a

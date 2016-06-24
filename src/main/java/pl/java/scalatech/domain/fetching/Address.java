@@ -19,6 +19,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @Builder
 @NoArgsConstructor
 @ToString(exclude="person")
+//tag::main[]
 @Table(name="FETCH_ADDRESS")
 public class Address  extends AbstractEntity{
     @Column(name = "CITY")
@@ -34,3 +35,4 @@ public class Address  extends AbstractEntity{
     private Long personId = null;
 
 }
+// end::main[]
