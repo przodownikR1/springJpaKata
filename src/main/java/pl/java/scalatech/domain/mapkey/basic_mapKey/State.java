@@ -18,10 +18,11 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+//tag::main[]
 @Table(name="MAP_STATE")
-public class State extends AbstractEntity{
- 
+public class State extends AbstractEntity{ 
     private static final long serialVersionUID = 2596693331819046057L;
     @Column(name = "name")
     private String name;
 }
+// end::main[]

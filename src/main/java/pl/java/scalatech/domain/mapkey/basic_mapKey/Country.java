@@ -24,6 +24,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+//tag::main[]
 @Table(name="MAP_COUNTRY")
 public class Country extends AbstractEntity{
 
@@ -42,5 +43,5 @@ public class Country extends AbstractEntity{
 		this.name=name;
 		this.states=states;
 	}
-	
+	 // end::main[]
 }

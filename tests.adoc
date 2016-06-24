@@ -8,23 +8,16 @@
 :scriptsdir: ./js
 
 :image-link: https://pbs.twimg.com/profile_images/425289501980639233/tUWf7KiC.jpeg
-ifndef::sourcedir[:sourcedir: ./src/main/java/]
-ifndef::sourcedir[:sourceTest: ./src/test/java/]
+ifndef::sourcedir[:sourcedir: ./src/main/java/pl/java/scalatech/]
+ifndef::sourceTest[:sourceTest: ./src/test/java/pl/java/scalatech/]
 
 ifndef::resourcedir[:resourcedir: ./src/main/resources/]
 ifndef::imgsdir[:imgsdir: ./../img]
 :source-highlighter: coderay
 
 
-image:https://api.travis-ci.org/przodownikR1/-vava_11.svg?branch=master?branch=master["Build Status", link="https://api.travis-ci.org/przodownikR1/-vava_11"]
-
-
-
-
 == Collection 
-----
-include::./src/test/java/pl/java/scalatech/collection/map/basic/MapKeyTest.java[]
-----
+
 
 === Map
 
@@ -32,55 +25,18 @@ include::./src/test/java/pl/java/scalatech/collection/map/basic/MapKeyTest.java[
 
 ** Domain code : 
 
-[source,java]
 ----
-@Table(name="MAP_COUNTRY")
-public class Country extends AbstractEntity{
-
-    private static final long serialVersionUID = -7584455870556298977L;
-
-    @Column(name="name")
-    private String name;
-    
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="country_id")
-    @MapKey(name="id")
-    private Map<Integer,State> states;
-    
-    public Country(long id,String name,Map<Integer,State> states){
-        this.id=id;
-        this.name=name;
-        this.states=states;
-    }
-    
-    @Table(name="MAP_STATE")
-    public class State extends AbstractEntity{
- 
-    private static final long serialVersionUID = 2596693331819046057L;
-    @Column(name = "name")
-    private String name;
-}
-    
+include::{sourcedir}domain/mapkey/basic_mapKey/Country.java[tag=main, indent=0]
 ----
+----
+include::{sourcedir}domain/mapkey/basic_mapKey/State.java[tag=main, indent=0]
+----
+
 
 **  Test
 
-[source,java]
 ----
-   Map<Integer,State> states = newHashMap();
-        states.put(1, State.builder().name("mazowieckie").build());
-        states.put(2, State.builder().name("slaskie").build());
-        states.put(3, State.builder().name("malopolskie").build());
-        Country country = Country.builder().name("Poland").states(states).build();
-        countryRepo.save(country);
-        states = newHashMap();
-        states.put(1, State.builder().name("schlewst").build());
-        states.put(2, State.builder().name("bawaria").build());
-        country = Country.builder().name("German").states(states).build();
-        countryRepo.save(country);
-        
-        log.info("{}",countryRepo.findAll());
-
+include::{sourceTest}collection/map/basic/MapKeyTest.java[tag=main, indent=0]
 ----
 
 ** SQL

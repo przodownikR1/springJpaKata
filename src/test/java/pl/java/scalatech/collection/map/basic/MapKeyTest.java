@@ -36,23 +36,24 @@ public class MapKeyTest {
     @Autowired
     private CountryRepo countryRepo;
 
+    // tag::main[]
     @Test
     public void shouldBootstrap() {
-        Map<Integer,State> states = newHashMap();
+        Map<Integer,State> states = newHashMap();  //<1>
         states.put(1, State.builder().name("mazowieckie").build());
         states.put(2, State.builder().name("slaskie").build());
         states.put(3, State.builder().name("malopolskie").build());
-        Country country = Country.builder().name("Poland").states(states).build();
-        countryRepo.save(country);
+        Country country = Country.builder().name("Poland").states(states).build(); //<2>
+        countryRepo.save(country); //<3>
         states = newHashMap();
         states.put(1, State.builder().name("schlewst").build());
         states.put(2, State.builder().name("bawaria").build());
         country = Country.builder().name("German").states(states).build();
-        countryRepo.save(country);
+        countryRepo.save(country); //<4>
         
-        log.info("{}",countryRepo.findAll());
+        log.info("{}",countryRepo.findAll()); //<5>
     }
-
+ // end::main[]
     
     
 }
