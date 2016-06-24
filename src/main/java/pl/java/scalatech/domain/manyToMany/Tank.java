@@ -6,11 +6,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +31,6 @@ public class  Tank extends AbstractEntity{
 
 
     @ManyToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-    
     @JoinTable (
     name="Tank_Crew",
     joinColumns = {@JoinColumn(name="Tank_ID")},

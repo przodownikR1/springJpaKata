@@ -1400,7 +1400,7 @@ public class ProjectType {
 //TODO
 
 
-* Map 
+* Map - zamiennik strategii **ManyToMany** i trójskładnikowych związków asocjacyjnych
 
 ** @MapKeyColumn - jeśli kluczem będzie typem bazowym
 

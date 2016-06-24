@@ -18,7 +18,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@lombok.ToString(exclude="tanks")
+@lombok.ToString()
 @EqualsAndHashCode(exclude="tanks")
 public class CrewBi extends AbstractEntity{
 

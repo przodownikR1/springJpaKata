@@ -3,6 +3,7 @@ package pl.java.scalatech.manyToMany;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,8 +29,10 @@ public class ManyToManyTestBi extends ORMStandaloneTestCase {
             Transaction tx = session.beginTransaction();
 
             TankBi tank = TankBi.builder().name("t-34").crews(Sets.newHashSet()).build();
-            tank.addCrew(CrewBi.builder().count(2).tanks(Sets.newHashSet()).build());
-           tank.addCrew(CrewBi.builder().count(5).tanks(Sets.newHashSet()).build());
+            tank.addCrew(CrewBi.builder().count(2).tanks(Sets.newHashSet()).build()); //WARNING
+            tank.addCrew(CrewBi.builder().count(5).tanks(Sets.newHashSet()).build()); //WARNING
+            
+            tank.getCrews().add(CrewBi.builder().count(4).tanks(Sets.newHashSet()).build()); //ERROR !
 
             session.save(tank);
             tx.commit();
@@ -50,6 +53,9 @@ public class ManyToManyTestBi extends ORMStandaloneTestCase {
             List<TankBi> tank = session.createQuery("FROM TankBi").list();
             log.info("{}",tank);
             log.info("crews : {} ",tank.get(0).getCrews());
+            Set<CrewBi> crews = tank.get(0).getCrews();
+            crews.stream().forEach(c->log.info("crew -> tank {}",c.getTanks()));
+            
             tx.commit();
         } catch (Exception e) {
             log.error("{}", e);

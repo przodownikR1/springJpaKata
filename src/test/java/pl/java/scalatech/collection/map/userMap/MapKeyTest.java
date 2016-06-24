@@ -1,13 +1,8 @@
 package pl.java.scalatech.collection.map.userMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.EntityManager;
-import javax.persistence.MapKeyColumn;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

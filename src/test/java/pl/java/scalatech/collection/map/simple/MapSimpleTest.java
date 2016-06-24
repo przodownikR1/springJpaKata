@@ -42,7 +42,7 @@ public class MapSimpleTest {
     private CompanyRepo companyRepo;*/
     @Test
     public void shouldMapMappingWork(){
-        
+      mapTest();   
     }
     
     private void mapTest() {
