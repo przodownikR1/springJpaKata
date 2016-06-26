@@ -186,7 +186,13 @@ ifndef::imgsdir[:imgsdir: ./../img]
 
 == Co oznacza dirty-checking ?
 
-==  
+== Jak zmapować natywne zapytanie na obiekt nie encyjny ?
+
+== Jak sprawdzić czy cache faktycznie działa ?
+
+== Jak sprawdziś ilość trafień i chybień w cache ?
+
+ 
 
 ** Refleksje ? :)
 
