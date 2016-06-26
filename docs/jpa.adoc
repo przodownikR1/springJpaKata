@@ -296,6 +296,12 @@ UPDATE PERSON SET AGE = ? WHERE PERSON_ID = ?
 Powinnien znajdować się w classpath w katalogu **META-INF**
 Plik **persistence.xml** jest unikalny dla danego kontekstu **persistence unit**.
 
+
+__source : _https://dzone.com/refcardz/getting-started-with-jpa__
+
+
+image::persistence_xml.png[]
+
 *** Przykład
 
 [source,xml]

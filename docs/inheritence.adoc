@@ -76,7 +76,7 @@ public class CreditCard extends BillingDetails {
 
 - source https://detailfocused.wordpress.com
 
-image:tablePerConcreteClass.jpg[]
+image:tablePerConcreteClass.jpg[scaledwidth="50%"]
 
 
 == Tabela na każdą hierarchię klas (Table per class hierarchy /   Single-Table Strategy)
@@ -91,7 +91,7 @@ image:tablePerConcreteClass.jpg[]
 
 - source https://detailfocused.wordpress.com
 
-image::singleTable.jpg[]
+image::singleTable.jpg[scaledwidth="50%"]
 
 
 NOTE: Najbardziej wydajna oraz najprostsza ze wszystkich strategii
@@ -227,7 +227,7 @@ public class CreditCard extends BillingDetails {
 
 - source :https://detailfocused.wordpress.com 
 
-image::joinedStrategy.jpg[]
+image::joinedStrategy.jpg[scaledwidth="50%"]
 
 
 
@@ -272,5 +272,5 @@ public class CreditCard extends BillingDetails {
 ----
 
 
-image:tablePerConcreteClass.jpg[]
+image:tablePerConcreteClass.jpg[scaledwidth="50%"]
 

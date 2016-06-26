@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 
+import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,34 +27,37 @@ import pl.java.scalatech.repository.map.mapColumn.UserMapRepo;
 @ActiveProfiles(value = { "mapUser", "logger", "dev" })
 @Transactional
 @Slf4j
+@FixMethodOrder
 public class MapKeyTest {
 
     @Autowired
     private EntityManager em;
-    
+
     @Autowired
     private UserMapRepo userMapRepo;
 
-    /*@ElementCollection
-    @CollectionTable(name = "MAP_PHONES")
-    @MapKeyColumn(name = "PHONE_NUM")
-    @Column(name = "NUM")
-    private Map<String, String> phones = new HashMap<>();
-    private String name;*/
-    
-    
+    /*
+     * @ElementCollection
+     * @CollectionTable(name = "MAP_PHONES")
+     * @MapKeyColumn(name = "PHONE_NUM")
+     * @Column(name = "NUM")
+     * private Map<String, String> phones = new HashMap<>();
+     * private String name;
+     */
+
     @Test
-    public void shouldRetrieveMapValues() {
-        Map<String,String> phones = Maps.newHashMap();
+    public void should_A_SAVE() {
+        Map<String, String> phones = Maps.newHashMap();
         phones.put("slawek", "232323");
         phones.put("tomek", "27773");
         UserMap um = UserMap.builder().name("przodownik").phones(phones).build();
-        userMapRepo.save(um);
+        UserMap loaded = userMapRepo.save(um);
+        log.info("+++++++  {}",loaded.getId());
         UserMap umLoaded = userMapRepo.findOne(1l);
-        umLoaded.getPhones().entrySet().stream().forEach(entry->log.info(" key : {}, value : {}",entry.getKey(),entry.getValue()));        
-        
+        log.info("++++ {}", umLoaded);
+    //    umLoaded.getPhones().entrySet().stream().forEach(entry -> log.info(" key : {}, value : {}", entry.getKey(), entry.getValue())); //tODO
     }
 
-    
-    
+ 
+
 }

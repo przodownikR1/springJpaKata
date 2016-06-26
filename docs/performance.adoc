@@ -44,6 +44,9 @@ image:{image-link} [role='img-circle']
 
 == Wydajność (Performance)
 
+
+image::Performance.jpg[]
+
 == Sposoby pobierania rekorów / Fetching 
 
 === JOIN 

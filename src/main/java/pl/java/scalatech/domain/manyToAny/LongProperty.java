@@ -21,7 +21,6 @@ public class LongProperty extends AbstractEntity implements Property {
 
     private Long value;
 
-
     @Override
     public String asString() {
         return Long.toString(value);
@@ -31,7 +30,5 @@ public class LongProperty extends AbstractEntity implements Property {
     public String getName() {
         return name;
     }
-
-
 
 }

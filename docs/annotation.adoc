@@ -49,7 +49,7 @@ Ten rodzaj mapowania  oparty jest na typach i nazwach pól.
 
 Na poziomie właściwości klasy. Adnotację umieszcza się przy @Getter.
 
-=== Mieszany @Access
+=== Mieszany **@Access**
 
 
 *** Przykład
@@ -102,7 +102,7 @@ public class Simple {
 
 === Biznesowe
 
-** @NaturalId
+** **@NaturalId**
 
 *** Rekomendowany zamiast klucza techniczego
 
@@ -112,7 +112,7 @@ public class Simple {
 
 **** @Table(uniqueConstraints = @UniqueConstraint(columnNames={column_1, ..., column_n})) ,  nullable = false
 
-**** @EmbeddedId, @IdClass
+**** **@EmbeddedId, @IdClass**
 
 [source,java]
 ----
@@ -171,7 +171,7 @@ public Long id;
 
 
 
-==== @TableGenerator
+==== **@TableGenerator**
 
 ** używa blokad na wierszach
 
@@ -213,7 +213,7 @@ private Long id;
 ----
 
 
-==== @SequenceGenerator
+==== **@SequenceGenerator**
 
 *** Przykład
 
@@ -230,7 +230,7 @@ private Long id;
 
 === Klucz złożony 
 
-==== Primary key column – @Id and @IdClass
+==== **@Id i @IdClass**
 
 *** Przykład
 
@@ -263,7 +263,7 @@ private String isbn;
 
 
 
-====  @EmbeddedId
+====  **@EmbeddedId**
 
 
 *** Przykład
@@ -290,7 +290,7 @@ class UserId implements Serializable {
 
 NOTE : Może być wykorzystywany przez  @ElementCollection
 
-=== ElementCollection
+=== **ElementCollection**
 
 *** Przykład
 
@@ -326,7 +326,7 @@ public class Phone {
 
 
 
-=== AttributeOverride
+=== **AttributeOverride**
 
 *** Przykład
 
@@ -406,7 +406,7 @@ public class Item extends AbstractEntity {
 </entity-mappings>
 ----
 
-=== @Index
+=== **@Index**
 
 
 *** Przykład
@@ -462,25 +462,25 @@ NOTE : Zasada MENTOR
 
 NOTE: Wszechobecny monitoring
 
-** Explain (wyjaśnianie) - plan wykonania QEP
+** **Explain (wyjaśnianie)** - plan wykonania QEP
 
 *** Polecenie Explain
 
-** Nominate (Wskazywanie) - gdzie zapytanie dostaje dane bez użycia indeksu
+** **Nominate (Wskazywanie)** - gdzie zapytanie dostaje dane bez użycia indeksu
 
 *** MySql Enterprise Query Analyzer
 
 *** Oracle Automatic SQL Tuning Advisor
 
-** Test (Testowanie) - po optymalizacji powtarzamy pierwsze kroki (Measure, Explain, ewentualnie Nominate )
+** **Test (Testowanie)** - po optymalizacji powtarzamy pierwsze kroki (Measure, Explain, ewentualnie Nominate )
 
-** Optimize (Optymalizacja)
+** **Optimize (Optymalizacja)**
 
 *** pamięć podręczna vs I/O
 
 *** Mysql : LOAD INDEX INTO CACHE 
 
-** Rebuild (Przebudowa) 
+** **Rebuild (Przebudowa)** 
  
 *** zrównoważenie.  optymalny/niezrównoważony (jak defragmentacja systemu plików)   
 
@@ -592,7 +592,7 @@ create table Item (
         primary key (id)
 ----
 
-== @Check
+== **@Check**
 
 *** Przykład
 
@@ -730,7 +730,7 @@ public class Contact {
     ...
 }
 ----
-@AttributeOverride
+**@AttributeOverride**
 
 *** Przykład
 
@@ -1024,7 +1024,7 @@ INSERT INTO DateEvent  ( timestamp, id ) VALUES ( '2015-12-29 16:54:04.544', 1
 ----
     
 
-== AttributeConverters
+== **AttributeConverters**
 
 *** Przykład
 
@@ -1054,7 +1054,7 @@ public class Event  {
 ----    
 
 
-==  @Formula
+==  **@Formula**
 
 *** Przykład
 
@@ -1118,7 +1118,7 @@ session.saveOrUpdate(employee);
 Hibernate: update employee set name=?, version=? where id=? and version=?
 ----
 
-== @OrderColumn
+== **@OrderColumn**
 
 *** Przykład
 
@@ -1129,7 +1129,7 @@ Hibernate: update employee set name=?, version=? where id=? and version=?
 ----
 
 
-== @ForeignKey
+== **@ForeignKey**
 
 *** Przykład
 
@@ -1157,7 +1157,7 @@ ALTER TABLE Phone ADD CONSTRAINT PERSON_ID_FK FOREIGN KEY (person_id) REFERENCES
 ----
 
 
-== @Type (Hibernate only) 
+== **@Type (Hibernate only) **
 
 *** Przykład
 
@@ -1175,7 +1175,7 @@ private String description;
 
 
 
-== @ElementCollection**  - dla typów prostych lub klas osadzonych
+== **@ElementCollection**  - dla typów prostych lub klas osadzonych
 
 *** Przykład
 
@@ -1215,7 +1215,7 @@ protected Set<String> chapters = new LinkedHashSet<String>();
 }
 ---- 
  
-NOTE: @SortNatural i @SortComparator
+NOTE: **@SortNatural i @SortComparator**
  
  *** Przykład
  
@@ -1239,7 +1239,7 @@ protected List<User> children;
 
 == Relacje
 
-=== FetchType
+=== **FetchType**
 
 
 
@@ -1273,7 +1273,7 @@ Email email;
 //ommit mutators and accessors 
 }
 ----
-* One-To-Many 1:N
+* **One-To-Many 1:N**
 Za pomoca kluczu obcego
 
 *** Przykład
@@ -1333,7 +1333,7 @@ public class Offer extends AbstractEntity{
 
 Za pomoca kluczu głównego
 
-* Many-To-One N:1
+* **Many-To-One N:1**
 
 *** Przykład
 
@@ -1379,7 +1379,7 @@ public class Offer extends AbstractEntity{
     
 ----
 
-* Many-To-Many N:M
+* **Many-To-Many N:M**
 
 
 
@@ -1400,16 +1400,150 @@ public class ProjectType {
 ----
 
 
-* @ManyToAny
+* **@ManyToAny** 
 
-//TODO
+Pozwala na polimorficzne asocjacje klas z różnumi tabelami
 
 
-* Map - zamiennik strategii **ManyToMany** i trójskładnikowych związków asocjacyjnych
+[source,java]
+----
+public interface Property {
+    public String getName();
+    public String asString();
+}
+----
 
-** @MapKeyColumn - jeśli kluczem będzie typem bazowym
+[source,java]
+----
+@Entity
+@Table(name = "long_property")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class LongProperty extends AbstractEntity implements Property {
 
-** @MapKeyEnumerated - jeśli kluczem będzie enum
+    private static final long serialVersionUID = -1275713912865305945L;
+
+    private String name;
+
+    private Long value;
+
+    @Override
+    public String asString() {
+        return Long.toString(value);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+}
+----
+
+[source,java]
+----
+@Entity
+@Table(name="string_property")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class
+StringProperty extends AbstractEntity implements Property {
+
+    private static final long serialVersionUID = -4928360703691383693L;
+    private String name;
+    private String value;
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String asString() {
+        return value;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+----
+
+
+[source,java]
+----
+
+@Entity
+@Table(name = "Property_Example")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class PropertyMap extends AbstractEntity {
+
+    private static final long serialVersionUID = 6842457337123716680L;
+
+    private String name;
+    @ManyToAny(metaColumn = @Column(name = "property_type"))
+    @AnyMetaDef(idType = "integer", metaType = "string", metaValues = { @MetaValue(value = "S", targetEntity = StringProperty.class),
+            @MetaValue(value = "I", targetEntity = IntegerProperty.class) })
+    @Cascade({ org.hibernate.annotations.CascadeType.ALL })
+    @JoinTable(name = "obj_properties", joinColumns = @JoinColumn(name = "obj_id"), inverseJoinColumns = @JoinColumn(name = "property_id"))
+    private List<Property> properties = newArrayList();
+
+    public PropertyMap(String name) {
+        this.name = name;
+    }
+
+}
+----
+
+
+[source,sql]
+----
+create table Property_Example (
+        id bigint not null,
+        version bigint,
+        name varchar(255),
+        primary key (id)
+    );
+    create table obj_properties (
+        obj_id bigint not null,
+        property_type varchar(255),
+        property_id integer not null
+    );
+    create table string_property (
+        id bigint not null,
+        version bigint,
+        name varchar(255),
+        value varchar(255),
+        primary key (id)
+    );
+    create table long_property (
+        id bigint not null,
+        version bigint,
+        name varchar(255),
+        value bigint,
+        primary key (id)
+    );
+----
+
+
+* **Map** - zamiennik strategii **ManyToMany** i trójskładnikowych związków asocjacyjnych
+
+** Klucz i wartość klasy Map może być typem prostem , encją lub typem wbudowanym
+
+NOTE : Gdy wartość jest encją dodajemy @OneToMany lub @ManyToMany 
+
+NOTE: Gdy wartość jest typem prostym lub klasą zagnieżdzoną , dodajemy @ElementCollection
+
+WARNING: Map działa tylko po jednej stronie relacji dwukierunkowej
+
+** **@MapKeyColumn** - jeśli kluczem będzie typem bazowym
+
+** **@MapKeyEnumerated** - jeśli kluczem będzie enum
 
 [source,java]
 ----
@@ -1423,7 +1557,7 @@ public class Owner  extends AbstractEntity{
 
 ----
 
-** @MapKeyTemporal -jeśli kluczem będzie typu Data/Calenadar
+** **@MapKeyTemporal** -jeśli kluczem będzie typu Data/Calenadar
 
 [source,java]
 ----
@@ -1438,7 +1572,7 @@ public class Owner extends AbstractEntity{
 
 
 
-** @MapKeyJoinColumn - jeśli kluczem mapy będzie encją
+** **@MapKeyJoinColumn** - jeśli kluczem mapy będzie encją
 
 *** napisuje JOIN_COLUMN
 
@@ -1457,7 +1591,7 @@ public class Owner {
 
 
 
-** @MapKey 
+** **@MapKey** 
 
 chcemy zdecydować co będzie kluczem w naszej mapie.
 
@@ -1491,7 +1625,7 @@ public class Department extends AbstractEntity {
     }
 ----
 
-** @MapKeyColumn
+** **@MapKeyColumn**
 
 [source,java]
 ----
@@ -1506,9 +1640,8 @@ public class Department extends AbstractEntity {
     }
 ----
 
-//TODO
 
-== @SortComparator
+== **@SortComparator**
 
 ** Sortowanie w pamięci Map i Set
 
@@ -1529,7 +1662,7 @@ public class Department extends AbstractEntity {
 } 
 ----
 
-== @SortNatural 
+== **@SortNatural** 
 
 ** Sortowanie w pamięci Map i Set
 
@@ -1554,22 +1687,22 @@ public class Department extends AbstractEntity {
 WARNING: W przypadku dużych kolekcji użyć : **@OrderBy** lub bezpośrednio order by w kwerendzie SQL. 
 
 
-== @Dynamic
+== **@Dynamic**
 
-=== @DynamicInsert (false/true)
+=== **@DynamicInsert** (false/true)
 
 Manipulowanie operacjami Insert na poziomie encji. Wstawiamy tylko wybrane kolumny.
 
 NOTE: Tuning. Potencjalne przyspieszenie dla dużych tabel w szególności. 
 
-=== @DynamicUpdate (false/true)
+=== **@DynamicUpdate** (false/true)
 
 Manipulowanie operacjami Update na poziomie encji. Uaktualniamy tylko te kolumny, które się zmieniły
 
 NOTE: Tuning. Potencjalne przyspieszenie dla dużych tabel w szczególności
 
 
-== @Immutable
+== **@Immutable**
 
 [source,java]
 ----
@@ -1586,7 +1719,15 @@ NOTE: @Immutable oznacza , że żadna modyfikacja na 'immutable entity' nie moż
 NOTE: Może być stosowana dla kolekcji 
 NOTE: Wyrzucany wyjątek to:  HibernateException 
 
-==@SubSelect - view 
+
+== **@Synchronize**
+
+[source,java]
+----
+@org.hibernate.annotations.Synchronize({"Book", BookStore"})
+----
+
+== **@SubSelect** - view 
 
 [source,java]
 ----
@@ -1615,31 +1756,31 @@ NOTE: @Synchronize, upewnij się, że encje Item i Bid są 'flushed' przed wykon
 
 == Callbacks
 
-=== @PrePersist
+=== **@PrePersist**
 	
 	Wykonanie operacji przed operacją zapisu
 
-=== @PreRemove
+=== **@PreRemove**
 	
     Wykonanie operacji przez operacją usunięcia
 
-=== @PostPersist
+=== **@PostPersist**
 	
     Wykonanie operacji po operacji zapisu
 
-===  @PostRemove
+===  **@PostRemove**
 	
     Wykonanie operacji po operacji usunięcia
 
-=== @PreUpdate
+=== **@PreUpdate**
 	
     Wykonanie kodu przed operacją aktualizacji
 
-=== @PostUpdate
+=== **@PostUpdate**
 	
    Wykonanie kodu po operacji aktualizacji
 
-=== @PostLoad
+=== **@PostLoad**
 	
    Wykonanie akcji po załadowaniu encji z kontekstu trwałości
 

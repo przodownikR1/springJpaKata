@@ -17,6 +17,9 @@ import pl.java.scalatech.domain.bags.UserMap;
 import pl.java.scalatech.domain.keys.Travel;
 import pl.java.scalatech.domain.keys.Trip;
 import pl.java.scalatech.domain.mainPerson.Person;
+import pl.java.scalatech.domain.manyToAny.LongProperty;
+import pl.java.scalatech.domain.manyToAny.PropertyMap;
+import pl.java.scalatech.domain.manyToAny.StringProperty;
 import pl.java.scalatech.domain.mapkey.basic_collection.BookStore;
 import pl.java.scalatech.domain.mapkey.basic_mapKey.Country;
 import pl.java.scalatech.domain.mapkey.basic_mapKey.State;
@@ -25,6 +28,7 @@ import pl.java.scalatech.repository.PersonViewRepo;
 import pl.java.scalatech.repository.keys.TravelRepo;
 import pl.java.scalatech.repository.keys.TripRepo;
 import pl.java.scalatech.repository.mainPerson.PersonRepository;
+import pl.java.scalatech.repository.manyToAny.PropertyMapRepo;
 import pl.java.scalatech.repository.map.basic.CountryRepo;
 import pl.java.scalatech.repository.map.collection.BookStoreRepo;
 import pl.java.scalatech.repository.map.mapColumn.UserMapRepo;
@@ -53,7 +57,10 @@ public class SpringJpaTestApplication implements CommandLineRunner{
     @Autowired
     private UserMapRepo userMapRepo;
 
-
+    @Autowired
+    private PropertyMapRepo propertyMapRepo;
+    
+    
     public static void main(String[] args) {
         SpringApplication.run(SpringJpaTestApplication.class, args);
     }
@@ -96,6 +103,9 @@ public class SpringJpaTestApplication implements CommandLineRunner{
      // bookStoreTest();
       
       userMapTest();
+      
+      
+      manyToAnyTest();
     }
 
     private void userMapTest() {
@@ -132,5 +142,13 @@ public class SpringJpaTestApplication implements CommandLineRunner{
           bookStoreRepo.save(bs);
     }
 
+    
+    private void manyToAnyTest(){
+        PropertyMap map = new PropertyMap( "sample" );
+        map.getProperties().add( new StringProperty( "name", "Alex" ) );
+        map.getProperties().add(new LongProperty( "age", 33l ) );
+        propertyMapRepo.save(map);
+       
+    }
   
 }
