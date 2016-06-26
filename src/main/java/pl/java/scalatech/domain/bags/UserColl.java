@@ -27,7 +27,6 @@ public class UserColl extends AbstractEntity{
     @CollectionTable(
     name = "PHONES",
     joinColumns = @JoinColumn(name = "USER_ID"))
-
     @Column(name = "PHONE_NUMBER")
 
    //   @OrderColumn
