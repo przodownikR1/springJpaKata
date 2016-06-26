@@ -1,0 +1,185 @@
+:numbered:
+:icons: font
+:pagenums:
+:imagesdir: img
+:iconsdir: ./icons
+:stylesdir: ./styles
+:scriptsdir: ./js
+
+:image-link: https://pbs.twimg.com/profile_images/425289501980639233/tUWf7KiC.jpeg
+ifndef::sourcedir[:sourcedir: ./src/main/java/]
+ifndef::sourceTestdir[:sourceTestdir: ./src/test/java/]
+ifndef::resourcedir[:resourcedir: ./src/main/resources/]
+ifndef::imgsdir[:imgsdir: ./../img]
+:source-highlighter: coderay
+
+= Pytania na wstęp :) 
+
+== Konfiguracja Hibernate. Jak ?
+
+=== hibernate.cfg.xml
+
+=== persistence.xml
+
+=== spring 
+
+== Co to jest SessionFactory , Session , Session stateless ?
+
+== Co to jest ConnectionPool i jak to skonfigurować ?
+
+== Jak pobierać obiekty ?
+
+== Cykl życia i przejścia stanów w obiekcie encyjnym ?
+
+
+== Transformacje wyników ?
+
+=== List 
+
+=== Map
+
+=== Custom Bean
+
+=== JpaPerformanceTransformerTest 
+
+== Czy wszystkie adnotację są zrozumiałe ?
+
+== Czy wszystkie mapowania są zrozumiałe ?
+
+== Co to jest @ElementCollection ?
+
+== Co to jest trwałość przez osiągalność i jakie ma zastosowanie oraz skutki ?
+
+== Co to jest kaskadowość i jakie ma znaczenie i skutki ?
+
+== Asocjacja dwukierunkowa - skutki , znaczenie ?
+
+== DTO po co ?
+
+== @Formula zastosowanie ?
+
+== @Immutable zastosowanie ?
+
+== Jak zmapować widok na encję ?
+
+== Jak użyć procedurę składowaną ?
+
+== Jak konwertować typy ?
+
+== Kiedy zastosować daną strategię generacji klucza i jakie mogą być tego implikację ?
+
+== Co to jest cache 1-poziomu i jakie daje korzyści a wady ?
+
+== Co to jest cache 2-poziomu i jakie daje korzyści a wady ?
+
+== Kiedy zastosować jaką strategię dziedziczenia ?
+
+== Czy umiesz wymienić wady i zalety każdej z nich ?
+
+== To to jest przetwarzanie batchowe ? ,  Jak je zastosować w Hibernate ?
+
+== Problem kartezjanów ?
+
+== Problem N1 ? Jak go wyeliminować ?
+
+== Wymień sposoby fetchowania ? Wady , zalety ?
+
+== LazyInitializationException ? , Eliminacja zagrożeń , jak :)?
+
+== Współpraca z frameworkami np Spring, Jak zintegrować Hibernate?
+
+== Co daje JPA ?
+
+== Generowalne DDL i związane z tym problemy ?
+
+== LiquiBase, Flyway etc ?
+
+== Logowanie zapytań , jak ?
+
+== Logowanie statystyk , jak ?
+
+== Logowanie parametrów wywołania ?
+
+== Tożsamość obiektu i związane z tym problemy ?
+
+== Jak stworzyć klucz złożony ?
+
+== Co to jest klucz naturalny ?
+
+== merge vs update ?
+
+== Jak wyeliminować merge z projektu ?
+
+== Dynamic-Insert , Dynamic-Update w stosunku do optymalizacji ? 
+
+== Prawidłowe projections ? , Jak zawężać wyniki ?
+
+== Metamodel co to ? i jakie daje korzyści ?
+
+== Jak skonfigurować cache drugiego poziomu ?
+
+== Co dają Hints i jakie je znasz ?
+
+== Filtry ?
+
+== @EntityGraph ?
+
+== Interceptory ?
+
+== FetchProfile ?
+
+== Jak efektywnie zapisywać ?
+
+== Jak efektywnie odczytywać ?
+
+== Zapytania natywne kiedy ?
+
+== Criteria , kiedy ?
+
+== Blokowanie optymistyczne ?
+
+== Blokowanie pesymistyczne ?
+
+== Lock's ?
+
+== Web App ?
+
+== Rest ?
+
+== Lombok ?
+
+== Guava ?
+
+== Json ?
+
+== Lazy vs Eager ?
+
+== @BatchSize ?
+
+== OpenSessionInView ?
+
+== @NamedStoredProcedureQuery ?
+
+== Extra lazy ?
+
+== @ManyToAny ?
+
+== OutOfMemoryException problem , kiedy wystąpi ?
+
+==  hibernate.max_fetch_depth ?
+
+== hibernate.jdbc.batch_size ?
+
+== read-only
+
+== Czy znasz jakieś proxy do sterowników bazy ?
+
+
+
+** Refleksje ? :)
+
+
+
+
+
+  
