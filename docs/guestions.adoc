@@ -174,7 +174,19 @@ ifndef::imgsdir[:imgsdir: ./../img]
 
 == Czy znasz jakieś proxy do sterowników bazy ?
 
+== Potrafisz wskazać różnice miedzy w HQL : 
 
+=== jawnym złączeniem ?
+
+=== niejawnym złączeniem ?
+
+=== outer joins ?
+
+=== fetch joins ?
+
+== Co oznacza dirty-checking ?
+
+==  
 
 ** Refleksje ? :)
 
