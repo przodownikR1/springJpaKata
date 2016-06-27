@@ -14,15 +14,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.config.JpaLoggerConfig;
 import pl.java.scalatech.config.PropertiesLoader;
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
 import pl.java.scalatech.domain.cartesian.Person;
 import pl.java.scalatech.repository.cartesian.AddressCartRepo;
 import pl.java.scalatech.repository.cartesian.PersonCartRepo;
 import pl.java.scalatech.repository.cartesian.PhoneRepo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {  PropertiesLoader.class,JpaCartasianConfig.class })
-@ActiveProfiles(value = "cartasian")
+@ContextConfiguration(classes = {  PropertiesLoader.class,JpaCartasianConfig.class ,HikariCPConfiguration.class,JpaLoggerConfig.class})
+@ActiveProfiles(value = {"cartasian","logger","dev"})
 @Transactional
 @Slf4j
 //@SqlDataAccount

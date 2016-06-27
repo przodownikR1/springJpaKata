@@ -1,5 +1,6 @@
 package pl.java.scalatech.domain.cartesian;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -31,7 +32,7 @@ public class Person extends AbstractEntity{
     private String lastName = null;
 
     @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER) //<1>
-    @Fetch(FetchMode.SUBSELECT) ////<2>
+    //@Fetch(FetchMode.SUBSELECT) ////<2>
     @JoinColumn(name="PERSON_ID")
     private Set<Address> addresses;
 
