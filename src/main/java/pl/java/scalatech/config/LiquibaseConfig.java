@@ -14,12 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 public class LiquibaseConfig {
     @Bean
     public SpringLiquibase liquibase(DataSource datasource) {
-        log.debug("Configuring Liquibase");
+        log.info("Configuring Liquibase");
         SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setDataSource(datasource);
-        liquibase.setDefaultSchema("PUBLIC");
-        liquibase.setChangeLog("classpath:config/liquibase/master.xml");
-        liquibase.setContexts("development, production");
+        liquibase.setDataSource(datasource);       
+        liquibase.setChangeLog("classpath:/db/changelogs.xml");
+ //     liquibase.setContexts("development, production");
         return liquibase;
     }
+    
+ 
+    
 }
