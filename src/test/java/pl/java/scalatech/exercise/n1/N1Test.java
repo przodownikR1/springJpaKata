@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.websocket.Session;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -20,14 +21,16 @@ import static com.google.common.collect.Maps.newHashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.config.JpaLoggerConfig;
 import pl.java.scalatech.config.PropertiesLoader;
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
 import pl.java.scalatech.domain.example.n1.Skill;
 import pl.java.scalatech.repository.n1.CandidateRepo;
 import pl.java.scalatech.repository.n1.SkillRepo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PropertiesLoader.class, JpaJN1Config.class })
-@ActiveProfiles(value = "n1")
+@ContextConfiguration(classes = { PropertiesLoader.class, JpaJN1Config.class,JpaLoggerConfig.class ,HikariCPConfiguration.class })
+@ActiveProfiles(value = {"n1","logger","dev"})
 @Transactional
 @SqlDataN1
 @Slf4j
@@ -35,6 +38,10 @@ public class N1Test {
 
     @Autowired
     private EntityManager em;
+    {
+        
+       
+    }
 
     @Autowired
     private SkillRepo skillRepo;
@@ -47,9 +54,12 @@ public class N1Test {
 
     }
 //tag::main[]
-    @Test
+    @Test //per session 
     public void shouldRetrieveSkills() {
+        
         skillRepo.findAll().forEach(s -> log.info("{}", s));
+        
+        
     }
 
     @Test
@@ -82,7 +92,7 @@ public class N1Test {
 
     @Test
     public void shouldRetrieveWhatIWant() {
-        List<Object[]> result = em.createQuery("SELECT s.name, c.fullName FROM Skill s JOIN s.candidate c where c.fullName = :name")
+        List<Object[]> result = em.createQuery("SELECT s.name, c.fullName FROM Skill s  JOIN  s.candidate c where c.fullName = :name")
                 .setParameter("name", "przodownik").getResultList();
         for (Object[] o : result) {
             log.info("skill  name : {} , candidateName : {}", o[0], o[1]);

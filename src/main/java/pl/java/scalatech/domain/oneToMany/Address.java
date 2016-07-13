@@ -20,7 +20,6 @@ public class Address extends AbstractEntity{
 
     private static final long serialVersionUID = -8341359347392852978L;
 
-
     @ManyToOne(fetch = FetchType.LAZY) // Defaults to EAGER
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;

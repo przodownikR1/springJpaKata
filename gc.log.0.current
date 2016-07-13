@@ -1,16 +1,12 @@
-Java HotSpot(TM) Server VM (25.91-b14) for linux-x86 JRE (1.8.0_91-b14), built on Apr  1 2016 01:01:13 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
-Memory: 4k page, physical 16370316k(3307516k free), swap 16711676k(16644944k free)
-CommandLine flags: -XX:GCLogFileSize=104857600 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/przodownik/logs/dump.hprof -XX:InitialHeapSize=67108864 -XX:MaxHeapSize=2147483648 -XX:MaxMetaspaceSize=536870912 -XX:NumberOfGCLogFiles=10 -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:+UseParallelGC 
-0,259: [GC (Allocation Failure) [PSYoungGen: 16640K->2546K(19200K)] 16640K->3515K(62976K), 0,0026555 secs] [Times: user=0,00 sys=0,00, real=0,00 secs] 
-0,339: [GC (Allocation Failure) [PSYoungGen: 19186K->2559K(19200K)] 20155K->3907K(62976K), 0,0020837 secs] [Times: user=0,00 sys=0,00, real=0,00 secs] 
-17,292: [GC (Allocation Failure) [PSYoungGen: 19199K->2544K(19200K)] 20547K->5616K(62976K), 0,0042720 secs] [Times: user=0,02 sys=0,00, real=0,01 secs] 
-22,657: [GC (Allocation Failure) [PSYoungGen: 19184K->2544K(19200K)] 22256K->5808K(62976K), 0,0038529 secs] [Times: user=0,00 sys=0,02, real=0,00 secs] 
-26,382: [GC (Allocation Failure) [PSYoungGen: 19184K->2328K(18944K)] 22448K->5596K(62720K), 0,0037261 secs] [Times: user=0,02 sys=0,00, real=0,01 secs] 
+Java HotSpot(TM) 64-Bit Server VM (25.91-b14) for linux-amd64 JRE (1.8.0_91-b14), built on Apr  1 2016 00:57:21 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+Memory: 4k page, physical 16324072k(890684k free), swap 16666620k(16352264k free)
+CommandLine flags: -XX:GCLogFileSize=104857600 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/przodownik/logs/dump.hprof -XX:InitialHeapSize=1073741824 -XX:MaxHeapSize=2147483648 -XX:MaxMetaspaceSize=536870912 -XX:NumberOfGCLogFiles=10 -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseGCLogFileRotation -XX:+UseParallelGC 
 Heap
- PSYoungGen      total 18944K, used 3637K [0xbc580000, 0xbe8c0000, 0xe7000000)
-  eden space 16384K, 7% used [0xbc580000,0xbc6c73d8,0xbd580000)
-  from space 2560K, 90% used [0xbd5c0000,0xbd806130,0xbd840000)
-  to   space 4864K, 0% used [0xbe400000,0xbe400000,0xbe8c0000)
- ParOldGen       total 43776K, used 3268K [0x67000000, 0x69ac0000, 0xbc580000)
-  object space 43776K, 7% used [0x67000000,0x67331258,0x69ac0000)
- Metaspace       used 8025K, capacity 8270K, committed 8344K, reserved 8496K
+ PSYoungGen      total 305664K, used 89131K [0x00000000d5580000, 0x00000000eaa80000, 0x0000000100000000)
+  eden space 262144K, 34% used [0x00000000d5580000,0x00000000dac8afd0,0x00000000e5580000)
+  from space 43520K, 0% used [0x00000000e8000000,0x00000000e8000000,0x00000000eaa80000)
+  to   space 43520K, 0% used [0x00000000e5580000,0x00000000e5580000,0x00000000e8000000)
+ ParOldGen       total 699392K, used 0K [0x0000000080000000, 0x00000000aab00000, 0x00000000d5580000)
+  object space 699392K, 0% used [0x0000000080000000,0x0000000080000000,0x00000000aab00000)
+ Metaspace       used 11857K, capacity 12196K, committed 12288K, reserved 1060864K
+  class space    used 1574K, capacity 1710K, committed 1792K, reserved 1048576K

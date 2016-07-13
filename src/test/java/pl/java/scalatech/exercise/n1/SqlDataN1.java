@@ -22,18 +22,18 @@ import org.springframework.test.context.jdbc.Sql;
                 "INSERT INTO JobCandidate (id, version, fullName) VALUES (6, 0,'sarna')",
                 "INSERT INTO JobCandidate (id, version, fullName) VALUES (7, 0,'borsuk')",
                 
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (1, 0,'java',1)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (2, 0,'hibernate',1)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (3, 0,'groovy',1)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (4, 0,'gradle',1)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (5, 0,'c#',2)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (6, 0,'java',2)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (7, 0,'maven',3)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (8, 0,'c#',4)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (9, 0,'c#',5)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (10, 0,'c#',6)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (11, 0,'eclipse',6)",
-                "INSERT INTO Skill (id, version, name,candidateId) VALUES (12, 0,'uml',7)",
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (1, 0,'java',1)",   //przodownik
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (2, 0,'hibernate',1)",//przodownik
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (3, 0,'groovy',1)",//przodownik
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (4, 0,'gradle',1)",//przodownik
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (5, 0,'c#',2)", //kowalksi
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (6, 0,'java',2)",//kowalksi
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (7, 0,'maven',3)",//nowak
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (8, 0,'c#',4)", //list
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (9, 0,'c#',5)", //wilk
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (10, 0,'c#',6)", //sarna
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (11, 0,'eclipse',6)", //sarna
+                "INSERT INTO Skill (id, version, name,candidateId) VALUES (12, 0,'uml',7)", //borsku
                 
                 
                  

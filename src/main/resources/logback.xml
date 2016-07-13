@@ -58,7 +58,7 @@
 	<logger name="org.springframework.aop.interceptor" level="trace" />
 	<logger name="com.zaxxer.hikari.pool" level="INFO"/>
 	 <logger name="org.springframework.data" level="INFO" additivity="false"/>
-    <logger name="org.hibernate" level="INFO"/>
+    <logger name="org.hibernate" level="ERROR"/>
     <logger name="org.hibernate.stat" level="DEBUG"/>
      <logger name="MyDS" level="INFO" additivity="false"/>
      <logger name="net.ttddyy" level="INFO"/>

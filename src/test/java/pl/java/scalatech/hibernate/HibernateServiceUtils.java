@@ -20,12 +20,13 @@ public final class HibernateServiceUtils {
             cfg.configure("hibernate.cfg.xml");
             // @formatter:off
             cfg.addPackage("pl.java.scalatech.domain.mainPerson")
-              .addAnnotatedClass(Person.class)
-              
-              ;
+              .addAnnotatedClass(Person.class);
             // @formatter:on
             cfg.setProperty("hibernate.generate_statistics","true");
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
+            
+            ServiceRegistry serviceRegistry = 
+                    new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
+            
             sf = cfg.buildSessionFactory(serviceRegistry);
         }
 

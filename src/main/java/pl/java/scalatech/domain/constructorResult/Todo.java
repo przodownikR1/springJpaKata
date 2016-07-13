@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import pl.java.scalatech.domain.AbstractEntity;
 
 @Entity
-@NamedNativeQuery(name = "findWithTodoResultSetMapper", query = "SELECT id, description FROM TODO where description like ?1", resultSetMapping = "TodoResultSetMapper")
+@NamedNativeQuery(name = "findWithTodoResultSetMapper", query = "SELECT id, description FROM TODO where description like ?1 ", resultSetMapping = "TodoResultSetMapper")
 @SqlResultSetMapping(name = "TodoResultSetMapper", classes = @ConstructorResult(targetClass = pl.java.scalatech.pojo.TodoDTO.class, columns = {
 		@ColumnResult(name = "id", type = Long.class),
 		@ColumnResult(name = "description") }))
@@ -23,4 +23,7 @@ public class Todo extends AbstractEntity{
     private static final long serialVersionUID = -3401140675132906970L;
     private String summary;
 	private String description;
+	//...
+	
+	
 }

@@ -59,6 +59,31 @@ Gavin King (twórca Hibernate )
  - wysoka wydajność i skalowalność (dwuwarstwowy cache i wparcie dla clusteringu ) (**Hibernate Shards**)
  - wiele sposobów tworzenia i wydawania zapytań
  - nakładka na **JDBC** 
+ 
+ 
+ 
+== Praktyka ? :)
+
+**Mistrzowie ORM'a** 
+
+image::swimpool.jpg[400,400]
+ 
+
+**To, że używasz Hibernate czy JPA nie znaczy, że to robisz to dobrze ...**
+
+----
+
+Często są to prowizoryczne rozwiązania polegające jedynie na jakimś odczytaniu danych domenowych :
+- niedbałym modelowaniu domeny,
+- bez świadomości co framework robi pod spodem,
+- ratując się metodami refresh(), flush(),
+- często wykorzystywanym sztucznym inicjalizowaniem kolekcji czy w skrajny przypadkach wszechobecnym EAGER.
+
+
+----
+
+ 
+ 
 
 == Trendy :)
 

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -21,7 +22,7 @@ import pl.java.scalatech.domain.AbstractEntity;
 @Builder
 @ToString
 @Data
-//@BatchSize(size=5) //<1>
+//@BatchSize(size=2) //<1>
 @DynamicUpdate(value=true) //<2>
 @DynamicInsert(value=true) //<3>
 //@Immutable //<4>
@@ -32,6 +33,7 @@ public class JobCandidate extends AbstractEntity{
     @Column(nullable=true)
     private Integer age ;
     private BigDecimal salary;
+    private String a,b,c,w,r,t,y,u;
     public JobCandidate(String fullName) {
         super();
         this.fullName = fullName;

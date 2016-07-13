@@ -15,12 +15,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.config.JpaLoggerConfig;
 import pl.java.scalatech.config.PropertiesLoader;
+import pl.java.scalatech.config.hikari.HikariCPConfiguration;
 import pl.java.scalatech.domain.example.n1.JobCandidate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PropertiesLoader.class, JpaJN1Config.class })
-@ActiveProfiles(value = "n1")
+@ContextConfiguration(classes = { PropertiesLoader.class, JpaJN1Config.class,JpaLoggerConfig.class ,HikariCPConfiguration.class  })
+@ActiveProfiles(value = {"n1","logger","dev"})
 @Transactional
 @Slf4j
 @FixMethodOrder(NAME_ASCENDING)

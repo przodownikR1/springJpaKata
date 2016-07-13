@@ -13,11 +13,14 @@
 package pl.java.scalatech.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PostUpdate;
 import javax.persistence.Version;
 
 import lombok.EqualsAndHashCode;
@@ -34,9 +37,9 @@ public abstract class AbstractEntity implements Serializable {
     @Setter
     protected Long id;
 
+  
     @Version
     @Getter
     private Long version;
-
-    
+  
 }

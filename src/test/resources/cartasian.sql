@@ -1,4 +1,4 @@
-                insert into Cartesian_Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1');
+                insert into Cartesian_Person (id, version,firstName,lastName) values (1,0,'slawek1', 'borowiec1');--slawek
                 insert into Cartesian_Person (id, version,firstName,lastName) values (2,0,'slawek2', 'borowiec2');
                 insert into Cartesian_Person (id, version,firstName,lastName) values (3,0,'slawek3', 'borowiec3');
                 insert into Cartesian_Person (id, version,firstName,lastName) values (4,0,'slawek4', 'borowiec4');
@@ -11,9 +11,9 @@
                 insert into Cartesian_Person (id, version,firstName,lastName) values (11,0,'slawek11', 'borowiec11');
                 insert into Cartesian_Person (id, version,firstName,lastName) values (12,0,'slawek12', 'borowiec12');
 
-                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1);
-                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1);
-                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1);
+                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (1,0,'warszawa', 1);--slawek
+                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (2,0,'poznan', 1);--slawek
+                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (3,0,'lodz', 1);--slawek
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (4,0,'warszawa', 2);
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (5,0,'radom', 3);
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (6,0,'krakow', 4);
@@ -26,9 +26,9 @@
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (13,0,'sopot', 11);
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (14,0,'gdynia', 12);
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (15,0,'poznan', 12);
-                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (16,0,'warszawa', 1);
-                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (17,0,'poznan', 1);
-                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (18,0,'lodz', 1);
+                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (16,0,'warszawa', 1);--slawek
+                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (17,0,'poznan', 1);--slawek
+                insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (18,0,'lodz', 1);--slawek
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (19,0,'warszawa', 2);
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (20,0,'radom', 3);
                 insert into Cartesian_Address (id, version,CITY,PERSON_ID) values (21,0,'krakow', 4);
@@ -44,8 +44,8 @@
                 
                 
                 
-                insert into Cartesian_Phone (id, version,phoneNumber,PERSON_ID) values (1,0,'3423423', 1);
-                insert into Cartesian_Phone (id, version,phoneNumber,PERSON_ID) values (2,0,'342455', 1);
+                insert into Cartesian_Phone (id, version,phoneNumber,PERSON_ID) values (1,0,'3423423', 1);--slawek
+                insert into Cartesian_Phone (id, version,phoneNumber,PERSON_ID) values (2,0,'342455', 1);--slawek
                 insert into Cartesian_Phone (id, version,phoneNumber,PERSON_ID) values (3,0,'12354', 2);
                 insert into Cartesian_Phone (id, version,phoneNumber,PERSON_ID) values (4,0,'345345', 3);
                 insert into Cartesian_Phone (id, version,phoneNumber,PERSON_ID) values (5,0,'86867', 4);
