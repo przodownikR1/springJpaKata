@@ -66,7 +66,7 @@ public class JpaLazyTest {
         Item one = em.find(Item.class, 1l);
         assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();//<3>
         log.info("+++++  {}",one.getOffers().size());
-        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();//<4>
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isFalse();//<4>
     }
 
     @Test
