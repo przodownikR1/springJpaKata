@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,8 +40,9 @@ public class Item extends AbstractEntity {
     private String name;
     private BigDecimal price;
 
-    @OneToMany(fetch = FetchType.LAZY) //<3>
+    @OneToMany //<3>
     @JoinColumn(name = "ITEM_ID")
+    @LazyCollection(LazyCollectionOption.EXTRA)
     private List<Offer> offers;
 
 }

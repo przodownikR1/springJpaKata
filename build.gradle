@@ -38,6 +38,7 @@ plugins {
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'groovy'
+apply from : 'gradle/ascii.gradle'
 apply from : 'gradle/jar.gradle'
 apply from : 'gradle/depencencies.gradle'
 apply from : 'gradle/gradleProperties.gradle'
@@ -48,9 +49,9 @@ apply from : 'gradle/props.gradle'
 apply from : 'gradle/sonar.gradle'
 apply from : 'gradle/quality.gradle'
 apply from : 'gradle/coverage.gradle'
-apply from : 'gradle/changelog.gradle'
+//apply from : 'gradle/changelog.gradle'
 apply from : 'gradle/test.gradle'
-apply from : 'gradle/ascii.gradle'
+
 
 check.dependsOn integrationTest
 

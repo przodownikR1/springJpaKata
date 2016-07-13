@@ -65,24 +65,24 @@ public class JpaLazyTest {
     public void shouldLazyInitializationSolution1() {
         Item one = em.find(Item.class, 1l);
         assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue();//<3>
-        log.info("{}",one.getOffers().size());
-        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue();//<4>
+        log.info("+++++  {}",one.getOffers().size());
+        assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isFalse();//<4>
     }
 
     @Test
     public void shouldLazyInitializationSolution2() {
-        Item one = em.createQuery("SELECT i FROM Item i join fetch i.offers WHERE i.id = :id", Item.class).setParameter("id", 1l).getSingleResult(); //<5>
+        Item one = em.createQuery("SELECT i FROM Item i join fetch i.offers  WHERE i.id = :id", Item.class).setParameter("id", 1l).getSingleResult(); //<5>
         assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue(); //<6>
         assertThat(Persistence.getPersistenceUtil().isLoaded(one.getOffers())).isTrue(); //<7>
 
     }
 
     @Test
-    public void shouldLazyInitializationSolution3() {
+    public void shouldLazyInitializationSolution3() { 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Item> criteria = cb.createQuery(Item.class);
         Root<Item> i = criteria.from(Item.class);
-        i.fetch("offers"); //<8>
+        i.fetch("offers"); //<8> ////i join fetch i.offers
         criteria.select(i).where(cb.equal(i.get("id"), 1l));
         Item one = em.createQuery(criteria).getSingleResult();
         assertThat(Persistence.getPersistenceUtil().isLoaded(one)).isTrue(); //<9>
@@ -101,7 +101,7 @@ public class JpaLazyTest {
     }
 
     @Test
-    public void shouldLazyInitializationSolution5() {
+    public void shouldLazyInitializationSolution5() { //encji
         Map<String, Object> hints = newHashMap();
         EntityGraph<Item> itemGraph = em.createEntityGraph(Item.class); //<13>
         itemGraph.addAttributeNodes("offers"); //<14>

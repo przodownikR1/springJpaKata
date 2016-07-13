@@ -23,7 +23,7 @@ import pl.java.scalatech.repository.cartesian.PersonCartRepo;
 import pl.java.scalatech.repository.cartesian.PhoneRepo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {  PropertiesLoader.class,JpaCartasianConfig.class ,HikariCPConfiguration.class,JpaLoggerConfig.class})
+@ContextConfiguration(classes = {  PropertiesLoader.class,JpaCartasianConfig.class,JpaLoggerConfig.class ,HikariCPConfiguration.class})
 @ActiveProfiles(value = {"cartasian","logger","dev"})
 @Transactional
 @Slf4j
@@ -53,7 +53,7 @@ public class JpaCartasianTest {
 
     @Test
     public void shouldFindPersonById(){
-      Person person = personRepo.findOne(1l);
+      Person person = personRepo.findOne(1l);//
       log.info("person : {} , address size : {} , phone size {} ",person, person.getAddresses().size(),person.getPhones().size());
       //<4>
     }
